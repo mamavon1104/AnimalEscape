@@ -1,24 +1,22 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class StepOnABox : MonoBehaviour
 {
     private Vector3 myPosPreview;
-
-    List<PlayerCs> playerCs = new List<PlayerCs>();
-
+    private List<PlayerCs> playerCs = new List<PlayerCs>();
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Player")
         {
-            if (playerCs.Count == 0) //何もない状態なら
-                myPosPreview = transform.position; //前フレームposを現在地
-
             PlayerCs playerScript = other.transform.GetComponent<PlayerCs>();
             
             if (!playerCs.Contains(playerScript))
+            {
                 playerCs.Add(playerScript);
+            }
         }
     }
     private void OnTriggerExit(Collider other)
@@ -28,17 +26,25 @@ public class StepOnABox : MonoBehaviour
             PlayerCs playerScript = other.transform.GetComponent<PlayerCs>();
 
             if (playerCs.Contains(playerScript))
+            {
                 playerCs.Remove(playerScript);
+            }
         }
     }
     private void OnTriggerStay()
     {
+        if (playerCs.Count == 0) //何もない状態なら
+            return;
+
         Vector3 myPos = transform.position;
+        PlayerMove(myPos - myPosPreview);
+        myPosPreview = myPos;
+    }
+    private void PlayerMove(Vector3 getVec)
+    {
         foreach (PlayerCs playerScript in playerCs)
         {
-            playerScript.PlayerMove(myPos - myPosPreview);
+            playerScript.PlayerMove(getVec);
         }
-        myPosPreview = myPos;
-        Debug.Log(myPos - myPosPreview);
     }
 }

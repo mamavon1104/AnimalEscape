@@ -15,5 +15,5 @@ MonoBehaviour:
   speed: 60
   resolution: 12
   canRide: 1
-  drawOrbit: 1
-  directionOfRotation: 1
+  drawOrbit: 0
+  stopRotation: 0

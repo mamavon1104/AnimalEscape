@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEngine.EventSystems.StandaloneInputModule;
+using System;
 
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(CharacterController))]
@@ -13,24 +14,26 @@ public class PlayerCs : MonoBehaviour
     private Transform selector;
     private bool isPlayerSelected = false;
 
-    [Header("プレイヤーの数値 : PlayersValue"), SerializeField]
-    private MyPlayersValue playerValue;
+    [Header("プレイヤーの数値 : PlayersValue")]
+    public MyPlayersValue playerValue;
 
     [Header("プレイヤーのInputActions"), SerializeField]
     private PlayerInput action;
     private InputAction _move;
     private InputAction _Jump;
+    [Header("子オブジェクトのスクリプト格納"), SerializeField]
+    private PlayerChild playerChild;
 
     //以下、private変数
-    private Transform _myTransform;              // 自分自身の Transform
-    private Renderer _renderer;                  // レンダラー
-    private CharacterController _charaCtrl;      // キャラクターコントローラー
+    private Transform _myTransform;               // 自分自身の Transform
+    private Renderer _renderer;                   // レンダラー
+    [NonSerialized] 
+    public CharacterController _charaCtrl;        // キャラクターコントローラー
 
     private bool _isGroundedPrev;                 // 直前の接地状態
     private float _turnVelocity;                  // 回転の速度
     private float _verticalVelocity;              // ジャンプ、落下に変化する速度。
     private Vector2 _inputMove;　                 //動く数値
-    private RaycastHit _hit;                      // レイキャストの結果を格納する変数
     #endregion
 
     private void Awake()
@@ -49,7 +52,7 @@ public class PlayerCs : MonoBehaviour
     {
         CheckFalling();
 
-        if (_charaCtrl.isGrounded && !isPlayerSelected)
+        if ((_verticalVelocity == playerValue._jumpSpeed) && !isPlayerSelected)
             return;
 
         // 操作入力と鉛直方向速度から、現在速度を計算
@@ -114,6 +117,7 @@ public class PlayerCs : MonoBehaviour
     public void PlayerMove(Vector3 getVec)
     {
         _charaCtrl.Move(getVec);
+        playerChild.MoveOtherPlayer(getVec);
     }
 
     #region move,jump。
@@ -155,35 +159,8 @@ public class PlayerCs : MonoBehaviour
         }
     }
     #endregion
-    private bool Checkup()
-    {
-        Vector3 vec = _myTransform.position + new Vector3(0, _myTransform.localScale.y / 2, 0);
-
-        Debug.DrawRay(                                            //raycastの可視化
-            vec,                                                  //自分の位置から
-            Vector3.up * playerValue.upCheckDistance,             //下 * 変数に向かって
-            Color.red                                             //色は赤
-        );
-
-        //箱のrayをとばして当たったか判定
-        bool ishit = Physics.BoxCast(
-            vec,                                                  //自分の位置から
-            _myTransform.localScale / 2,                          //自分の半径分の箱
-            Vector3.up,                                           //下に向かって
-            out _hit,                                              //ヒットして居たら情報をよこせ
-            _myTransform.rotation,                                //今の回転と同じbox
-            playerValue.upCheckDistance,                          //変数の距離だけ飛ばす
-            playerValue.playerLayers,                             //地面のレイヤーだったら
-            QueryTriggerInteraction.Ignore                        //トリガーは無視
-            );//顔文字
-
-        //Debug.Log(ishit);
-        return ishit;
-    }
     private void ChangeColor(Color color)
     {
         _renderer.material.color = color;
     }
-
-    //着地判定没コード、raycast>boxtrigger>isgroudedで軽量らしい、わざわざ作る必要もなかった。ざんねん。
 }
