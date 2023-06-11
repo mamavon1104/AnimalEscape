@@ -8,8 +8,7 @@ public class CircleMove : MonoBehaviour
     private Transform getTrans;
 
     [Header("Objectの数値の為、使用する"), SerializeField]
-    private ObjectsValue objValue;
-    //enumでpublic、選択可能 ⇒ overrideとかで四角、〇運動、斜め運動　、
+    private CircleObjValue objValue;
 
     [Header("自分の子オブジェクトを入れておく"), SerializeField]
     private GameObject parentObj;
@@ -37,22 +36,21 @@ public class CircleMove : MonoBehaviour
         int angle = (int)((Time.time - stopedTime) * objValue.speed);
 
         if (!isStop)
-            transform.position = (Vector2)GetPointOnCircle(angle);
+            transform.position = GetPointOnCircle(angle);
         else
-        {
             stopedTime += Time.deltaTime;
-        }
+        
 
-        switch (objValue.stopRotation)
+        switch (objValue.stopPos)
         {
-            case ObjectsValue.StopRotation.dontStop: 
+            case CircleObjValue.StopPos.dontStop: 
                 break;
-
-            case ObjectsValue.StopRotation.stopVertical:
+                    
+            case CircleObjValue.StopPos.stopVertical:
                 isThisObjStop(Mathf.Sin(angle * Mathf.Deg2Rad));
                 return;
 
-            case ObjectsValue.StopRotation.stopHorizontal:
+            case CircleObjValue.StopPos.stopHorizontal:
                 isThisObjStop(Mathf.Cos(angle * Mathf.Deg2Rad));
                 return;
         }
@@ -112,18 +110,20 @@ public class CircleMove : MonoBehaviour
 
     private void isThisObjStop(float getPos)
     {
-        if ((getPos == -1 || getPos == 1) && !isStop)
+        if ((getPos == -1 || getPos == 1) && canStop)
         {
-            isStop = true;
+            canStop = false;
             StartCoroutine(WaitSeconds());
         }
-        else if((getPos != -1 && getPos != 1) && isStop)
+        else if((getPos != -1 && getPos != 1) && !canStop)
         {
-            isStop = false;
+            canStop = true;
         }
     }
     private IEnumerator WaitSeconds()
     {
+        isStop = true;
         yield return new WaitForSeconds(objValue.StopTime);
+        isStop = false;
     }
 }

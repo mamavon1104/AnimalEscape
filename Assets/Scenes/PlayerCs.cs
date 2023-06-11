@@ -1,8 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.EventSystems.StandaloneInputModule;
 using System;
 
 [RequireComponent(typeof(BoxCollider))]
@@ -42,6 +39,9 @@ public class PlayerCs : MonoBehaviour
         _charaCtrl = _myTransform.GetComponent<CharacterController>();
         _renderer = _myTransform.GetComponent<Renderer>();
 
+        Debug.Log(action);
+        Debug.Log(action.currentActionMap);
+        Debug.Log(action.currentActionMap["Move"]);
         _move = action.currentActionMap["Move"];
         _Jump = action.currentActionMap["Jump"];
 
@@ -154,7 +154,7 @@ public class PlayerCs : MonoBehaviour
             _move.canceled  -= OnMove;
             _move.performed -= OnMove;
             _Jump.performed -= OnJump;
-            _inputMove = playerValue.zeroVec; //‘I‘ð‚³‚ê‚È‚¢‚Ì‚Å(0,0)
+            _inputMove = Vector2.zero; //‘I‘ð‚³‚ê‚È‚¢‚Ì‚Å(0,0)
             ChangeColor(Color.red);
         }
     }

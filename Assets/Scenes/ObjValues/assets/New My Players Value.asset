@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4dd223594af77040ab21d117f1e48c0, type: 3}
-  m_Name: PlayerValue
+  m_Name: New My Players Value
   m_EditorClassIdentifier: 
   _speed: 3
   _jumpSpeed: 7
@@ -20,5 +20,5 @@ MonoBehaviour:
   upCheckDistance: 0
   playerLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   zeroVec: {x: 0, y: 0}

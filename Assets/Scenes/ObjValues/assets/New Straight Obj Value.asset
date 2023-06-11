@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d0d60f41dcc3447a19fb9b44b21acf, type: 3}
-  m_Name: ObjectValue
+  m_Script: {fileID: 11500000, guid: e6c6a3b4b76fa8e4d965689b42094b19, type: 3}
+  m_Name: New Straight Obj Value
   m_EditorClassIdentifier: 
-  speed: 60
-  resolution: 12
+  speed: 28.03
   canRide: 1
-  drawOrbit: 0
-  stopRotation: 0
+  drawOrbit: 1
+  StopTime: 0
+  directions: 0
+  stopPos: 0
