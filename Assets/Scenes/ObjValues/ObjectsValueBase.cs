@@ -11,6 +11,6 @@ public class ObjectsValueBase : ScriptableObject
     [Header("‹O“¹‚ğ‘‚­H")]
     public bool drawOrbit;
 
-    [Header("~‚Ü‚éŠÔ")]
-    public float StopTime;   
+    [Header("~‚Ü‚éŠÔ"), SerializeField]
+    public float stopTime;
 }

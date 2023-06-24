@@ -27,9 +27,4 @@ public class PlayerChild : MonoBehaviour
         if (other.transform.tag == "Player")
             otherPlayerScript = null;
     }
-    public void MoveOtherPlayer(Vector3 getVec)
-    {
-        if(otherPlayerScript != null)
-            otherPlayerScript._charaCtrl.Move(getVec);
-    }
 }

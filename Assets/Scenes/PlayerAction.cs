@@ -53,6 +53,24 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CatchAndPut"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed0f462f-6705-4567-8815-e94cef9b3392"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ThrowObject"",
+                    ""type"": ""Button"",
+                    ""id"": ""560e2a09-244b-4b9a-bdf3-1430b883b9a8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -125,11 +143,33 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""83fa7759-3b1e-4d99-b127-fe17f00b672e"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ChangePlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""901fb23d-7abf-469b-b6be-31d19805caca"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CatchAndPut"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5608c731-c721-4af3-bfd7-4951c5c5f1aa"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThrowObject"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -143,6 +183,8 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_ChangePlayer = m_Player.FindAction("ChangePlayer", throwIfNotFound: true);
+        m_Player_CatchAndPut = m_Player.FindAction("CatchAndPut", throwIfNotFound: true);
+        m_Player_ThrowObject = m_Player.FindAction("ThrowObject", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,6 +249,8 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_ChangePlayer;
+    private readonly InputAction m_Player_CatchAndPut;
+    private readonly InputAction m_Player_ThrowObject;
     public struct PlayerActions
     {
         private @PlayerAction m_Wrapper;
@@ -214,6 +258,8 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @ChangePlayer => m_Wrapper.m_Player_ChangePlayer;
+        public InputAction @CatchAndPut => m_Wrapper.m_Player_CatchAndPut;
+        public InputAction @ThrowObject => m_Wrapper.m_Player_ThrowObject;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,6 +278,12 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @ChangePlayer.started += instance.OnChangePlayer;
             @ChangePlayer.performed += instance.OnChangePlayer;
             @ChangePlayer.canceled += instance.OnChangePlayer;
+            @CatchAndPut.started += instance.OnCatchAndPut;
+            @CatchAndPut.performed += instance.OnCatchAndPut;
+            @CatchAndPut.canceled += instance.OnCatchAndPut;
+            @ThrowObject.started += instance.OnThrowObject;
+            @ThrowObject.performed += instance.OnThrowObject;
+            @ThrowObject.canceled += instance.OnThrowObject;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -245,6 +297,12 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @ChangePlayer.started -= instance.OnChangePlayer;
             @ChangePlayer.performed -= instance.OnChangePlayer;
             @ChangePlayer.canceled -= instance.OnChangePlayer;
+            @CatchAndPut.started -= instance.OnCatchAndPut;
+            @CatchAndPut.performed -= instance.OnCatchAndPut;
+            @CatchAndPut.canceled -= instance.OnCatchAndPut;
+            @ThrowObject.started -= instance.OnThrowObject;
+            @ThrowObject.performed -= instance.OnThrowObject;
+            @ThrowObject.canceled -= instance.OnThrowObject;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -267,5 +325,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnChangePlayer(InputAction.CallbackContext context);
+        void OnCatchAndPut(InputAction.CallbackContext context);
+        void OnThrowObject(InputAction.CallbackContext context);
     }
 }

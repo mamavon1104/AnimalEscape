@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b9027e9ea3f584a98db2448ce8b728, type: 3}
   m_Name: New Circle Obj Value
   m_EditorClassIdentifier: 
-  speed: 60
+  speed: 35.8
   canRide: 1
-  drawOrbit: 1
-  StopTime: 1.45
+  drawOrbit: 0
+  stopTime: 0
   resolution: 12
   stopPos: 1

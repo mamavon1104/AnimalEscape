@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 
 public class CircleMove : MonoBehaviour
 {
     [Header("staticのオブジェクト推奨、ゲーム開始時に半径が決まる為動いても問題なし"), SerializeField]
     private Transform getTrans;
+    private Transform myTrans;
 
     [Header("Objectの数値の為、使用する"), SerializeField]
     private CircleObjValue objValue;
 
     [Header("自分の子オブジェクトを入れておく"), SerializeField]
-    private GameObject parentObj;
+    private GameObject rideCollider;
+    private StepOnABox stepOnAbox;
 
     private (Vector3 my, Vector3 centerpos) points; //myposとcenterpos、
 
@@ -20,26 +23,32 @@ public class CircleMove : MonoBehaviour
     private bool canStop = true;
     private float stopedTime = 0.0f;
 
-    private void Awake()
+    private void Start()
     {
-        points = (transform.position, getTrans.position);
+        myTrans = transform;
+        points = (myTrans.position, getTrans.position);
         radius = Vector2.Distance(points.my, points.centerpos);
 
+        
         if (objValue.canRide)
-            parentObj.SetActive(true);
+        {
+            rideCollider.SetActive(true);
+            stepOnAbox = rideCollider.GetComponent<StepOnABox>();
+        }
         else
-            parentObj.SetActive(false);
+            rideCollider.SetActive(false);
     }
     private void Update()
     {
         // 現在の位置を計算
         int angle = (int)((Time.time - stopedTime) * objValue.speed);
 
+        var circlePos = GetPointOnCircle(angle);
+
         if (!isStop)
-            transform.position = GetPointOnCircle(angle);
+            myTrans.position = circlePos;
         else
             stopedTime += Time.deltaTime;
-        
 
         switch (objValue.stopPos)
         {
@@ -48,11 +57,11 @@ public class CircleMove : MonoBehaviour
                     
             case CircleObjValue.StopPos.stopVertical:
                 isThisObjStop(Mathf.Sin(angle * Mathf.Deg2Rad));
-                return;
+                break;
 
             case CircleObjValue.StopPos.stopHorizontal:
                 isThisObjStop(Mathf.Cos(angle * Mathf.Deg2Rad));
-                return;
+                break;
         }
     }
 
@@ -62,9 +71,11 @@ public class CircleMove : MonoBehaviour
             return;
 
         #region もし描く場合、必要な情報がnullになってしまうので取得し続ける。
+        if(myTrans == null)
+            myTrans = transform;
 
         if (points.my == null || points.centerpos == null)
-            points = (transform.position, getTrans.position);
+            points = (myTrans.position, getTrans.position);
 
         if (!(Gizmos.color == Color.green))
             Gizmos.color = Color.green;// ギズモの色を設定
@@ -72,11 +83,11 @@ public class CircleMove : MonoBehaviour
 
         if (!Application.isPlaying)
         {
-            if (points.my != transform.position || points.centerpos != getTrans.position)
+            if (points.my != myTrans.position || points.centerpos != getTrans.position)
             {
                 points.centerpos = getTrans.position;
-                radius = Vector2.Distance(transform.position, points.centerpos);
-                points = (transform.position, points.centerpos);
+                radius = Vector2.Distance(myTrans.position, points.centerpos);
+                points = (myTrans.position, points.centerpos);
             }
         }
 
@@ -123,7 +134,7 @@ public class CircleMove : MonoBehaviour
     private IEnumerator WaitSeconds()
     {
         isStop = true;
-        yield return new WaitForSeconds(objValue.StopTime);
+        yield return new WaitForSeconds(objValue.stopTime);
         isStop = false;
     }
 }

@@ -1,79 +1,73 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System;
+using UnityEngine.XR;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(BoxCollider))]
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerCs : MonoBehaviour
 {
     #region 変数たち
     [Header("今選択されているかどうかわかる為のobj"), SerializeField]
     private Transform selector;
-    private bool isPlayerSelected = false;
+    private bool isSelect = false;
+    
+    [SerializeField] private PlayerState playerState = PlayerState.Grounded;
 
     [Header("プレイヤーの数値 : PlayersValue")]
     public MyPlayersValue playerValue;
 
     [Header("プレイヤーのInputActions"), SerializeField]
     private PlayerInput action;
-    private InputAction _move;
-    private InputAction _Jump;
+    private InputAction _move, _Jump;
+
     [Header("子オブジェクトのスクリプト格納"), SerializeField]
-    private PlayerChild playerChild;
+    private CatchPut_Items catchPutItemsCS;
+    [NonSerialized]
+    public CatchPut_Items catchPutItemsCSOfParent; //キャッチされている時にこれに代入
 
     //以下、private変数
     private Transform _myTransform;               // 自分自身の Transform
     private Renderer _renderer;                   // レンダラー
-    [NonSerialized] 
-    public CharacterController _charaCtrl;        // キャラクターコントローラー
+    private Rigidbody myRig;                      // リジッドボディー
 
-    private bool _isGroundedPrev;                 // 直前の接地状態
     private float _turnVelocity;                  // 回転の速度
-    private float _verticalVelocity;              // ジャンプ、落下に変化する速度。
-    private Vector2 _inputMove;　                 //動く数値
+    private Vector2 _inputMove;　                 // 動く数値
     #endregion
 
     private void Awake()
     {
         _myTransform = transform;
-        _charaCtrl = _myTransform.GetComponent<CharacterController>();
+        myRig = _myTransform.GetComponent<Rigidbody>();
         _renderer = _myTransform.GetComponent<Renderer>();
 
-        Debug.Log(action);
-        Debug.Log(action.currentActionMap);
-        Debug.Log(action.currentActionMap["Move"]);
         _move = action.currentActionMap["Move"];
         _Jump = action.currentActionMap["Jump"];
-
-        SetPlayerSelectionStatus(isPlayerSelected);
     }
 
     private void Update()
     {
-        CheckFalling();
-
-        if ((_verticalVelocity == playerValue._jumpSpeed) && !isPlayerSelected)
+        if (!isSelect)
             return;
 
-        // 操作入力と鉛直方向速度から、現在速度を計算
-        Vector3 moveVelocity = new Vector3
+        // 操作入力と、フレームの速度から、現在速度を計算
+        var moveDelta = new Vector3
             (
                _inputMove.x * playerValue._speed,
-               _verticalVelocity,
+               0,
                _inputMove.y * playerValue._speed
-            );
+            )
+            * Time.deltaTime;
 
-        // 現在フレームの移動量を移動速度から計算
-        var moveDelta = moveVelocity * Time.deltaTime;
-
-        // PlayerMove()に移動量を指定し、オブジェクトを動かす
-        PlayerMove(moveDelta);
-        // 移動入力がある場合は、振り向き動作も行う isSelectedがfalseなら0,0が入っている。
+        // 移動入力がある場合は、振り向き動作も行う
         if (_inputMove != Vector2.zero)
         {
+            //まず動かす。
+            PlayerMove(moveDelta);
+
             // 操作入力からy軸周りの目標角度[deg]を計算
-            var targetAngleY = -Mathf.Atan2(_inputMove.y, _inputMove.x)
-                * Mathf.Rad2Deg + 90;
+            var targetAngleY = -Mathf.Atan2(_inputMove.y, _inputMove.x) * Mathf.Rad2Deg + 90;
 
             // イージングしながら次の回転角度[deg]を計算
             var angleY = Mathf.SmoothDampAngle(
@@ -86,75 +80,92 @@ public class PlayerCs : MonoBehaviour
             _myTransform.rotation = Quaternion.Euler(0, angleY, 0);
         }
     }
-
-    /// <summary> 
-    /// 落下しているか？(bool)落下していたら速度を加えるための関数;
-    /// </summary>
-    void CheckFalling()
+    private void LateUpdate()
     {
-        var isGrounded = _charaCtrl.isGrounded;
+        if (playerState == PlayerState.Grounded)
+            return;
 
-        if (isGrounded && !_isGroundedPrev)
+        if(playerState == PlayerState.Jumpping || playerState == PlayerState.Falling || myRig.velocity.y < -0.01)
         {
-            // 着地する瞬間に落下の初速を指定しておく
-            _verticalVelocity = -playerValue._initFallSpeed;
+            CheckIsPlayerGrouded();
         }
-        else if (!isGrounded)
+    }
+    private void PlayerMove(Vector3 getVec)
+    {
+        if (playerState == PlayerState.BeingCarried)
         {
-            // 空中にいるときは、下向きに重力加速度を与えて落下させる
-            _verticalVelocity -= playerValue._gravity * Time.deltaTime;
-
-            // 落下する速さ以上にならないように補正
-            if (_verticalVelocity < -playerValue._fallSpeed)
-                _verticalVelocity = -playerValue._fallSpeed;
+            _myTransform.localPosition = new Vector3(_inputMove.x,0, _inputMove.y);
+            catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
+            return;
         }
-        _isGroundedPrev = isGrounded;
+        myRig.AddForce(getVec, ForceMode.Impulse);
     }
 
-    /// <summary> 
-    /// getしたvecだけ動かす、投げるのにも使いたい
+    /// <summary>
+    /// jump最中は落下し始めたか判定(Fallingへ)
+    /// Falling中は下にrayを飛ばしStateの設定へ。
     /// </summary>
-    public void PlayerMove(Vector3 getVec)
+    private void CheckIsPlayerGrouded() //自分の状態を見つける旅へ(Find以外の関数名が思いつかない)
     {
-        _charaCtrl.Move(getVec);
-        playerChild.MoveOtherPlayer(getVec);
+        if (playerState == PlayerState.Grounded)
+            return;
+
+        if (playerState == PlayerState.Falling) //落下し始めているのならray開始
+        {
+            if (Physics.Raycast(_myTransform.position, Vector3.down, 0.01f + _myTransform.lossyScale.y / 2, 1 << 0))
+                ChangeState(PlayerState.Grounded);
+            
+            return;
+        }
+        else if(playerState == PlayerState.Jumpping && myRig.velocity.y < 0)
+                ChangeState(PlayerState.Falling);
     }
 
-    #region move,jump。
+    #region move,jump,change
     // ムーブ
     private void OnMove(InputAction.CallbackContext context)
     {
         // 入力値を保持しておく
-        _inputMove = context.ReadValue<Vector2>();
+        _inputMove = context.ReadValue<Vector2>().normalized;
     }
+
     // ジャンプ
     private void OnJump(InputAction.CallbackContext context)
     {
-        // 地面についてない、選ばれてない　場合はじゃあね
-        if ((!_charaCtrl.isGrounded) || (!isPlayerSelected))
-            return;
-
-        // 鉛直上向きに速度を与える
-        _verticalVelocity = playerValue._jumpSpeed;
+        if (playerState == PlayerState.Grounded)
+        {
+            playerState = PlayerState.Jumpping;
+            PlayerMove(new Vector3(0, playerValue._jumpSpeed, 0));
+        }
+        else if (playerState == PlayerState.BeingCarried)
+        {
+            _myTransform.localPosition = Vector3.up;
+            catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
+        }
     }
-    // キャラクターの変更(PlayerInput側から呼ばれる)
+
+    /// <summary>
+    /// プレイヤー変更時に必要な事をやっていく関数。
+    /// </summary>
     public void SetPlayerSelectionStatus(bool getBool)
     {
-        isPlayerSelected = getBool;
         selector.gameObject.SetActive(getBool);
+        catchPutItemsCS.SelectionStatus(getBool);
+        isSelect = getBool;
         if (getBool)
         {
-            _move.canceled  += OnMove;
+            _move.canceled += OnMove;
             _move.performed += OnMove;
             _Jump.performed += OnJump;
             ChangeColor(Color.blue);
         }
         else
         {
-            _move.canceled  -= OnMove;
+            _move.canceled -= OnMove;
             _move.performed -= OnMove;
             _Jump.performed -= OnJump;
             _inputMove = Vector2.zero; //選択されないので(0,0)
+            
             ChangeColor(Color.red);
         }
     }
@@ -162,5 +173,19 @@ public class PlayerCs : MonoBehaviour
     private void ChangeColor(Color color)
     {
         _renderer.material.color = color;
+    }
+
+    public enum PlayerState
+    {
+        Grounded,
+        Jumpping,
+        Falling,
+        BeingThrown,
+        BeingCarried
+    }
+
+    public void ChangeState(PlayerState getstate)
+    {
+        playerState = getstate;
     }
 }

@@ -1,50 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class StepOnABox : MonoBehaviour
 {
-    private Vector3 myPosPreview;
-    private List<PlayerCs> playerCs = new List<PlayerCs>();
-    
+    [Header("playerParentを入れる変数"), SerializeField]
+    Transform playerParent;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Player")
+        //もし、プレイヤーの上に乗ってなかったり、プレイヤーが親でもなかったら
+        if (other.tag == "Player" && other.transform.parent.gameObject.layer != 3) 
         {
-            PlayerCs playerScript = other.transform.GetComponent<PlayerCs>();
-            
-            if (!playerCs.Contains(playerScript))
-            {
-                playerCs.Add(playerScript);
-            }
+            other.transform.parent = transform;
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.tag == "Player")
+        if (other.tag == "Player" && other.transform.parent.gameObject.layer != 3)
         {
-            PlayerCs playerScript = other.transform.GetComponent<PlayerCs>();
-
-            if (playerCs.Contains(playerScript))
-            {
-                playerCs.Remove(playerScript);
-            }
-        }
-    }
-    private void OnTriggerStay()
-    {
-        if (playerCs.Count == 0) //何もない状態なら
-            return;
-
-        Vector3 myPos = transform.position;
-        PlayerMove(myPos - myPosPreview);
-        myPosPreview = myPos;
-    }
-    private void PlayerMove(Vector3 getVec)
-    {
-        foreach (PlayerCs playerScript in playerCs)
-        {
-            playerScript.PlayerMove(getVec);
+            other.transform.parent = playerParent;
         }
     }
 }

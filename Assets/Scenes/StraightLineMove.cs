@@ -168,7 +168,7 @@ public class StraightLineMove : MonoBehaviour
     private IEnumerator WaitSeconds()
     {
         isStop = true;
-        yield return new WaitForSeconds(objValue.StopTime);
+        yield return objValue.stopTime;
         isStop = false;
     }
 }

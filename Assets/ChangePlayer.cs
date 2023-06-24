@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Composites;
 
 public class ChangePlayer : MonoBehaviour
 {
