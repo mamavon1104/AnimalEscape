@@ -14,10 +14,10 @@ public class ThrowToPoint : MonoBehaviour
     private Vector3 startPos; // ˆÚ“®‚ÌŠJŽnˆÊ’u
 
     private CatchPut_Items catchPutItemsCS;
+
     /// <summary>
     /// catchPutItemsCS.CatchObject;
     /// </summary>
-
     private Transform objTrans;
     private bool selectThrow;
 

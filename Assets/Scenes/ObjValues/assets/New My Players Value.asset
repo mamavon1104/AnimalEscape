@@ -15,5 +15,5 @@ MonoBehaviour:
   _speed: 22.15
   _jumpSpeed: 8.41
   _fallSpeed: 10
-  _throwAngle: 31.5
+  _throwAngle: 47
   playerRotateSpeed: 300

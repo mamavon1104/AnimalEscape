@@ -9,7 +9,6 @@ public class CatchPut_Items : MonoBehaviour
     private Transform myT; //私のTrans、キャッシュ用。
     private Transform triggerObject = null; //トリガーに当たっているなら取得、それでなければNull;
     private Transform catchObject = null; //管するobj、現在持っているもの;]
-    private Transform otherObjParent = null; //相手の親
     private ThrowToPoint throwToPoint;
     public Transform TriggerObject
     {
@@ -64,7 +63,6 @@ public class CatchPut_Items : MonoBehaviour
     {
         CatchObject = TriggerObject;                             //取得したObjに
         
-        otherObjParent = CatchObject.parent;
         if (CatchObject.CompareTag("Player"))
         {
             var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
@@ -95,11 +93,11 @@ public class CatchPut_Items : MonoBehaviour
     /// </summary>
     public void ResetOtherStateAndReleaseCatch()
     {
-        CatchObject.parent = otherObjParent; //親を戻します。
         CatchObject.GetComponent<Rigidbody>().isKinematic = false;
         if (CatchObject.CompareTag("Player"))
         {
             var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
+            CatchObject.parent = PlayerInformationMaster.instance.playerParentsDic[otherPlayerCS]; //親を戻します。
             otherPlayerCS.GetComponent<PlayerCS>().ChangeState(PlayerCS.PlayerState.Falling);
             otherPlayerCS.catchPutItemsCSOfParent = null;
         }

@@ -256,6 +256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 482434911}
   - component: {fileID: 482434910}
+  - component: {fileID: 482434912}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -295,6 +296,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &482434912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482434909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2391717b407acf24da3ee3d91c6d0136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &572568669
 Mesh:
   m_ObjectHideFlags: 0
@@ -2834,7 +2847,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2290311225577955647, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.09687066
+      value: 0.055885077
       objectReference: {fileID: 0}
     - target: {fileID: 2290311225577955647, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2878,7 +2891,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4742679062476097096, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.09687066
+      value: 0.055885077
       objectReference: {fileID: 0}
     - target: {fileID: 4742679062476097096, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3096,7 +3109,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh40306
+  m_Name: pb_Mesh30484
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
