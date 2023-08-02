@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 
 public class CircleMove : MonoBehaviour
@@ -14,7 +13,6 @@ public class CircleMove : MonoBehaviour
 
     [Header("自分の子オブジェクトを入れておく"), SerializeField]
     private GameObject rideCollider;
-    private StepOnABox stepOnAbox;
 
     private (Vector3 my, Vector3 centerpos) points; //myposとcenterpos、
 
@@ -33,7 +31,6 @@ public class CircleMove : MonoBehaviour
         if (objValue.canRide)
         {
             rideCollider.SetActive(true);
-            stepOnAbox = rideCollider.GetComponent<StepOnABox>();
         }
         else
             rideCollider.SetActive(false);
@@ -65,9 +62,12 @@ public class CircleMove : MonoBehaviour
         }
     }
 
+    #if UNITY_EDITOR
+    [Header("軌道を書く？")]
+    public bool drawOrbit;
     void OnDrawGizmos()
     {
-        if (!objValue.drawOrbit) //boolで描かない場合
+        if (!drawOrbit) //boolで描かない場合
             return;
 
         #region もし描く場合、必要な情報がnullになってしまうので取得し続ける。
@@ -77,8 +77,8 @@ public class CircleMove : MonoBehaviour
         if (points.my == null || points.centerpos == null)
             points = (myTrans.position, getTrans.position);
 
-        if (!(Gizmos.color == Color.green))
-            Gizmos.color = Color.green;// ギズモの色を設定
+        if (Gizmos.color != Color.blue)
+            Gizmos.color = Color.blue;// ギズモの色を設定
         #endregion
 
         if (!Application.isPlaying)
@@ -105,6 +105,7 @@ public class CircleMove : MonoBehaviour
             anglePrev = nextPoint;
         }
     }
+    #endif
 
     private Vector3 GetPointOnCircle(float angle)
     {
@@ -136,5 +137,20 @@ public class CircleMove : MonoBehaviour
         isStop = true;
         yield return new WaitForSeconds(objValue.stopTime);
         isStop = false;
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (isStop)
+            return;
+        
+        if (other.CompareTag("Player") && other.gameObject.layer == 3)
+        {
+            isStop = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player") && other.gameObject.layer == 3)
+            isStop = false;
     }
 }

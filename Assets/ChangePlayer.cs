@@ -1,35 +1,37 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-public class ChangePlayer : MonoBehaviour
+class ChangePlayer : MonoBehaviour
 {
-    [Header("プレイヤーたち、取得出来たらここに表示する"),SerializeField]
-    private PlayerCs[] playersCs;
+
+    [Header("プレイヤーのInputActions"), SerializeField]
+    private PlayerInput action;
+    private InputAction _change;
+
     private int nowActivePlayer;
+    private PlayerCS[] playersCs;
 
-    private PlayerInput playerInput;
-    private InputAction playerChange;
-
+    private void Awake()
+    {
+        _change = action.currentActionMap["ChangePlayer"];
+        _change.performed += ChangePlayerNum;
+    }
     private void Start()
     {
-        playerInput = transform.GetComponent<PlayerInput>();
-        playerChange = playerInput.currentActionMap["ChangePlayer"];
-        playerChange.performed += ChangePlayerNum; 
-
         var obj = GameObject.FindGameObjectsWithTag("Player");
-        playersCs = new PlayerCs[obj.Length];
-
-        Debug.Log("Plyaerのタグが付いたobject : " + obj.Length);
+        playersCs = new PlayerCS[obj.Length];
 
         for (int i = 0; i < obj.Length; i++)
         {
-            var playerCS = obj[i].GetComponent<PlayerCs>();
+            var playerCS = obj[i].GetComponent<PlayerCS>();
             if (playerCS != null)
+            {
                 playersCs[i] = playerCS;
+                playerCS.SetPlayerSelectionStatus(false);
+            }
         }
         playersCs[nowActivePlayer].SetPlayerSelectionStatus(true);
     }
-    void ChangePlayerNum(InputAction.CallbackContext context) 
+    public void ChangePlayerNum(InputAction.CallbackContext context) 
     {
         nowActivePlayer = ++nowActivePlayer % playersCs.Length;
         for (int i = 0; i < playersCs.Length; i++)

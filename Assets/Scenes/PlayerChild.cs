@@ -4,11 +4,11 @@ using UnityEngine;
 public class PlayerChild : MonoBehaviour
 {
     private MyPlayersValue playerValue = null;
-    private PlayerCs parentPlayer = null;
-    private PlayerCs otherPlayerScript;
+    private PlayerCS parentPlayer = null;
+    private PlayerCS otherPlayerScript;
     private void Start()
     {
-        parentPlayer = transform.parent.GetComponent<PlayerCs>();
+        parentPlayer = transform.parent.GetComponent<PlayerCS>();
         playerValue = parentPlayer.playerValue;
     }
 
@@ -19,12 +19,12 @@ public class PlayerChild : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Player")
-            otherPlayerScript = other.transform.GetComponent<PlayerCs>();
+        if (other.transform.CompareTag("Player"))
+            otherPlayerScript = other.transform.GetComponent<PlayerCS>();
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.tag == "Player")
+        if (other.transform.CompareTag("Player"))
             otherPlayerScript = null;
     }
 }

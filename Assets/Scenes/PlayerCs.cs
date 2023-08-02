@@ -1,104 +1,112 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System;
-using UnityEngine.XR;
-using Unity.VisualScripting;
+using Unity.Mathematics;
 
-[RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerCs : MonoBehaviour
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(PlayerInputScript))]
+public class PlayerCS : MonoBehaviour
 {
     #region 変数たち
-    [Header("今選択されているかどうかわかる為のobj"), SerializeField]
-    private Transform selector;
+    [Header("カメラ"), SerializeField]
+    private Transform thisCamera;
     private bool isSelect = false;
-    
-    [SerializeField] private PlayerState playerState = PlayerState.Grounded;
+
+    [Header("現在のプレイヤーの状態"), SerializeField]
+    private PlayerState playerState = PlayerState.Grounded;
 
     [Header("プレイヤーの数値 : PlayersValue")]
     public MyPlayersValue playerValue;
 
-    [Header("プレイヤーのInputActions"), SerializeField]
-    private PlayerInput action;
-    private InputAction _move, _Jump;
-
     [Header("子オブジェクトのスクリプト格納"), SerializeField]
     private CatchPut_Items catchPutItemsCS;
-    [NonSerialized]
-    public CatchPut_Items catchPutItemsCSOfParent; //キャッチされている時にこれに代入
+
+    /// <summary>
+    /// キャッチされている時に相手のCatchPut_Itemsを代入してそれをこっちから呼び起こしてあげる。
+    /// </summary>
+    [NonSerialized] 
+    public CatchPut_Items catchPutItemsCSOfParent; 
 
     //以下、private変数
-    private Transform _myTransform;               // 自分自身の Transform
-    private Renderer _renderer;                   // レンダラー
-    private Rigidbody myRig;                      // リジッドボディー
+    private Rigidbody _myRig;
+    private Renderer _renderer;
+    private Transform myTrans;
+    private PlayerInputScript inputScript;
 
-    private float _turnVelocity;                  // 回転の速度
-    private Vector2 _inputMove;　                 // 動く数値
+    private Vector2 _inputMove;　// 動く数値
     #endregion
+    private Quaternion targetRotation;
 
     private void Awake()
     {
-        _myTransform = transform;
-        myRig = _myTransform.GetComponent<Rigidbody>();
-        _renderer = _myTransform.GetComponent<Renderer>();
+        myTrans = transform;
+        targetRotation = myTrans.rotation;
 
-        _move = action.currentActionMap["Move"];
-        _Jump = action.currentActionMap["Jump"];
+        _myRig = myTrans.GetComponent<Rigidbody>();
+        _renderer = myTrans.GetComponent<Renderer>();
+        inputScript = myTrans.GetComponent<PlayerInputScript>();
+    }
+    private void Start()
+    {
+        PlayerInformationMaster.instance.playerParentsDic.Add(this,myTrans.parent);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!isSelect)
             return;
 
-        // 操作入力と、フレームの速度から、現在速度を計算
-        var moveDelta = new Vector3
-            (
-               _inputMove.x * playerValue._speed,
-               0,
-               _inputMove.y * playerValue._speed
-            )
-            * Time.deltaTime;
-
+        var horizontalRotation = Quaternion.AngleAxis(thisCamera.eulerAngles.y, Vector3.up);
+        var velocity = horizontalRotation * new Vector3(_inputMove.x, 0, _inputMove.y) * playerValue._speed * Time.deltaTime;
+        
         // 移動入力がある場合は、振り向き動作も行う
-        if (_inputMove != Vector2.zero)
+        if (velocity.sqrMagnitude > 0f)
         {
-            //まず動かす。
-            PlayerMove(moveDelta);
-
-            // 操作入力からy軸周りの目標角度[deg]を計算
-            var targetAngleY = -Mathf.Atan2(_inputMove.y, _inputMove.x) * Mathf.Rad2Deg + 90;
-
-            // イージングしながら次の回転角度[deg]を計算
-            var angleY = Mathf.SmoothDampAngle(
-                _myTransform.eulerAngles.y,
-                targetAngleY,
-                ref _turnVelocity,
-                0.1f
-            );
-            // オブジェクトの回転を更新
-            _myTransform.rotation = Quaternion.Euler(0, angleY, 0);
+            PlayerMove(velocity);
+            targetRotation = Quaternion.LookRotation(velocity);
         }
+
+        myTrans.rotation = Quaternion.RotateTowards(myTrans.rotation, targetRotation, playerValue.playerRotateSpeed * Time.deltaTime);
+        
+        #region
+        //Vector3 cameraForward = Vector3.Scale(thisCamera.forward, new Vector3(1, 0, 1)).normalized;
+        //Vector3 moveForward = (cameraForward * _inputMove.y + thisCamera.right * _inputMove.x).normalized * playerValue._speed * Time.deltaTime;
+
+        //PlayerMove(moveForward);
+
+        //// 移動入力がある場合は、振り向き動作も行う
+        //if (moveForward.sqrMagnitude > 0.5f)
+        //{
+        //    myRotation = Quaternion.LookRotation(moveForward);
+        //}
+        //_myTransform.rotation = Quaternion.RotateTowards(_myTransform.rotation, myRotation, playerValue.playerRotateSpeed * Time.deltaTime);
+        #endregion
     }
     private void LateUpdate()
     {
         if (playerState == PlayerState.Grounded)
             return;
 
-        if(playerState == PlayerState.Jumpping || playerState == PlayerState.Falling || myRig.velocity.y < -0.01)
+        if (_myRig.velocity.y < -0.01)
         {
             CheckIsPlayerGrouded();
         }
     }
     private void PlayerMove(Vector3 getVec)
     {
+        if (playerState == PlayerState.BeingThrown)
+            return;
+
         if (playerState == PlayerState.BeingCarried)
         {
-            _myTransform.localPosition = new Vector3(_inputMove.x,0, _inputMove.y);
+            myTrans.localPosition = Time.deltaTime * getVec;
             catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
             return;
         }
-        myRig.AddForce(getVec, ForceMode.Impulse);
+
+        //_myRig.velocity = _myRig.velocity + getVec;
+        _myRig.AddForce(getVec,ForceMode.Impulse);
     }
 
     /// <summary>
@@ -107,30 +115,27 @@ public class PlayerCs : MonoBehaviour
     /// </summary>
     private void CheckIsPlayerGrouded() //自分の状態を見つける旅へ(Find以外の関数名が思いつかない)
     {
-        if (playerState == PlayerState.Grounded)
-            return;
-
-        if (playerState == PlayerState.Falling) //落下し始めているのならray開始
+        if (playerState == PlayerState.Falling || playerState == PlayerState.BeingThrown) //落下し始めているのならray開始
         {
-            if (Physics.Raycast(_myTransform.position, Vector3.down, 0.01f + _myTransform.lossyScale.y / 2, 1 << 0))
+            if (Physics.Raycast(myTrans.position, Vector3.down, 0.1f + myTrans.lossyScale.y / 2, ~0, QueryTriggerInteraction.Ignore))
                 ChangeState(PlayerState.Grounded);
-            
+
             return;
         }
-        else if(playerState == PlayerState.Jumpping && myRig.velocity.y < 0)
-                ChangeState(PlayerState.Falling);
+        else if (playerState == PlayerState.Jumpping && _myRig.velocity.y < 0)
+            ChangeState(PlayerState.Falling);
     }
 
     #region move,jump,change
     // ムーブ
-    private void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
         // 入力値を保持しておく
-        _inputMove = context.ReadValue<Vector2>().normalized;
+        _inputMove = context.ReadValue<Vector2>();
     }
 
     // ジャンプ
-    private void OnJump(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
         if (playerState == PlayerState.Grounded)
         {
@@ -139,7 +144,7 @@ public class PlayerCs : MonoBehaviour
         }
         else if (playerState == PlayerState.BeingCarried)
         {
-            _myTransform.localPosition = Vector3.up;
+            myTrans.localPosition = Vector3.up;
             catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
         }
     }
@@ -147,27 +152,16 @@ public class PlayerCs : MonoBehaviour
     /// <summary>
     /// プレイヤー変更時に必要な事をやっていく関数。
     /// </summary>
-    public void SetPlayerSelectionStatus(bool getBool)
+    public void SetPlayerSelectionStatus(bool setBool)
     {
-        selector.gameObject.SetActive(getBool);
-        catchPutItemsCS.SelectionStatus(getBool);
-        isSelect = getBool;
-        if (getBool)
-        {
-            _move.canceled += OnMove;
-            _move.performed += OnMove;
-            _Jump.performed += OnJump;
+        isSelect = setBool;
+        thisCamera.gameObject.SetActive(setBool);
+        inputScript.Setting(setBool);
+
+        if (setBool)
             ChangeColor(Color.blue);
-        }
         else
-        {
-            _move.canceled -= OnMove;
-            _move.performed -= OnMove;
-            _Jump.performed -= OnJump;
-            _inputMove = Vector2.zero; //選択されないので(0,0)
-            
             ChangeColor(Color.red);
-        }
     }
     #endregion
     private void ChangeColor(Color color)

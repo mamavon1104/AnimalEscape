@@ -57,9 +57,13 @@ public class StraightLineMove : MonoBehaviour
         }
     }
 
+    #if UNITY_EDITOR
+    [Header("‹O“¹‚ğ‘‚­H")]
+    public bool drawOrbit;
+
     void OnDrawGizmos()
     {
-        if (!objValue.drawOrbit) //bool‚Å•`‚©‚È‚¢ê‡
+        if (!drawOrbit) //bool‚Å•`‚©‚È‚¢ê‡
             return;
 
         #region ‚à‚µ•`‚­ê‡A•K—v‚Èî•ñ‚ªnull‚É‚È‚Á‚Ä‚µ‚Ü‚¤‚Ì‚Åæ“¾‚µ‘±‚¯‚éB
@@ -109,6 +113,8 @@ public class StraightLineMove : MonoBehaviour
         
         Gizmos.DrawLine(DrawmyPos,DrawCenterPos);
     }
+    #endif
+
 
     /// <summary>
     /// x,y,z‚Ì—ñ‹“Œ^enum‚ğŒ©‚Äˆø‚¢‚½‹——£‚ğ•Ô‚·

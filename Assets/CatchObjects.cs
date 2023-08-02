@@ -1,30 +1,41 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CatchObjects : MonoBehaviour
 {
     CatchPut_Items parentCS;
-    [SerializeField] bool canCatch = true;
+    ThrowToPoint throwToPoint;
+    bool canCatch = true;
+    bool nowCatch = false;
     private void Start()
     {
-        parentCS = transform.parent.GetComponent<CatchPut_Items>();
+        var parent =transform.parent;
+        parentCS = parent.GetComponent<CatchPut_Items>();
+        throwToPoint = parent.GetComponent<ThrowToPoint>();
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
+        if (!canCatch || nowCatch)
+            return;
+
+        nowCatch = true;
         var otherTrans = other.transform;
-        if(otherTrans.gameObject.layer != 0 && otherTrans.tag == "Player" && canCatch)
+
+        if (otherTrans.gameObject.layer != 0 && otherTrans.CompareTag("Player"))
         {
-            parentCS.triggerObject = otherTrans;
+            parentCS.TriggerObject = otherTrans;
             parentCS.SetCatchObject();
         }
     }
     private void OnTriggerExit(Collider other)
     {
         StartCoroutine(WaitSecond());
+        throwToPoint.FinishResetVariable(this);
     }
     public IEnumerator WaitSecond()
     {
+        nowCatch = false;
         canCatch = false;
         yield return new WaitForSeconds(0.5f);
         canCatch = true;

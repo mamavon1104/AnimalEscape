@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - CatchItems
+  - PlayerParent
+  - FinishTriggerParent
   layers:
   - Default
   - TransparentFX
@@ -12,8 +14,8 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
-  - 
+  - PlayerCamaera1
+  - PlayerCamaera2
   - 
   - 
   - 

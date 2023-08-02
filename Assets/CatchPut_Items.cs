@@ -3,103 +3,108 @@ using UnityEngine.InputSystem;
 
 public class CatchPut_Items : MonoBehaviour
 {
-    [Header("PlayerInput"), SerializeField]
-    private PlayerInput action;
-    private InputAction catchAndPutAction,throwAction;
-
     [Header("自分の真上のポジション。"), SerializeField]
     private Transform myUpTrans;
-    [Header("PlayerParent"), SerializeField]
-    private Transform playerParent;
 
-    public  Transform triggerObject = null; //トリガーに当たっているなら取得、それでなければNull;
-    private Transform catchObject = null; //持つボタンを押したときに保管するobj;
-    private bool isCatchingNow = false; //持っているか？
-    
     private Transform myT; //私のTrans、キャッシュ用。
-
-    private void Awake()
+    private Transform triggerObject = null; //トリガーに当たっているなら取得、それでなければNull;
+    private Transform catchObject = null; //管するobj、現在持っているもの;]
+    private Transform otherObjParent = null; //相手の親
+    private ThrowToPoint throwToPoint;
+    public Transform TriggerObject
+    {
+        private get { return triggerObject; }
+        set
+        {
+            if (value == null)
+            {
+                triggerObject = value;
+                return; 
+            }
+            if (value.tag != "Untagged")
+                triggerObject = value;
+        }
+    }
+    public Transform CatchObject
+    {
+        get { return catchObject; }
+        private set { catchObject = value; }
+    }
+    
+    private void Start()
     {
         myT = transform;
-        throwAction = action.currentActionMap["ThrowObject"];
-        catchAndPutAction = action.currentActionMap["CatchAndPut"];
+        throwToPoint = myT.GetComponent<ThrowToPoint>();
     }
-    private void CatchAndPut(InputAction.CallbackContext context)
+    /// <param name="context"></param>
+    public void CatchAndPut(InputAction.CallbackContext context)
     {
-        if (triggerObject == null && catchObject == null)
+        if (TriggerObject == null && CatchObject == null)
             return;
 
-        if (!isCatchingNow)
+        if (CatchObject == null)
             SetCatchObject();   
         else 
             ResetOtherObjPos();
     }
     private void OnTriggerEnter(Collider other)
     {
-        var otherTrans = other.transform;
-        if (otherTrans.tag != "Untagged")
-            triggerObject = otherTrans;
+        TriggerObject = other.transform;
     }
     private void OnTriggerExit(Collider other)
     {
-        var otherTrans = other.transform;
-        if (otherTrans == triggerObject) //もし抜けたものがotherだった場合
-            triggerObject = null; //追い出す。
+        if (other.transform == TriggerObject) //もし抜けたものがotherだった場合
+            TriggerObject = null; //追い出す。
     }
 
+    /// <summary>
+    /// 物を拾う時の設定、CatchObjectsから呼び起こされる。
+    /// </summary>
     public void SetCatchObject()
     {
-        catchObject = triggerObject;                             //取得したObjに
-        catchObject.transform.parent = myUpTrans;                //親をupにします。
-        catchObject.transform.position = myUpTrans.position;   //位置を真上から離さん
-        catchObject.transform.rotation = myUpTrans.rotation;   //回転も同じにしてやるからな。
-        catchObject.GetComponent<Rigidbody>().isKinematic = true;
-
-        if (catchObject.tag == "Player")
+        CatchObject = TriggerObject;                             //取得したObjに
+        
+        otherObjParent = CatchObject.parent;
+        if (CatchObject.CompareTag("Player"))
         {
-            var otherPlayerCS = catchObject.GetComponent<PlayerCs>();
-            otherPlayerCS.ChangeState(PlayerCs.PlayerState.BeingCarried);
+            var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
+            otherPlayerCS.ChangeState(PlayerCS.PlayerState.BeingCarried);
             otherPlayerCS.catchPutItemsCSOfParent = this;
         }
-        isCatchingNow = true; //色違いキャッチ　簡単で　す！
+
+        CatchObject.parent = myUpTrans;                //親をupにします。
+        CatchObject.position = myUpTrans.position;    //位置を真上から離さん
+        CatchObject.rotation = myUpTrans.rotation;    //回転も同じにしてやるからな。
+        CatchObject.GetComponent<Rigidbody>().isKinematic = true;
     }
         
     /// <summary>
-    /// これが呼び出されている時はオブジェクトの位置を直しつつ状態リセットをする。
+    /// これが呼び出されている場合:
+    /// オブジェクトの位置を直しつつ状態リセットをする。
     /// </summary>
     public void ResetOtherObjPos()
     {
-        catchObject.transform.position = myT.position;        //位置を直すし
-        catchObject.transform.rotation = myT.rotation;        //回転も戻す
+        CatchObject.position = myT.position;        //位置を直すし
+        CatchObject.rotation = myT.rotation;        //回転も戻す
         ResetOtherStateAndReleaseCatch();
     }
 
     /// <summary>
-    /// SetOtherOBjPosじゃなく、これが単体で呼ばれている場合、位置は相手のコードで直し、キャッチしている判定もろもろを消す
+    /// ResetOtherObjPosじゃなく、これが単体で呼ばれている場合 :
+    /// 位置は相手のコードで直し、キャッチしている判定を消す
     /// </summary>
     public void ResetOtherStateAndReleaseCatch()
     {
-        catchObject.parent = null;                    //親を戻します。
-        catchObject.GetComponent<Rigidbody>().isKinematic = false;
-        if (catchObject.tag == "Player")
+        CatchObject.parent = otherObjParent; //親を戻します。
+        CatchObject.GetComponent<Rigidbody>().isKinematic = false;
+        if (CatchObject.CompareTag("Player"))
         {
-            catchObject.parent = playerParent;
-            var otherPlayerCS = catchObject.GetComponent<PlayerCs>();
-            otherPlayerCS.GetComponent<PlayerCs>().ChangeState(PlayerCs.PlayerState.Falling);
+            var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
+            otherPlayerCS.GetComponent<PlayerCS>().ChangeState(PlayerCS.PlayerState.Falling);
             otherPlayerCS.catchPutItemsCSOfParent = null;
         }
-        catchObject = null; 
-        isCatchingNow = false;
-    }
-    public void SelectionStatus(bool getBool)
-    {
-        if (getBool)
-        {
-            catchAndPutAction.performed += CatchAndPut;
-        }
-        else
-        {
-            catchAndPutAction.performed -= CatchAndPut;
-        }
+        CatchObject = null; 
+        TriggerObject = null;
+        throwToPoint.FinishResetVariable(this);
     }
 }

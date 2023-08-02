@@ -8,7 +8,7 @@ public class StepOnABox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //もし、プレイヤーの上に乗ってなかったり、プレイヤーが親でもなかったら
-        if (other.tag == "Player" && other.transform.parent.gameObject.layer != 3) 
+        if (other.CompareTag("Player") && other.transform.parent.gameObject.layer != 3) 
         {
             other.transform.parent = transform;
         }
@@ -16,9 +16,9 @@ public class StepOnABox : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player" && other.transform.parent.gameObject.layer != 3)
+        if (other.CompareTag("Player") && other.transform.parent.gameObject.layer != 3)
         {
-            other.transform.parent = playerParent;
+            other.transform.parent = playerParent;  
         }
     }
 }

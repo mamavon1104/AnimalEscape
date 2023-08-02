@@ -8,9 +8,6 @@ public class ObjectsValueBase : ScriptableObject
     [Header("•¨‘Ì‚Éæ‚ê‚é‚©‚Ç‚¤‚©bool")]
     public bool canRide;
 
-    [Header("‹O“¹‚ğ‘‚­H")]
-    public bool drawOrbit;
-
     [Header("~‚Ü‚éŠÔ"), SerializeField]
     public float stopTime;
 }
