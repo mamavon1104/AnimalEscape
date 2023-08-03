@@ -9,7 +9,7 @@ public class PlayerInputScript : MonoBehaviour
     PlayerCS m_playerCs;
     [Header("CatchObjectCS"), SerializeField]
     CatchPut_Items m_CatchObjectCS;
-    [Header("CatchObjectCS"), SerializeField]
+    [Header("ThrowToPointObj"), SerializeField]
     ThrowToPoint m_ThrowToPointCS;
 
     [Header("ÉvÉåÉCÉÑÅ[ÇÃInputActions"), SerializeField]

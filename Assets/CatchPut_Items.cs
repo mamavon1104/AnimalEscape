@@ -97,9 +97,9 @@ public class CatchPut_Items : MonoBehaviour
         if (CatchObject.CompareTag("Player"))
         {
             var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
-            CatchObject.parent = PlayerInformationMaster.instance.playerParentsDic[otherPlayerCS]; //親を戻します。
-            otherPlayerCS.GetComponent<PlayerCS>().ChangeState(PlayerCS.PlayerState.Falling);
             otherPlayerCS.catchPutItemsCSOfParent = null;
+            otherPlayerCS.GetComponent<PlayerCS>().ChangeState(PlayerCS.PlayerState.Falling);
+            CatchObject.parent = PlayerInformationMaster.instance.playerParentsDic[otherPlayerCS]; //親を戻します。
         }
         CatchObject = null; 
         TriggerObject = null;

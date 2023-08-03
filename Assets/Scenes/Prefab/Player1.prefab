@@ -187,6 +187,7 @@ MonoBehaviour:
   playerState: 0
   playerValue: {fileID: 11400000, guid: f06bbac860698a8459f86a621d634da0, type: 2}
   catchPutItemsCS: {fileID: 4711442139290096817}
+  myThrow: {fileID: 7742920633887006203}
 --- !u!114 &4614267318800829327
 MonoBehaviour:
   m_ObjectHideFlags: 0

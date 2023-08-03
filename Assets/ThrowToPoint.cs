@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
 
@@ -14,12 +15,16 @@ public class ThrowToPoint : MonoBehaviour
     private Vector3 startPos; // 移動の開始位置
 
     private CatchPut_Items catchPutItemsCS;
-
     /// <summary>
     /// catchPutItemsCS.CatchObject;
     /// </summary>
     private Transform objTrans;
     private bool selectThrow;
+    public bool SelectThrow
+    {
+        get { return selectThrow; }
+        private set {selectThrow = value;}
+    }
 
     [Header("投げるときに変更させるCamera"), SerializeField]
     GameObject thisCamera;
@@ -39,7 +44,7 @@ public class ThrowToPoint : MonoBehaviour
     }
     private void Update()
     {
-         if (!selectThrow)
+         if (!SelectThrow)
             return;
     }
     public void Select_OR_Throw(InputAction.CallbackContext _)
@@ -49,9 +54,9 @@ public class ThrowToPoint : MonoBehaviour
         if (objTrans == null)
             return;
 
-        if (!selectThrow) //選ばれてない場合は選択
+        if (!SelectThrow) //選ばれてない場合は選択
         {
-            selectThrow = true;
+            SelectThrow = true;
             thisCamera.gameObject.SetActive(true);
         }
         else//選ばれた後は投げる
@@ -62,7 +67,7 @@ public class ThrowToPoint : MonoBehaviour
             catchPutItemsCS.ResetOtherStateAndReleaseCatch();
 
             // 射出速度を算出
-            Vector3 velocity = CalculateVelocity(startPos, throwPointNow.position, playerValue._throwAngle);
+            Vector3 velocity = CalculateVelocity(startPos, throwPointNow.position, playerValue.throwAngle);
             //飛ばす
             objTrans.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
 
@@ -98,7 +103,7 @@ public class ThrowToPoint : MonoBehaviour
     /// </param>
     public void FinishResetVariable<T>(T orderClass, GameObject sphere = null) where T : class
     {
-        selectThrow = false;
+        SelectThrow = false;
 
         if(sphere != null) 
            sphere.SetActive(false);
@@ -120,6 +125,9 @@ public class ThrowToPoint : MonoBehaviour
                 if (objTrans.CompareTag("Player"))
                     objTrans.GetComponent<PlayerCS>().ChangeState(PlayerCS.PlayerState.BeingThrown);
                 objTrans = null;
+                break;
+            default:
+                Debug.LogError("想定外のクラスから呼び出しが行われています");
                 break;
         }
     }

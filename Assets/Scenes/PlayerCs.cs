@@ -1,7 +1,6 @@
-using UnityEngine.InputSystem;
-using UnityEngine;
 using System;
-using Unity.Mathematics;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
@@ -16,35 +15,37 @@ public class PlayerCS : MonoBehaviour
     [Header("現在のプレイヤーの状態"), SerializeField]
     private PlayerState playerState = PlayerState.Grounded;
 
-    [Header("プレイヤーの数値 : PlayersValue")]
+    [Header("プレイヤーの数値 : PlayersValue"), SerializeField]
     public MyPlayersValue playerValue;
 
     [Header("子オブジェクトのスクリプト格納"), SerializeField]
     private CatchPut_Items catchPutItemsCS;
 
+    [Header("子オブジェクトのThrowToPoint"), SerializeField]
+    private ThrowToPoint myThrow;
+
     /// <summary>
-    /// キャッチされている時に相手のCatchPut_Itemsを代入してそれをこっちから呼び起こしてあげる。
+    /// キャッチされている時に相手のCatchPutItemsを代入してそれをこっちから呼び起こしてあげる。
     /// </summary>
     [NonSerialized] 
     public CatchPut_Items catchPutItemsCSOfParent; 
 
     //以下、private変数
-    private Rigidbody _myRig;
-    private Renderer _renderer;
+    private Rigidbody myRig;
+    private Renderer renderer;
+    private Vector2 inputMove;　// 動く数値
     private Transform myTrans;
-    private PlayerInputScript inputScript;
-
-    private Vector2 _inputMove;　// 動く数値
-    #endregion
     private Quaternion targetRotation;
+    private PlayerInputScript inputScript;
+    #endregion
 
     private void Awake()
     {
         myTrans = transform;
         targetRotation = myTrans.rotation;
 
-        _myRig = myTrans.GetComponent<Rigidbody>();
-        _renderer = myTrans.GetComponent<Renderer>();
+        myRig = myTrans.GetComponent<Rigidbody>();
+        renderer = myTrans.GetComponent<Renderer>();
         inputScript = myTrans.GetComponent<PlayerInputScript>();
     }
     private void Start()
@@ -57,8 +58,9 @@ public class PlayerCS : MonoBehaviour
         if (!isSelect)
             return;
 
+        //Vector3 cameraForward = Vector3.Scale(thisCamera.forward, new Vector3(1, 0, 1)).normalized;
         var horizontalRotation = Quaternion.AngleAxis(thisCamera.eulerAngles.y, Vector3.up);
-        var velocity = horizontalRotation * new Vector3(_inputMove.x, 0, _inputMove.y) * playerValue._speed * Time.deltaTime;
+        var velocity = horizontalRotation * new Vector3(inputMove.x, 0, inputMove.y) * playerValue.speed * Time.deltaTime;
         
         // 移動入力がある場合は、振り向き動作も行う
         if (velocity.sqrMagnitude > 0f)
@@ -66,29 +68,15 @@ public class PlayerCS : MonoBehaviour
             PlayerMove(velocity);
             targetRotation = Quaternion.LookRotation(velocity);
         }
-
-        myTrans.rotation = Quaternion.RotateTowards(myTrans.rotation, targetRotation, playerValue.playerRotateSpeed * Time.deltaTime);
-        
-        #region
-        //Vector3 cameraForward = Vector3.Scale(thisCamera.forward, new Vector3(1, 0, 1)).normalized;
-        //Vector3 moveForward = (cameraForward * _inputMove.y + thisCamera.right * _inputMove.x).normalized * playerValue._speed * Time.deltaTime;
-
-        //PlayerMove(moveForward);
-
-        //// 移動入力がある場合は、振り向き動作も行う
-        //if (moveForward.sqrMagnitude > 0.5f)
-        //{
-        //    myRotation = Quaternion.LookRotation(moveForward);
-        //}
-        //_myTransform.rotation = Quaternion.RotateTowards(_myTransform.rotation, myRotation, playerValue.playerRotateSpeed * Time.deltaTime);
-        #endregion
+        if (myThrow.SelectThrow == false)
+            myTrans.rotation = Quaternion.RotateTowards(myTrans.rotation, targetRotation, playerValue.playerRotateSpeed * Time.deltaTime);
     }
     private void LateUpdate()
     {
         if (playerState == PlayerState.Grounded)
             return;
 
-        if (_myRig.velocity.y < -0.01)
+        if (myRig.velocity.y < -0.01)
         {
             CheckIsPlayerGrouded();
         }
@@ -105,8 +93,8 @@ public class PlayerCS : MonoBehaviour
             return;
         }
 
-        //_myRig.velocity = _myRig.velocity + getVec;
-        _myRig.AddForce(getVec,ForceMode.Impulse);
+        //myRig.velocity = myRig.velocity + getVec;
+        myRig.AddForce(getVec,ForceMode.Impulse);
     }
 
     /// <summary>
@@ -122,7 +110,7 @@ public class PlayerCS : MonoBehaviour
 
             return;
         }
-        else if (playerState == PlayerState.Jumpping && _myRig.velocity.y < 0)
+        else if (playerState == PlayerState.Jumpping && myRig.velocity.y < 0)
             ChangeState(PlayerState.Falling);
     }
 
@@ -131,7 +119,7 @@ public class PlayerCS : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         // 入力値を保持しておく
-        _inputMove = context.ReadValue<Vector2>();
+        inputMove = context.ReadValue<Vector2>();
     }
 
     // ジャンプ
@@ -140,7 +128,7 @@ public class PlayerCS : MonoBehaviour
         if (playerState == PlayerState.Grounded)
         {
             playerState = PlayerState.Jumpping;
-            PlayerMove(new Vector3(0, playerValue._jumpSpeed, 0));
+            PlayerMove(new Vector3(0, playerValue.jumpSpeed, 0));
         }
         else if (playerState == PlayerState.BeingCarried)
         {
@@ -166,7 +154,7 @@ public class PlayerCS : MonoBehaviour
     #endregion
     private void ChangeColor(Color color)
     {
-        _renderer.material.color = color;
+        renderer.material.color = color;
     }
 
     public enum PlayerState
