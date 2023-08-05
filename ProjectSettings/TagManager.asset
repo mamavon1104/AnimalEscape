@@ -7,6 +7,8 @@ TagManager:
   - CatchItems
   - PlayerParent
   - FinishTriggerParent
+  - SphereParent
+  - Canvas
   layers:
   - Default
   - TransparentFX
@@ -14,9 +16,9 @@ TagManager:
   - Player
   - Water
   - UI
-  - PlayerCamaera1
-  - PlayerCamaera2
-  - 
+  - PlayerCamera1
+  - PlayerCamera2
+  - PlayerCamera3
   - 
   - 
   - 

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4dd223594af77040ab21d117f1e48c0, type: 3}
   m_Name: New My Players Value
   m_EditorClassIdentifier: 
-  _speed: 22.15
-  _jumpSpeed: 8.41
-  _fallSpeed: 10
-  _throwAngle: 47
+  speed: 19.8
+  jumpSpeed: 7
+  fallSpeed: 10
+  throwAngle: 44.8
   playerRotateSpeed: 300
+  leaveCarriedScale: 0

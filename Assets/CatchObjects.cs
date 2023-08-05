@@ -7,6 +7,7 @@ public class CatchObjects : MonoBehaviour
     CatchPut_Items parentCS;
     ThrowToPoint throwToPoint;
     bool canCatch = true;
+    [SerializeField]
     bool nowCatch = false;
     private void Start()
     {
@@ -14,16 +15,17 @@ public class CatchObjects : MonoBehaviour
         parentCS = parent.GetComponent<CatchPut_Items>();
         throwToPoint = parent.GetComponent<ThrowToPoint>();
     }
+    
     private void OnTriggerStay(Collider other)
     {
         if (!canCatch || nowCatch)
             return;
 
-        nowCatch = true;
         var otherTrans = other.transform;
 
         if (otherTrans.gameObject.layer != 0 && otherTrans.CompareTag("Player"))
         {
+            nowCatch = true;
             parentCS.TriggerObject = otherTrans;
             parentCS.SetCatchObject();
         }
@@ -37,7 +39,7 @@ public class CatchObjects : MonoBehaviour
     {
         nowCatch = false;
         canCatch = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
         canCatch = true;
     }
 }

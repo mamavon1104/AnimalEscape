@@ -68,8 +68,18 @@ public class PlayerCS : MonoBehaviour
             PlayerMove(velocity);
             targetRotation = Quaternion.LookRotation(velocity);
         }
+
         if (myThrow.SelectThrow == false)
-            myTrans.rotation = Quaternion.RotateTowards(myTrans.rotation, targetRotation, playerValue.playerRotateSpeed * Time.deltaTime);
+        {
+            if (myRig.constraints.HasFlag(RigidbodyConstraints.FreezePositionY))
+            {
+                myRig.constraints = myRig.constraints ^ RigidbodyConstraints.FreezePositionY;
+            }
+                //ãLèq;
+            myTrans.rotation = Quaternion.RotateTowards(myTrans.rotation, targetRotation, playerValue.playerRotateSpeed * Time.deltaTime);           
+        }
+        else if(!myRig.constraints.HasFlag(RigidbodyConstraints.FreezePositionY))
+            myRig.constraints = myRig.constraints | RigidbodyConstraints.FreezePositionY;
     }
     private void LateUpdate()
     {
@@ -88,7 +98,7 @@ public class PlayerCS : MonoBehaviour
 
         if (playerState == PlayerState.BeingCarried)
         {
-            myTrans.localPosition = Time.deltaTime * getVec;
+            myTrans.localPosition = playerValue.leaveCarriedScale * getVec;
             catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
             return;
         }

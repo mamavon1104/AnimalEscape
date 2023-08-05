@@ -20,4 +20,10 @@ public class MyPlayersValue : ScriptableObject
 
     [Header("Playerの回転スピード")]
     public float playerRotateSpeed;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Header("おんぶされている後の動く量")]
+    public float leaveCarriedScale;
 }
