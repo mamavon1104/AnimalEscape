@@ -39,7 +39,6 @@ class SignBoard : InformationUIBase
 
         if (nearPlayersList.Count == 0)
             StopCoroutine(RotateSignBoard());
-
     }
 
     IEnumerator RotateSignBoard()

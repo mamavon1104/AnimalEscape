@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+public class InspecterSetDic : MonoBehaviour
+{
+    [SerializeField]
+    int i;
+}
 public class PlayerInformationMaster : MonoBehaviour
 {
     public static PlayerInformationMaster instance;
