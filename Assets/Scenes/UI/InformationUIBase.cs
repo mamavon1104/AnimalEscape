@@ -19,7 +19,7 @@ public abstract class InformationUIBase : MonoBehaviour
     protected virtual void OnTriggerEnter(Collider other) => DisplayInformationUI();
     protected virtual void OnTriggerExit(Collider other) => HideInformationUI();
 
-    // ŒvŽZ‚È‚Ç‚ð‚µ‚Ä‚­‚ê‚é‚±‚Æ‚ðŠú‘Ò
+    //animation‚ð“®‚©‚·‚±‚Æ‚ðŠú‘Ò
     protected abstract void DisplayInformationUI();
     protected abstract void HideInformationUI();
 

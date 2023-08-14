@@ -48,10 +48,6 @@ public class PlayerCS : MonoBehaviour
         renderer = myTrans.GetComponent<Renderer>();
         inputScript = myTrans.GetComponent<PlayerInputScript>();
     }
-    private void Start()
-    {
-        PlayerInformationMaster.instance.playerParentsDic.Add(this,myTrans.parent);
-    }
 
     private void FixedUpdate()
     {

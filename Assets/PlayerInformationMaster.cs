@@ -12,7 +12,17 @@ public class InspecterSetDic : MonoBehaviour
 public class PlayerInformationMaster : MonoBehaviour
 {
     public static PlayerInformationMaster instance;
-    public Dictionary<PlayerCS,Transform> playerParentsDic = new Dictionary<PlayerCS, Transform>();
+
+    /// <summary>
+    /// PlayerCS,PlayerParent‚Ìdic
+    /// </summary>
+    public Dictionary<PlayerCS,Transform> playerParentsDic = new Dictionary<PlayerCS, Transform>(); 
+    
+    /// <summary>
+    /// PlayerTransform,SignBoardUI‚Ìdic
+    /// </summary>
+    public Dictionary<Transform,SignBoardUIAnimatorCS> playerSignBoardUIDic = new Dictionary<Transform, SignBoardUIAnimatorCS>();
+    
     private void Awake()
     {
         playerParentsDic.Clear();

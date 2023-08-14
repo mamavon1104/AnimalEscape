@@ -14,12 +14,15 @@ class SignBoard : InformationUIBase
         if (other.tag != "Player")
             return;
 
+        var otherTrans = other.transform;
+        var playerUI = PlayerInformationMaster.instance.playerSignBoardUIDic[otherTrans];        
+        playerUI.ResetMyParameters(SignBoardUIAnimatorCS.Parameters.Down);
+        
         base.OnTriggerEnter(other);
 
         if(nearPlayersList.Count == 0)
             StartCoroutine(RotateSignBoard());
 
-        var otherTrans = other.transform;
 
         if(!nearPlayersList.Contains(otherTrans))
             nearPlayersList.Add(otherTrans);
@@ -30,9 +33,11 @@ class SignBoard : InformationUIBase
         if (other.tag != "Player")
             return;
 
-        base.OnTriggerEnter(other);
-
         var otherTrans = other.transform;
+        var playerUI = PlayerInformationMaster.instance.playerSignBoardUIDic[otherTrans];
+        playerUI.ResetMyParameters(SignBoardUIAnimatorCS.Parameters.Up);
+
+        base.OnTriggerEnter(other);
 
         if (nearPlayersList.Contains(otherTrans))
             nearPlayersList.Remove(otherTrans);
