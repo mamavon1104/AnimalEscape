@@ -61,11 +61,11 @@ class SignBoard : InformationUIBase
         }
     }
 
-    protected override void DisplayInformationUI() 
+    protected override void DisplayInformationUI(Transform otherT) 
     {
-        ChangeText();
+        ChangeText(otherT);
     }
-    protected override void HideInformationUI()
+    protected override void HideInformationUI(Transform otherT)
     {
         
     }

@@ -8,20 +8,14 @@ public abstract class InformationUIBase : MonoBehaviour
 {
     [Header("書きたいメッセージ。"), SerializeField]
     private string message;
-    [Header("キャンバス内にある「イメージ枠」"), SerializeField]
-    protected TextMeshProUGUI informationText;
-    protected Transform informationTextParent; //テキストの親、こいつを動かして、textにtextを送る。  
-
-    protected void Start()
-    {
-        informationTextParent = informationText.transform.parent;
-    }
-    protected virtual void OnTriggerEnter(Collider other) => DisplayInformationUI();
-    protected virtual void OnTriggerExit(Collider other) => HideInformationUI();
+    
+    protected virtual void OnTriggerEnter(Collider other) => DisplayInformationUI(other.transform);
+    protected virtual void OnTriggerExit(Collider other) => HideInformationUI(other.transform);
 
     //animationを動かすことを期待
-    protected abstract void DisplayInformationUI();
-    protected abstract void HideInformationUI();
+    protected abstract void DisplayInformationUI(Transform otherT);
+    protected abstract void HideInformationUI(Transform otherT);
 
-    protected void ChangeText() => informationText.text = message;
+    //protected void ChangeText() => PlayerInformationMaster.instance.playerSignBoardUIDic[0] = message;
+    protected void ChangeText(Transform otherT) => PlayerInformationMaster.instance.playerUITextDic[otherT].text = message;
 }

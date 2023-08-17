@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -5,6 +6,8 @@ public class SetPlayerInformation : MonoBehaviour
 {
     [SerializeField]
     private SignBoardUIAnimatorCS mySBUI;
+    [SerializeField]
+    private TextMeshProUGUI text; 
     void Start()
     {
         var myTrans = transform;
@@ -12,5 +15,6 @@ public class SetPlayerInformation : MonoBehaviour
 
         PlayerInformationMaster.instance.playerParentsDic.Add(playerCS, myTrans.parent);
         PlayerInformationMaster.instance.playerSignBoardUIDic.Add(myTrans, mySBUI);
+        PlayerInformationMaster.instance.playerUITextDic.Add(myTrans, text);
     }
 }
