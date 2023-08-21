@@ -36,7 +36,7 @@ public class ThrowToPoint : MonoBehaviour
    
     [Header("Player‚Ì’l(PlayerValue)"), SerializeField]
     private MyPlayersValue playerValue;
-    
+
     void Start()
     {
         catchPutItemsCS = transform.GetComponent<CatchPut_Items>();
@@ -58,6 +58,7 @@ public class ThrowToPoint : MonoBehaviour
         {
             SelectThrow = true;
             thisCamera.gameObject.SetActive(true);
+            throwPointNow.gameObject.SetActive(true);
         }
         else//‘I‚Î‚ê‚½Œã‚Í“Š‚°‚é
         {
@@ -112,6 +113,7 @@ public class ThrowToPoint : MonoBehaviour
             return;
 
         thisCamera.gameObject.SetActive(false);
+        throwPointNow.gameObject.SetActive(false);
 
         Debug.Log($"<color=red>{ orderClass }</color>");
         switch (orderClass)

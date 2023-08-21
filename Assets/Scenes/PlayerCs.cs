@@ -79,13 +79,10 @@ public class PlayerCS : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (playerState == PlayerState.Grounded)
+        if (playerState == PlayerState.Grounded || playerState == PlayerState.BeingCarried)
             return;
 
-        if (myRig.velocity.y < -0.01)
-        {
-            CheckIsPlayerGrouded();
-        }
+        CheckIsPlayerGrouded();
     }
     private void PlayerMove(Vector3 getVec)
     {
