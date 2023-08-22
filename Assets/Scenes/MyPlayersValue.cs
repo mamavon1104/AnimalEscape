@@ -21,6 +21,9 @@ public class MyPlayersValue : ScriptableObject
     [Header("Playerの回転スピード")]
     public float playerRotateSpeed;
 
+    [Header("Playerのカメラの動き 75,150")]
+    public float verticalCameraSpeed,horizontalCameraSpeed;
+    
     /// <summary>
     /// 
     /// </summary>

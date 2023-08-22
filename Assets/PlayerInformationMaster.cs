@@ -28,6 +28,11 @@ public class PlayerInformationMaster : MonoBehaviour
     /// PlayerTransform,TextMeshUI‚Ìdic
     /// </summary>
     public Dictionary<Transform,TextMeshProUGUI> playerUITextDic = new Dictionary<Transform, TextMeshProUGUI>();
+
+    /// <summary>
+    /// PlayerTransform,playerInputScript
+    /// </summary>
+    public Dictionary<Transform, PlayerInputScript> inputScriptDic = new Dictionary<Transform, PlayerInputScript>();
     private void Awake()
     {
         playerParentsDic.Clear();

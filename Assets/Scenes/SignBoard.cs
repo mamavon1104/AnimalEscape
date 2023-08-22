@@ -23,7 +23,6 @@ class SignBoard : InformationUIBase
         if(nearPlayersList.Count == 0)
             StartCoroutine(RotateSignBoard());
 
-
         if(!nearPlayersList.Contains(otherTrans))
             nearPlayersList.Add(otherTrans);
     }
@@ -51,6 +50,10 @@ class SignBoard : InformationUIBase
         while (true)
         {
             yield return new WaitForSeconds(4 * Time.deltaTime); // 4フレーム待つ
+
+            if (nearPlayersList.Count == 0)
+                continue;
+
             // オブジェクトを一番近い敵の方向に向ける
             Vector3 direction = nearPlayersList[0].position - transform.position;
             

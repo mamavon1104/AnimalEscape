@@ -36,7 +36,6 @@ public class PlayerCS : MonoBehaviour
     private Vector2 inputMove;Å@// ìÆÇ≠êîíl
     private Transform myTrans;
     private Quaternion targetRotation;
-    private PlayerInputScript inputScript;
     #endregion
 
     private void Awake()
@@ -46,7 +45,6 @@ public class PlayerCS : MonoBehaviour
 
         myRig = myTrans.GetComponent<Rigidbody>();
         renderer = myTrans.GetComponent<Renderer>();
-        inputScript = myTrans.GetComponent<PlayerInputScript>();
     }
 
     private void FixedUpdate()
@@ -147,8 +145,7 @@ public class PlayerCS : MonoBehaviour
     {
         isSelect = setBool;
         thisCamera.gameObject.SetActive(setBool);
-        inputScript.Setting(setBool);
-
+        
         if (setBool)
             ChangeColor(Color.blue);
         else
@@ -159,7 +156,6 @@ public class PlayerCS : MonoBehaviour
     {
         renderer.material.color = color;
     }
-
     public enum PlayerState
     {
         Grounded,

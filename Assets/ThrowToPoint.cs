@@ -19,26 +19,29 @@ public class ThrowToPoint : MonoBehaviour
     /// catchPutItemsCS.CatchObject;
     /// </summary>
     private Transform objTrans;
+    private Transform myT;
     private bool selectThrow;
     public bool SelectThrow
     {
         get { return selectThrow; }
         private set {selectThrow = value;}
     }
+    static GameObject FinishTriggerParent;
+    static List<GameObject> FinishTriggerList = new List<GameObject>();
+
 
     [Header("投げるときに変更させるCamera"), SerializeField]
     GameObject thisCamera;
     
     [Header("スフィアコライダー、作る為"),SerializeField]
     GameObject sphereColliderObj;
-    private static GameObject FinishTriggerParent;
-    private static List<GameObject> FinishTriggerList = new List<GameObject>();
    
     [Header("Playerの値(PlayerValue)"), SerializeField]
     private MyPlayersValue playerValue;
 
     void Start()
     {
+        myT = transform.parent;
         catchPutItemsCS = transform.GetComponent<CatchPut_Items>();
         FinishTriggerParent = GameObject.FindGameObjectWithTag("FinishTriggerParent");
     }
@@ -59,6 +62,7 @@ public class ThrowToPoint : MonoBehaviour
             SelectThrow = true;
             thisCamera.gameObject.SetActive(true);
             throwPointNow.gameObject.SetActive(true);
+            PlayerInformationMaster.instance.inputScriptDic[myT].ChangeCameraMove(false);
         }
         else//選ばれた後は投げる
         {
@@ -114,6 +118,7 @@ public class ThrowToPoint : MonoBehaviour
 
         thisCamera.gameObject.SetActive(false);
         throwPointNow.gameObject.SetActive(false);
+        PlayerInformationMaster.instance.inputScriptDic[myT].ChangeCameraMove(true);
 
         Debug.Log($"<color=red>{ orderClass }</color>");
         switch (orderClass)
