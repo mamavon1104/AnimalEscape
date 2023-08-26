@@ -1232,6 +1232,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 4074460581435064485, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
     - {fileID: 4405845076038376689, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
+    - {fileID: 8874098370439862920, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2513298357477446166, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
@@ -1326,6 +1327,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1761808306}
   - component: {fileID: 1761808305}
+  - component: {fileID: 1761808307}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -1360,6 +1362,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1761808307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761808304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d41232abf5c5ba49aa5a8b78d2ff619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiMoveValue: 0
+  musicSoundValue: 0
+  soundEffectValue: 0
 --- !u!850595691 &1882625109
 LightingSettings:
   m_ObjectHideFlags: 0

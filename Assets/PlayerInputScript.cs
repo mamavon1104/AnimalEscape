@@ -12,6 +12,8 @@ public class PlayerInputScript : MonoBehaviour
     CatchPut_Items m_CatchObjectCS;
     [Header("ThrowToPointObj"), SerializeField]
     ThrowToPoint m_ThrowToPointCS;
+    [Header("ThrowToPointObj"), SerializeField]
+    GameUIImage m_GameUIImage;
     [Header("CinemachineVirtualCamera"), SerializeField]
     CinemachineVirtualCamera myCamera;
     CinemachinePOV cameraPOV;
@@ -21,13 +23,14 @@ public class PlayerInputScript : MonoBehaviour
 
     [Header("ÉvÉåÉCÉÑÅ[ÇÃInputActions"), SerializeField]
     private PlayerInput action;
-    private InputAction _move, _jump, _throw, _catchPut;
+    private InputAction _move, _jump, _throw, _catchPut,_pauseGame;
     private void Awake()
     {
         _move = action.currentActionMap["Move"];    
         _jump = action.currentActionMap["Jump"];
         _throw = action.currentActionMap["ThrowObject"];
         _catchPut = action.currentActionMap["CatchAndPut"];
+        _pauseGame = action.currentActionMap["PauseGame"];
         cameraPOV = myCamera.GetCinemachineComponent<CinemachinePOV>();
     }
 
@@ -40,6 +43,7 @@ public class PlayerInputScript : MonoBehaviour
             _jump.performed += m_playerCs.OnJump;
             _throw.performed += m_ThrowToPointCS.Select_OR_Throw;
             _catchPut.performed += m_CatchObjectCS.CatchAndPut;
+            _pauseGame.performed += m_GameUIImage.PauseGame;
         }
         else
         {
@@ -48,6 +52,7 @@ public class PlayerInputScript : MonoBehaviour
             _jump.performed -= m_playerCs.OnJump;
             _throw.performed -= m_ThrowToPointCS.Select_OR_Throw;
             _catchPut.performed -= m_CatchObjectCS.CatchAndPut;
+            _pauseGame.performed -= m_GameUIImage.PauseGame;
         }
         Debug.Log(setBool);
     }

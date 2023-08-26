@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 class ChangePlayer : MonoBehaviour
 {
-
     [Header("ƒvƒŒƒCƒ„[‚ÌInputActions"), SerializeField]
     private PlayerInput action;
     private InputAction _change;
