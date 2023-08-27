@@ -32,11 +32,11 @@ class ChangePlayer : MonoBehaviour
             playersCs[i] = playerCS;
             playersTrans[i] = obj[i].transform;
 
-            PlayerInformationMaster.instance.inputScriptDic[playersTrans[i]].Setting(false);
+            PlayerInformationManager.Instance.inputScriptDic[playersTrans[i]].Setting(false);
             playerCS.SetPlayerSelectionStatus(false);
         }
 
-        PlayerInformationMaster.instance.inputScriptDic[playersTrans[nowActivePlayer]].Setting(true);
+        PlayerInformationManager.Instance.inputScriptDic[playersTrans[nowActivePlayer]].Setting(true);
         playersCs[nowActivePlayer].SetPlayerSelectionStatus(true);
     }
     public void ChangePlayerNum(InputAction.CallbackContext context) 
@@ -51,7 +51,7 @@ class ChangePlayer : MonoBehaviour
             else
                 thisBool = false;
 
-            var inputCS = PlayerInformationMaster.instance.inputScriptDic[playersTrans[i]];
+            var inputCS = PlayerInformationManager.Instance.inputScriptDic[playersTrans[i]];
             inputCS.Setting(thisBool);
             playersCs[i].SetPlayerSelectionStatus(thisBool);
         }

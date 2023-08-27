@@ -1374,9 +1374,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d41232abf5c5ba49aa5a8b78d2ff619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiMoveValue: 0
-  musicSoundValue: 0
-  soundEffectValue: 0
+  worldTime: 1
+  uiMoveValue: 1
+  musicSoundValue: 1
+  soundEffectValue: 1
 --- !u!850595691 &1882625109
 LightingSettings:
   m_ObjectHideFlags: 0

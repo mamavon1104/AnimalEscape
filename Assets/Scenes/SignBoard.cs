@@ -15,7 +15,7 @@ class SignBoard : InformationUIBase
             return;
 
         var otherTrans = other.transform;
-        var playerUI = PlayerInformationMaster.instance.playerSignBoardUIDic[otherTrans];        
+        var playerUI = PlayerInformationManager.Instance.playerSignBoardUIDic[otherTrans];        
         playerUI.ResetMyParameters(SignBoardUIAnimatorCS.Parameters.Down);
         
         base.OnTriggerEnter(other);
@@ -33,7 +33,7 @@ class SignBoard : InformationUIBase
             return;
 
         var otherTrans = other.transform;
-        var playerUI = PlayerInformationMaster.instance.playerSignBoardUIDic[otherTrans];
+        var playerUI = PlayerInformationManager.Instance.playerSignBoardUIDic[otherTrans];
         playerUI.ResetMyParameters(SignBoardUIAnimatorCS.Parameters.Up);
 
         base.OnTriggerEnter(other);

@@ -14,9 +14,9 @@ public class SetPlayerInformation : MonoBehaviour
         Assert.IsTrue(myTrans.TryGetComponent<PlayerCS>(out var playerCS), "PlayerCS‚ªnull");
         Assert.IsTrue(myTrans.TryGetComponent<PlayerInputScript>(out var inputCS), "InputCS‚ªnull");
 
-        PlayerInformationMaster.instance.playerUITextDic.Add(myTrans, text);
-        PlayerInformationMaster.instance.inputScriptDic.Add(myTrans, inputCS);
-        PlayerInformationMaster.instance.playerSignBoardUIDic.Add(myTrans, mySBUI);
-        PlayerInformationMaster.instance.playerParentsDic.Add(playerCS, myTrans.parent);
+        PlayerInformationManager.Instance.playerUITextDic.Add(myTrans, text);
+        PlayerInformationManager.Instance.inputScriptDic.Add(myTrans, inputCS);
+        PlayerInformationManager.Instance.playerSignBoardUIDic.Add(myTrans, mySBUI);
+        PlayerInformationManager.Instance.playerParentsDic.Add(playerCS, myTrans.parent);
     }
 }

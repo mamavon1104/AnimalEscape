@@ -62,7 +62,7 @@ public class ThrowToPoint : MonoBehaviour
             SelectThrow = true;
             thisCamera.gameObject.SetActive(true);
             throwPointNow.gameObject.SetActive(true);
-            PlayerInformationMaster.instance.inputScriptDic[myT].ChangeCameraMove(false);
+            PlayerInformationManager.Instance.inputScriptDic[myT].ChangeCameraMove(false);
         }
         else//‘I‚Î‚ê‚½Œã‚Í“Š‚°‚é
         {
@@ -118,7 +118,7 @@ public class ThrowToPoint : MonoBehaviour
 
         thisCamera.gameObject.SetActive(false);
         throwPointNow.gameObject.SetActive(false);
-        PlayerInformationMaster.instance.inputScriptDic[myT].ChangeCameraMove(true);
+        PlayerInformationManager.Instance.inputScriptDic[myT].ChangeCameraMove(true);
 
         Debug.Log($"<color=red>{ orderClass }</color>");
         switch (orderClass)

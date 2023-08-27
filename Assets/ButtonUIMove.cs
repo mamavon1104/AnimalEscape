@@ -40,7 +40,9 @@ public class ButtonController : MonoBehaviour
     {
         Vector3 nowScale = myT.localScale;
         await Animation();
-        myT.localScale = nowScale;
+
+        Debug.Log("a");
+
         doClick();
     }
     async UniTask Animation () => await myT.DOScale(1.1f, 0.5f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();

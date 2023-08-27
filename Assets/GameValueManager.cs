@@ -1,26 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
-public class GameValueManager : MonoBehaviour
+public class GameValueManager : ManagerSingletonBase<GameValueManager>
 {
-    public float uiMoveValue;
-    public float musicSoundValue; 
-    public float soundEffectValue; 
-    public static GameValueManager instance;
-    private void Awake()
+    public float uiMoveValue = 1;
+    public float musicSoundValue = 1;
+    public float soundEffectValue = 1;
+
+    [SerializeField]
+    private float worldTime = 1;
+    public float WorldTime
     {
-        if (instance == null)
+        private get { return worldTime; }
+        set
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            ChangeWorldTimeValue(Mathf.Clamp01(value));
         }
     }
-    public void SetUIMove(float getnum)=> uiMoveValue= getnum;
-    public void SetMusicSound(float getnum)=> musicSoundValue = getnum;
-    public void SetSoundEffect(float getnum)=> soundEffectValue= getnum;
+    private async void ChangeWorldTimeValue(float clampedTargetTime)
+    {
+        float nowTime = Time.deltaTime;
+        while (Mathf.Abs(clampedTargetTime - worldTime) <= 0.01f)
+        {
+            worldTime = Mathf.Lerp(worldTime, clampedTargetTime, nowTime);
+            nowTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
+        worldTime = clampedTargetTime;
+    }
+
+    public void SetUIMove(float getnum) => uiMoveValue = getnum;
+    public void SetMusicSound(float getnum) => musicSoundValue = getnum;
+    public void SetSoundEffect(float getnum) => soundEffectValue = getnum;
+
 }

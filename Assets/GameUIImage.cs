@@ -10,11 +10,11 @@ public class GameUIImage : MonoBehaviour
     public void PauseGame(InputAction.CallbackContext _)
     {
         gameObject.SetActive(true);
-        Time.timeScale = 0;
+        GameValueManager.Instance.WorldTime = 0;
     }
     public void ReturnGame()
     {
-        Time.timeScale = 1;
+        GameValueManager.Instance.WorldTime = 1;
         gameObject.SetActive(false);
     }
 }
