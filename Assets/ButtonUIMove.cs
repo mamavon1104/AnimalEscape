@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks.Triggers;
 using DG.Tweening;
 using System;
 using System.Transactions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +11,13 @@ public class ButtonController : MonoBehaviour
 {
     enum WhatButton
     {
-        returnGame,
-        loadScene,
-        setActive
+        [Header("ゲームに戻る")] returnGame,
+        [Header("シーンをロード、つまり戻る…とかゲーム開始とか...")] loadScene,
+        [Header("オブジェクトのセットアクティブについて。")] setActive
     }
     
     [SerializeField]
-    WhatButton m_whatButton;
+    private WhatButton m_whatButton;
     private Action doClick;
     private Transform myT;
     private void Awake()
@@ -39,11 +40,12 @@ public class ButtonController : MonoBehaviour
     async void OnClick()
     {
         Vector3 nowScale = myT.localScale;
+
         await Animation();
 
         Debug.Log("a");
 
         doClick();
     }
-    async UniTask Animation () => await myT.DOScale(1.1f, 0.5f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
+    async UniTask Animation() => await myT.DOScale(1.1f, 0.5f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
 }

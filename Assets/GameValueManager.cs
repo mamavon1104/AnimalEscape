@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class GameValueManager : ManagerSingletonBase<GameValueManager>
 {
