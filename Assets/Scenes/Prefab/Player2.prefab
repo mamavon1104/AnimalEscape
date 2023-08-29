@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: myCamera
       value: 
       objectReference: {fileID: 3864580702126168252}
+    - target: {fileID: 4614267318800829327, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}
+      propertyPath: m_GameUIImage
+      value: 
+      objectReference: {fileID: 499331932676763968}
     - target: {fileID: 4624416933776650621, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 191
@@ -117,6 +121,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2474454082841072927}
   m_SourcePrefab: {fileID: 100100000, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}
+--- !u!114 &499331932676763968 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1657524085764068442, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}
+  m_PrefabInstance: {fileID: 1291775394431247642}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc25f9d8e236d24395eea75d77754b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3252945953799147942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4380181632134689980, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}

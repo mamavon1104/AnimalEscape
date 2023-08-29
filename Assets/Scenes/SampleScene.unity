@@ -900,10 +900,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 139663220402890552, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
-      propertyPath: m_GameUIImage
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 215510948533867552, guid: 06497ae793cdd1a42a1b190eb4ad6e49, type: 3}
       propertyPath: m_Layer
       value: 0

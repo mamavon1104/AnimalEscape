@@ -47,5 +47,6 @@ public class ButtonController : MonoBehaviour
 
         doClick();
     }
-    async UniTask Animation() => await myT.DOScale(1.1f, 0.5f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
+    async UniTask Animation() => await myT.DOScale(1.2f, 0.2f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
 }
+    
