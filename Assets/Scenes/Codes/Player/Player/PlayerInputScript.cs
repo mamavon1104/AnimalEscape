@@ -23,11 +23,12 @@ public class PlayerInputScript : MonoBehaviour
 
     [Header("ÉvÉåÉCÉÑÅ[ÇÃInputActions"), SerializeField]
     private PlayerInput action;
-    private InputAction _move, _jump, _throw, _catchPut,_pauseGame;
+    private InputAction _move, _jump, _throw, _submit, _catchPut, _pauseGame;
     private void Awake()
     {
         _move = action.currentActionMap["Move"];    
         _jump = action.currentActionMap["Jump"];
+        _submit = action.currentActionMap["Submit"]; 
         _throw = action.currentActionMap["ThrowObject"];
         _catchPut = action.currentActionMap["CatchAndPut"];
         _pauseGame = action.currentActionMap["PauseGame"];
@@ -41,18 +42,18 @@ public class PlayerInputScript : MonoBehaviour
             _move.canceled += m_playerCs.OnMove;
             _move.performed += m_playerCs.OnMove;
             _jump.performed += m_playerCs.OnJump;
-            _throw.performed += m_ThrowToPointCS.Select_OR_Throw;
-            _catchPut.performed += m_CatchObjectCS.CatchAndPut;
             _pauseGame.performed += m_GameUIImage.PauseGame;
+            _catchPut.performed += m_CatchObjectCS.CatchAndPut;
+            _throw.performed += m_ThrowToPointCS.Select_OR_Throw;
         }
         else
         {
             _move.canceled -= m_playerCs.OnMove;
             _move.performed -= m_playerCs.OnMove;
             _jump.performed -= m_playerCs.OnJump;
-            _throw.performed -= m_ThrowToPointCS.Select_OR_Throw;
-            _catchPut.performed -= m_CatchObjectCS.CatchAndPut;
             _pauseGame.performed -= m_GameUIImage.PauseGame;
+            _catchPut.performed -= m_CatchObjectCS.CatchAndPut;
+            _throw.performed -= m_ThrowToPointCS.Select_OR_Throw;
         }
         Debug.Log(setBool);
     }

@@ -155,21 +155,4 @@ public class ThrowToPoint : MonoBehaviour
             return (new Vector3(pointB.x - pointA.x, x * Mathf.Tan(rad), pointB.z - pointA.z).normalized * speed);
         }
     }
-    /*
-    private bool CheckWallCollision()
-    {
-        RaycastHit hit;
-
-        if (objTrans == null)
-            return false;
-
-        Debug.DrawRay(objTrans.position, objTrans.forward * 2, Color.red, 5.0f);
-        if (Physics.Raycast(objTrans.position, objTrans.forward * 2, out hit, 1f, 1 << 0, QueryTriggerInteraction.Ignore)) //1<<0 == default‚Ì‚â‚ÂB
-        {
-            if (hit.collider.CompareTag("Untagged"))
-                return true; // •Ç‚É“–‚½‚Á‚½ê‡‚Ítrue‚ð•Ô‚·
-        }
-        return false; // •Ç‚É“–‚½‚Á‚Ä‚¢‚È‚¢ê‡‚Ífalse‚ð•Ô‚·
-    }
-    */
 }

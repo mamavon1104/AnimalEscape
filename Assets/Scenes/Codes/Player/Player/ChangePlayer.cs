@@ -19,7 +19,7 @@ class ChangePlayer : MonoBehaviour
     }
     async void Start()
     {
-        await UniTask.Delay(1);
+        await UniTask.Yield();
 
         var obj = GameObject.FindGameObjectsWithTag("Player");
         playersTrans = new Transform[obj.Length];
@@ -36,6 +36,7 @@ class ChangePlayer : MonoBehaviour
             playerCS.SetPlayerSelectionStatus(false);
         }
 
+        Debug.Log(playersTrans[nowActivePlayer]);
         PlayerInformationManager.Instance.inputScriptDic[playersTrans[nowActivePlayer]].Setting(true);
         playersCs[nowActivePlayer].SetPlayerSelectionStatus(true);
     }

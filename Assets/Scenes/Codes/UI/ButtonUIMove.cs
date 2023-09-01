@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Triggers;
 using DG.Tweening;
+using NUnit.Framework;
 using System;
 using System.Transactions;
 using Unity.VisualScripting;
@@ -11,15 +12,18 @@ public class ButtonController : MonoBehaviour
 {
     enum WhatButton
     {
-        [Header("ゲームに戻る")] returnGame,
-        [Header("シーンをロード、つまり戻る…とかゲーム開始とか...")] loadScene,
-        [Header("オブジェクトのセットアクティブについて。")] setActive
+        returnGame,
+        loadScene,
+        enableObj,
+        disableObj,
     }
     
     [SerializeField]
     private WhatButton m_whatButton;
     private Action doClick;
     private Transform myT;
+    [Header("enumがEnableDisableの場合のみ使用"),SerializeField]
+    private GameObject m_SetActiveObject;
     private void Awake()
     {
         myT = transform;
@@ -32,21 +36,20 @@ public class ButtonController : MonoBehaviour
            case WhatButton.loadScene:
                 
                 break;
-           case WhatButton.setActive:
-                
+           case WhatButton.enableObj:
+           case WhatButton.disableObj:
+                var objActive = m_whatButton == WhatButton.enableObj ? true : false;
+                doClick = () => m_SetActiveObject.SetActive(objActive);
+                Assert.IsNull(m_SetActiveObject);
                 break;
         }
     }
     async void OnClick()
     {
         Vector3 nowScale = myT.localScale;
-
         await Animation();
-
-        Debug.Log("a");
-
         doClick();
     }
-    async UniTask Animation() => await myT.DOScale(1.2f, 0.2f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
+    async UniTask Animation() => await myT.DOScale(1.2f, 0.1f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
 }
     

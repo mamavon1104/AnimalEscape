@@ -9,8 +9,8 @@ public class PlayerCS : MonoBehaviour
 {
     #region 変数たち
     [Header("カメラ"), SerializeField]
-    private Transform thisCamera;
-    private bool isSelect = false;
+    private Transform _thisCamera;
+    private bool _isSelect = false;
 
     [Header("現在のプレイヤーの状態"), SerializeField]
     private PlayerState playerState = PlayerState.Grounded;
@@ -31,49 +31,56 @@ public class PlayerCS : MonoBehaviour
     public CatchPut_Items catchPutItemsCSOfParent; 
 
     //以下、private変数
-    private Rigidbody myRig;
-    private Renderer renderer;
-    private Vector2 inputMove;　// 動く数値
-    private Transform myTrans;
-    private Quaternion targetRotation;
+    private Rigidbody _myRig;
+    private Vector2 _inputMove;　// 動く数値
+    private Transform _myTrans;
+    private Quaternion _targetRotation;
     #endregion
+
+    public enum PlayerState
+    {
+        Grounded,
+        Jumpping,
+        Falling,
+        BeingThrown,
+        BeingCarried
+    }
 
     private void Awake()
     {
-        myTrans = transform;
-        targetRotation = myTrans.rotation;
+        _myTrans = transform;
+        _targetRotation = _myTrans.rotation;
 
-        myRig = myTrans.GetComponent<Rigidbody>();
-        renderer = myTrans.GetComponent<Renderer>();
+        _myRig = _myTrans.GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
-        if (!isSelect)
+        if (!_isSelect)
             return;
 
         //Vector3 cameraForward = Vector3.Scale(thisCamera.forward, new Vector3(1, 0, 1)).normalized;
-        var horizontalRotation = Quaternion.AngleAxis(thisCamera.eulerAngles.y, Vector3.up);
-        var velocity = horizontalRotation * new Vector3(inputMove.x, 0, inputMove.y) * playerValue.speed * Time.deltaTime;
+        var horizontalRotation = Quaternion.AngleAxis(_thisCamera.eulerAngles.y, Vector3.up);
+        var velocity = horizontalRotation * new Vector3(_inputMove.x, 0, _inputMove.y) * playerValue.speed * Time.deltaTime;
         
         // 移動入力がある場合は、振り向き動作も行う
         if (velocity.sqrMagnitude > 0f)
         {
             PlayerMove(velocity);
-            targetRotation = Quaternion.LookRotation(velocity);
+            _targetRotation = Quaternion.LookRotation(velocity);
         }
 
         if (myThrow.SelectThrow == false)
         {
-            if (myRig.constraints.HasFlag(RigidbodyConstraints.FreezePositionY))
+            if (_myRig.constraints.HasFlag(RigidbodyConstraints.FreezeRotationY))
             {
-                myRig.constraints = myRig.constraints ^ RigidbodyConstraints.FreezePositionY;
+                _myRig.constraints = _myRig.constraints ^ RigidbodyConstraints.FreezeRotationY;
             }
                 //記述;
-            myTrans.rotation = Quaternion.RotateTowards(myTrans.rotation, targetRotation, playerValue.playerRotateSpeed * Time.deltaTime);           
+            _myTrans.rotation = Quaternion.RotateTowards(_myTrans.rotation, _targetRotation, playerValue.playerRotateSpeed * Time.deltaTime);           
         }
-        else if(!myRig.constraints.HasFlag(RigidbodyConstraints.FreezePositionY))
-            myRig.constraints = myRig.constraints | RigidbodyConstraints.FreezePositionY;
+        else if(!_myRig.constraints.HasFlag(RigidbodyConstraints.FreezeRotationY))
+            _myRig.constraints = _myRig.constraints | RigidbodyConstraints.FreezeRotationY;
     }
     private void LateUpdate()
     {
@@ -89,13 +96,11 @@ public class PlayerCS : MonoBehaviour
 
         if (playerState == PlayerState.BeingCarried)
         {
-            myTrans.localPosition = playerValue.leaveCarriedScale * getVec;
+            _myTrans.localPosition = playerValue.leaveCarriedScale * getVec;
             catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
             return;
         }
-
-        //myRig.velocity = myRig.velocity + getVec;
-        myRig.AddForce(getVec,ForceMode.Impulse);
+        _myRig.velocity = _myRig.velocity + getVec;
     }
 
     /// <summary>
@@ -106,21 +111,21 @@ public class PlayerCS : MonoBehaviour
     {
         if (playerState == PlayerState.Falling || playerState == PlayerState.BeingThrown) //落下し始めているのならray開始
         {
-            if (Physics.Raycast(myTrans.position, Vector3.down, 0.1f + myTrans.lossyScale.y / 2, ~0, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(_myTrans.position, Vector3.down, 0.1f + _myTrans.lossyScale.y / 2, ~0, QueryTriggerInteraction.Ignore))
                 ChangeState(PlayerState.Grounded);
 
             return;
         }
-        else if (playerState == PlayerState.Jumpping && myRig.velocity.y < 0)
+        else if (playerState == PlayerState.Jumpping && _myRig.velocity.y < 0.1)
             ChangeState(PlayerState.Falling);
     }
 
-    #region move,jump,change
+    #region move,jump
     // ムーブ
     public void OnMove(InputAction.CallbackContext context)
     {
         // 入力値を保持しておく
-        inputMove = context.ReadValue<Vector2>();
+        _inputMove = context.ReadValue<Vector2>();
     }
 
     // ジャンプ
@@ -133,7 +138,7 @@ public class PlayerCS : MonoBehaviour
         }
         else if (playerState == PlayerState.BeingCarried)
         {
-            myTrans.localPosition = Vector3.up;
+            _myTrans.localPosition = Vector3.up;
             catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
         }
     }
@@ -143,27 +148,10 @@ public class PlayerCS : MonoBehaviour
     /// </summary>
     public void SetPlayerSelectionStatus(bool setBool)
     {
-        isSelect = setBool;
-        thisCamera.gameObject.SetActive(setBool);
-        
-        if (setBool)
-            ChangeColor(Color.blue);
-        else
-            ChangeColor(Color.red);
+        _isSelect = setBool;
+        _thisCamera.gameObject.SetActive(setBool);
     }
     #endregion
-    private void ChangeColor(Color color)
-    {
-        renderer.material.color = color;
-    }
-    public enum PlayerState
-    {
-        Grounded,
-        Jumpping,
-        Falling,
-        BeingThrown,
-        BeingCarried
-    }
 
     public void ChangeState(PlayerState getstate)
     {
