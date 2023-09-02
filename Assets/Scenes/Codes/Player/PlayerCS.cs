@@ -13,22 +13,26 @@ public class PlayerCS : MonoBehaviour
     private bool _isSelect = false;
 
     [Header("現在のプレイヤーの状態"), SerializeField]
-    private PlayerState playerState = PlayerState.Grounded;
+    private PlayerState _playerState = PlayerState.Grounded;
 
     [Header("プレイヤーの数値 : PlayersValue"), SerializeField]
-    public MyPlayersValue playerValue;
+    private MyPlayersValue _playerValue;
 
     [Header("子オブジェクトのスクリプト格納"), SerializeField]
-    private CatchPut_Items catchPutItemsCS;
+    private CatchPut_Items _catchPutItemsCS;
 
     [Header("子オブジェクトのThrowToPoint"), SerializeField]
-    private ThrowToPoint myThrow;
+    private ThrowToPoint _myThrow;
 
     /// <summary>
     /// キャッチされている時に相手のCatchPutItemsを代入してそれをこっちから呼び起こしてあげる。
     /// </summary>
     [NonSerialized] 
-    public CatchPut_Items catchPutItemsCSOfParent; 
+    private CatchPut_Items _catchPutItemsCSOfParent; 
+    public CatchPut_Items CatchPutItemsCSOfParent
+    {
+        set { _catchPutItemsCS = value; }
+    }
 
     //以下、private変数
     private Rigidbody _myRig;
@@ -61,7 +65,7 @@ public class PlayerCS : MonoBehaviour
 
         //Vector3 cameraForward = Vector3.Scale(thisCamera.forward, new Vector3(1, 0, 1)).normalized;
         var horizontalRotation = Quaternion.AngleAxis(_thisCamera.eulerAngles.y, Vector3.up);
-        var velocity = horizontalRotation * new Vector3(_inputMove.x, 0, _inputMove.y) * playerValue.speed * Time.deltaTime;
+        var velocity = horizontalRotation * new Vector3(_inputMove.x, 0, _inputMove.y) * _playerValue.speed * Time.deltaTime;
         
         // 移動入力がある場合は、振り向き動作も行う
         if (velocity.sqrMagnitude > 0f)
@@ -70,34 +74,34 @@ public class PlayerCS : MonoBehaviour
             _targetRotation = Quaternion.LookRotation(velocity);
         }
 
-        if (myThrow.SelectThrow == false)
+        if (_myThrow.SelectThrow == false)
         {
             if (_myRig.constraints.HasFlag(RigidbodyConstraints.FreezeRotationY))
             {
                 _myRig.constraints = _myRig.constraints ^ RigidbodyConstraints.FreezeRotationY;
             }
                 //記述;
-            _myTrans.rotation = Quaternion.RotateTowards(_myTrans.rotation, _targetRotation, playerValue.playerRotateSpeed * Time.deltaTime);           
+            _myTrans.rotation = Quaternion.RotateTowards(_myTrans.rotation, _targetRotation, _playerValue.playerRotateSpeed * Time.deltaTime);           
         }
         else if(!_myRig.constraints.HasFlag(RigidbodyConstraints.FreezeRotationY))
             _myRig.constraints = _myRig.constraints | RigidbodyConstraints.FreezeRotationY;
     }
     private void LateUpdate()
     {
-        if (playerState == PlayerState.Grounded || playerState == PlayerState.BeingCarried)
+        if (_playerState == PlayerState.Grounded || _playerState == PlayerState.BeingCarried)
             return;
 
         CheckIsPlayerGrouded();
     }
     private void PlayerMove(Vector3 getVec)
     {
-        if (playerState == PlayerState.BeingThrown)
+        if (_playerState == PlayerState.BeingThrown)
             return;
 
-        if (playerState == PlayerState.BeingCarried)
+        if (_playerState == PlayerState.BeingCarried)
         {
-            _myTrans.localPosition = playerValue.leaveCarriedScale * getVec;
-            catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
+            _myTrans.localPosition = _playerValue.leaveCarriedScale * getVec;
+            _catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
             return;
         }
         _myRig.velocity = _myRig.velocity + getVec;
@@ -109,14 +113,14 @@ public class PlayerCS : MonoBehaviour
     /// </summary>
     private void CheckIsPlayerGrouded() //自分の状態を見つける旅へ(Find以外の関数名が思いつかない)
     {
-        if (playerState == PlayerState.Falling || playerState == PlayerState.BeingThrown) //落下し始めているのならray開始
+        if (_playerState == PlayerState.Falling || _playerState == PlayerState.BeingThrown) //落下し始めているのならray開始
         {
             if (Physics.Raycast(_myTrans.position, Vector3.down, 0.1f + _myTrans.lossyScale.y / 2, ~0, QueryTriggerInteraction.Ignore))
                 ChangeState(PlayerState.Grounded);
 
             return;
         }
-        else if (playerState == PlayerState.Jumpping && _myRig.velocity.y < 0.1)
+        else if (_playerState == PlayerState.Jumpping && _myRig.velocity.y < 0.1)
             ChangeState(PlayerState.Falling);
     }
 
@@ -131,15 +135,15 @@ public class PlayerCS : MonoBehaviour
     // ジャンプ
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (playerState == PlayerState.Grounded)
+        if (_playerState == PlayerState.Grounded)
         {
-            playerState = PlayerState.Jumpping;
-            PlayerMove(new Vector3(0, playerValue.jumpSpeed, 0));
+            _playerState = PlayerState.Jumpping;
+            PlayerMove(new Vector3(0, _playerValue.jumpSpeed, 0));
         }
-        else if (playerState == PlayerState.BeingCarried)
+        else if (_playerState == PlayerState.BeingCarried)
         {
             _myTrans.localPosition = Vector3.up;
-            catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
+            _catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
         }
     }
 
@@ -155,6 +159,6 @@ public class PlayerCS : MonoBehaviour
 
     public void ChangeState(PlayerState getstate)
     {
-        playerState = getstate;
+        _playerState = getstate;
     }
 }

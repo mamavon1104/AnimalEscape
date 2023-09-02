@@ -8,6 +8,10 @@ public class ChangeSceneMaster : MonoBehaviour
 {
     [SerializeField]
     SceneObject m_SceneObject;
+    public SceneObject SceneObject
+    {
+        set { m_SceneObject = value; }
+    }
     public void RoadScene()
     {
         SceneManager.LoadScene(m_SceneObject);

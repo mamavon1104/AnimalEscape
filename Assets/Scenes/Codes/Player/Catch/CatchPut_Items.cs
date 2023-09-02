@@ -67,7 +67,7 @@ public class CatchPut_Items : MonoBehaviour
         {
             var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
             otherPlayerCS.ChangeState(PlayerCS.PlayerState.BeingCarried);
-            otherPlayerCS.catchPutItemsCSOfParent = this;
+            otherPlayerCS.CatchPutItemsCSOfParent = this;
         }
 
         CatchObject.parent = myUpTrans;                //親をupにします。
@@ -97,7 +97,7 @@ public class CatchPut_Items : MonoBehaviour
         if (CatchObject.CompareTag("Player"))
         {
             var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
-            otherPlayerCS.catchPutItemsCSOfParent = null;
+            otherPlayerCS.CatchPutItemsCSOfParent = null;
             otherPlayerCS.GetComponent<PlayerCS>().ChangeState(PlayerCS.PlayerState.Falling);
             CatchObject.parent = PlayerInformationManager.Instance.playerParentsDic[otherPlayerCS]; //親を戻します。
         }
