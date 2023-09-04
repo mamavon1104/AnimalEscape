@@ -3,6 +3,7 @@ using DG.Tweening;
 using NUnit.Framework;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -19,11 +20,12 @@ public class ButtonController : MonoBehaviour
     
     [SerializeField]
     private WhatButton m_whatButton;
-    private Action doClick = null;
+    [SerializeField]
+    private UnityEvent doClick = null;
     private Transform myT;
     [Header("enumÇ™EnableDisableÇÃèÍçáÇÃÇ›égóp"),SerializeField]
     private GameObject m_SetActiveObject;
-    private void Awake()
+    private void Start()
     {
         myT = transform;
         gameObject.GetComponent<Button>().onClick.AddListener(OnClick);
@@ -33,23 +35,26 @@ public class ButtonController : MonoBehaviour
         switch (m_whatButton)
         {
            case WhatButton.returnGame: 
-                doClick = myT.parent.GetComponent<GameUIImage>().ReturnGame;
+                Assert.IsNull(m_SetActiveObject);
+                doClick.AddListener(myT.parent.GetComponent<GameUIImage>().ReturnGame);
                 break;
            
            case WhatButton.resetScene:
+                Assert.IsNull(m_SetActiveObject);
                 buttonLoadGame.SceneObject = SceneManager.GetActiveScene().name;
-                doClick = () => buttonLoadGame.RoadScene();
+                doClick.AddListener(() => buttonLoadGame.RoadScene());
                 break;
 
            case WhatButton.loadScene:
-                doClick = () => buttonLoadGame.RoadScene();
+                Assert.IsNull(m_SetActiveObject);
+                doClick.AddListener(() => buttonLoadGame.RoadScene());
                 break;
 
            case WhatButton.enableObj:
            case WhatButton.disableObj:
-                var objActive = m_whatButton == WhatButton.enableObj ? true : false;
                 Assert.IsNotNull(m_SetActiveObject);
-                doClick = () => m_SetActiveObject.SetActive(objActive);
+                var objActive = m_whatButton == WhatButton.enableObj ? true : false;
+                doClick.AddListener(() => m_SetActiveObject.SetActive(objActive));
                 m_SetActiveObject.SetActive(false);
                 break;
         }
@@ -58,7 +63,6 @@ public class ButtonController : MonoBehaviour
     {
         Vector3 nowScale = myT.localScale;
         await Animation();
-        doClick();
         myT.localScale = nowScale;
     }
     async UniTask Animation() => await myT.DOScale(1.2f, 0.1f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
