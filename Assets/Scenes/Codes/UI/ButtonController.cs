@@ -17,54 +17,54 @@ public class ButtonController : MonoBehaviour
         enableObj,
         disableObj,
     }
-    
+
     [SerializeField]
     private WhatButton m_whatButton;
-    [SerializeField]
-    private UnityEvent doClick = null;
+    private Action doClick = null;
+
     private Transform myT;
-    [Header("enumがEnableDisableの場合のみ使用"),SerializeField]
+    [Header("enumがEnableDisableの場合のみ使用"), SerializeField]
     private GameObject m_SetActiveObject;
-    private void Start()
+    private void Awake()
     {
         myT = transform;
-        gameObject.GetComponent<Button>().onClick.AddListener(OnClick);
-
+        GetComponent<Button>().onClick.AddListener(() => OnClick());
         TryGetComponent<ChangeSceneMaster>(out var buttonLoadGame);
 
         switch (m_whatButton)
         {
-           case WhatButton.returnGame: 
+            case WhatButton.returnGame:
                 Assert.IsNull(m_SetActiveObject);
-                doClick.AddListener(myT.parent.GetComponent<GameUIImage>().ReturnGame);
+                doClick += myT.parent.GetComponent<GameUIImage>().ReturnGame;
                 break;
-           
-           case WhatButton.resetScene:
+
+            case WhatButton.resetScene:
                 Assert.IsNull(m_SetActiveObject);
                 buttonLoadGame.SceneObject = SceneManager.GetActiveScene().name;
-                doClick.AddListener(() => buttonLoadGame.RoadScene());
+                doClick += buttonLoadGame.RoadScene;
                 break;
 
-           case WhatButton.loadScene:
+            case WhatButton.loadScene:
                 Assert.IsNull(m_SetActiveObject);
-                doClick.AddListener(() => buttonLoadGame.RoadScene());
+                doClick += buttonLoadGame.RoadScene;
                 break;
 
-           case WhatButton.enableObj:
-           case WhatButton.disableObj:
+            case WhatButton.enableObj:
+            case WhatButton.disableObj:
                 Assert.IsNotNull(m_SetActiveObject);
                 var objActive = m_whatButton == WhatButton.enableObj ? true : false;
-                doClick.AddListener(() => m_SetActiveObject.SetActive(objActive));
-                m_SetActiveObject.SetActive(false);
+                doClick = () => m_SetActiveObject.SetActive(objActive);
                 break;
         }
     }
     async void OnClick()
     {
+        Debug.Log("nnnn");
         Vector3 nowScale = myT.localScale;
         await Animation();
+        doClick();
         myT.localScale = nowScale;
     }
     async UniTask Animation() => await myT.DOScale(1.2f, 0.1f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
+    public void AddAction(UnityEvent setAction) => doClick += setAction.Invoke;
 }
-    

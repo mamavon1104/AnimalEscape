@@ -8,7 +8,7 @@ public class ManagerSingletonBase<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<T>();
+                _instance = FindAnyObjectByType<T>();
                 if (_instance == null)
                 {
                     GameObject singletonObject = new GameObject(typeof(T).Name);

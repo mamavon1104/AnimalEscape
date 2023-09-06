@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class GameValueManager : ManagerSingletonBase<GameValueManager>
 {
-    public float uiMoveValue = 1;
     public float musicSoundValue = 1;
     public float soundEffectValue = 1;
 
@@ -29,7 +28,6 @@ public class GameValueManager : ManagerSingletonBase<GameValueManager>
         worldTime = clampedTargetTime;
     }
 
-    public void SetUIMove(float getnum) => uiMoveValue = getnum;
     public void SetMusicSound(float getnum) => musicSoundValue = getnum;
     public void SetSoundEffect(float getnum) => soundEffectValue = getnum;
 
