@@ -4,10 +4,11 @@ using NUnit.Framework;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ButtonController : MonoBehaviour
+public class ButtonController : MonoBehaviour, IPointerEnterHandler
 {
     enum WhatButton
     {
@@ -16,6 +17,7 @@ public class ButtonController : MonoBehaviour
         loadScene,
         enableObj,
         disableObj,
+        none,
     }
 
     [SerializeField]
@@ -52,7 +54,9 @@ public class ButtonController : MonoBehaviour
             case WhatButton.enableObj:
             case WhatButton.disableObj:
                 Assert.IsNotNull(m_SetActiveObject);
-                var objActive = m_whatButton == WhatButton.enableObj ? true : false;
+                (bool objActive,Action PlayAudio) = m_whatButton == WhatButton.enableObj ?
+                    (true , (Action) AudioManager.Instance.PlayPushUI):
+                    (false, (Action) AudioManager.Instance.PlayCancelUI);
                 doClick = () => m_SetActiveObject.SetActive(objActive);
                 break;
         }
@@ -67,4 +71,5 @@ public class ButtonController : MonoBehaviour
     }
     async UniTask Animation() => await myT.DOScale(1.2f, 0.1f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
     public void AddAction(UnityEvent setAction) => doClick += setAction.Invoke;
+    public void OnPointerEnter(PointerEventData eventData) => AudioManager.Instance.PlaySelectUI();
 }
