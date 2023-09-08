@@ -1,12 +1,15 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class AudioManager : ManagerSingletonBase<AudioManager>
 {
-    [SerializeField]
-    private AudioSource _selectUI, _pushUI, _cancelUI, _separateUI;
+    private AudioSource _AudioSource;
+    [SerializeField] private AudioClip _selectUI, _pushUI, _cancelUI, _separateUI;
+    
+    private void Start() =>  _AudioSource = GetComponent<AudioSource>();
 
-    public void PlaySelectUI() => _selectUI?.Play();
-    public void PlayPushUI() => _pushUI?.Play();
-    public void PlayCancelUI() => _cancelUI?.Play();
-    public void PlaySeparateUI() => _separateUI?.Play();
+    public void PlayPushUI() => _AudioSource.PlayOneShot(_pushUI);
+    public void PlaySelectUI() => _AudioSource.PlayOneShot(_selectUI); 
+    public void PlayCancelUI() => _AudioSource.PlayOneShot(_cancelUI);
+    public void PlaySeparateUI() => _AudioSource.PlayOneShot(_separateUI);
 }

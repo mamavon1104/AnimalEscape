@@ -8,7 +8,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ButtonController : MonoBehaviour, IPointerEnterHandler
+[RequireComponent(typeof(Button))]
+public class ButtonController : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler
 {
     enum WhatButton
     {
@@ -27,9 +28,12 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler
     private Transform myT;
     [Header("enumÇ™EnableDisableÇÃèÍçáÇÃÇ›égóp"), SerializeField]
     private GameObject m_SetActiveObject;
+
+    private Vector3 _buttonScale;
     private void Awake()
     {
         myT = transform;
+        _buttonScale = myT.localScale;
         GetComponent<Button>().onClick.AddListener(() => OnClick());
         TryGetComponent<ChangeSceneMaster>(out var buttonLoadGame);
 
@@ -54,9 +58,9 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler
             case WhatButton.enableObj:
             case WhatButton.disableObj:
                 Assert.IsNotNull(m_SetActiveObject);
-                (bool objActive,Action PlayAudio) = m_whatButton == WhatButton.enableObj ?
-                    (true , (Action) AudioManager.Instance.PlayPushUI):
-                    (false, (Action) AudioManager.Instance.PlayCancelUI);
+                (bool objActive, Action PlayAudio) = m_whatButton == WhatButton.enableObj ?
+                    (true, (Action)AudioManager.Instance.PlayPushUI) :
+                    (false, (Action)AudioManager.Instance.PlayCancelUI);
                 doClick = () => m_SetActiveObject.SetActive(objActive);
                 break;
         }
@@ -64,12 +68,15 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler
     async void OnClick()
     {
         Debug.Log("nnnn");
-        Vector3 nowScale = myT.localScale;
         await Animation();
         doClick();
-        myT.localScale = nowScale;
+        myT.localScale = _buttonScale;
     }
     async UniTask Animation() => await myT.DOScale(1.2f, 0.1f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
     public void AddAction(UnityEvent setAction) => doClick += setAction.Invoke;
-    public void OnPointerEnter(PointerEventData eventData) => AudioManager.Instance.PlaySelectUI();
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        AudioManager.Instance.PlaySelectUI();
+    }
+    public void OnPointerExit(PointerEventData eventData) => myT.localScale = _buttonScale;
 }
