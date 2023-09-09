@@ -2,46 +2,52 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-class ChangePlayer : MonoBehaviour
+public class PlayerManager : ManagerSingletonBase<PlayerManager>
 {
-    [Header("プレイヤーのInputActions"), SerializeField]
-    private PlayerInput action;
-    private InputAction _change;
     private int nowActivePlayer;
 
     private Transform[] playersTrans;
     private PlayerCS[] playersCs;
+    private bool canChange = true;//連続して変えれないようにする。
 
-    private void Awake()
-    {
-        _change = action.currentActionMap["ChangePlayer"];
-        _change.performed += ChangePlayerNum;
-    }
     async void Start()
     {
         await UniTask.Yield();
-
         var obj = GameObject.FindGameObjectsWithTag("Player");
+        
         playersTrans = new Transform[obj.Length];
         playersCs = new PlayerCS[obj.Length];
 
+        if (!GameValueManager.Instance.isPlayer2)
+            NoMultiGameSetting(obj);
+        
+        PlayerInformationManager.Instance.inputScriptDic[playersTrans[nowActivePlayer]].Setting(true);
+        playersCs[nowActivePlayer].SetPlayerSelectionStatus(true);
+        
+        if (GameValueManager.Instance.isPlayer2)
+            this.enabled = false;
+    }
+    private void NoMultiGameSetting(GameObject[] obj)
+    {
         for (int i = 0; i < obj.Length; i++)
         {
             Assert.IsTrue(obj[i].TryGetComponent<PlayerCS>(out var playerCS), "playerCSがnull");
-            
+
             playersCs[i] = playerCS;
             playersTrans[i] = obj[i].transform;
 
             PlayerInformationManager.Instance.inputScriptDic[playersTrans[i]].Setting(false);
             playerCS.SetPlayerSelectionStatus(false);
         }
-
-        Debug.Log(playersTrans[nowActivePlayer]);
-        PlayerInformationManager.Instance.inputScriptDic[playersTrans[nowActivePlayer]].Setting(true);
-        playersCs[nowActivePlayer].SetPlayerSelectionStatus(true);
     }
     public void ChangePlayerNum(InputAction.CallbackContext context) 
     {
+        if (!canChange)
+            return;
+
+        canChange = false;
+        SetCanChangeVariable();
+
         nowActivePlayer = ++nowActivePlayer % playersCs.Length;
         for (int i = 0; i < playersCs.Length; i++)
         {
@@ -56,5 +62,11 @@ class ChangePlayer : MonoBehaviour
             inputCS.Setting(thisBool);
             playersCs[i].SetPlayerSelectionStatus(thisBool);
         }
+    }
+
+    private async void SetCanChangeVariable()
+    {
+        await UniTask.Delay(100);
+        canChange = true;
     }
 }

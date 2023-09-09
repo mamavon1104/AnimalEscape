@@ -9,7 +9,7 @@ TagManager:
   - FinishTriggerParent
   - SphereParent
   - Canvas
-  - PlayerCamera
+  - PlayerCameras
   layers:
   - Default
   - TransparentFX

@@ -23,7 +23,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948348837111909798}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -34,6 +33,7 @@ Transform:
   - {fileID: 5725078326493852407}
   - {fileID: 6292705892107201222}
   m_Father: {fileID: 0}
+  m_RootOrder: -2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2590236036602114333
 GameObject:
@@ -58,13 +58,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2590236036602114333}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 21.086954, y: -11.176162, z: 30.108955}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4973341687404216306}
+  m_RootOrder: -2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &304620556994752678
 PrefabInstance:
@@ -96,15 +96,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 589603140496865791, guid: c4715872044b0fb48a1bdc344700ebde, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_ActionName
-      value: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+      value: 'Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
       objectReference: {fileID: 0}
     - target: {fileID: 589603140496865791, guid: c4715872044b0fb48a1bdc344700ebde, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_ActionName
-      value: Player/Jump[/Keyboard/space]
+      value: 'Player/Jump[/Keyboard/space]'
       objectReference: {fileID: 0}
     - target: {fileID: 589603140496865791, guid: c4715872044b0fb48a1bdc344700ebde, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_ActionName
-      value: Player/ChangePlayer[/Keyboard/enter]
+      value: 'Player/ChangePlayer[/Keyboard/enter]'
       objectReference: {fileID: 0}
     - target: {fileID: 3911998366147886584, guid: c4715872044b0fb48a1bdc344700ebde, type: 3}
       propertyPath: m_Name
@@ -159,17 +159,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4715872044b0fb48a1bdc344700ebde, type: 3}
---- !u!114 &1519080722132208942 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1238174432466419080, guid: c4715872044b0fb48a1bdc344700ebde, type: 3}
-  m_PrefabInstance: {fileID: 304620556994752678}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6292705892107201222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6011764969999866464, guid: c4715872044b0fb48a1bdc344700ebde, type: 3}
@@ -251,10 +240,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -2.52
       objectReference: {fileID: 0}
-    - target: {fileID: 4614267318800829327, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}
-      propertyPath: action
-      value: 
-      objectReference: {fileID: 1519080722132208942}
     - target: {fileID: 4624416933776650621, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}
       propertyPath: near clip plane
       value: 0.3
@@ -386,10 +371,6 @@ PrefabInstance:
       propertyPath: near clip plane
       value: 0.3
       objectReference: {fileID: 0}
-    - target: {fileID: 5900952794650341013, guid: dc519bec2427d5b4ca13175d1355b4ac, type: 3}
-      propertyPath: action
-      value: 
-      objectReference: {fileID: 1519080722132208942}
     - target: {fileID: 7815072105786910477, guid: dc519bec2427d5b4ca13175d1355b4ac, type: 3}
       propertyPath: m_Layer
       value: 7

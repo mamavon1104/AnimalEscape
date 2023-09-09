@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4dd223594af77040ab21d117f1e48c0, type: 3}
   m_Name: New My Players Value
   m_EditorClassIdentifier: 
-  speed: 19.8
+  speed: 300
   jumpSpeed: 7
   fallSpeed: 10
   throwAngle: 44.8

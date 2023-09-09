@@ -104,7 +104,7 @@ public class PlayerCS : MonoBehaviour
             _catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
             return;
         }
-        _myRig.velocity = _myRig.velocity + getVec;
+        _myRig.velocity = getVec + new Vector3(0,_myRig.velocity.y,0);
     }
 
     /// <summary>

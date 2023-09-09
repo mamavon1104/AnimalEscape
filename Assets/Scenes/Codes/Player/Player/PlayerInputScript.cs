@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,8 +7,7 @@ using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class PlayerInputScript : MonoBehaviour
 {
-    [Header("PlayerCS"), SerializeField]
-    PlayerCS m_playerCs;
+    PlayerCS _playerCS;
     [Header("CatchObjectCS"), SerializeField]
     CatchPut_Items m_CatchObjectCS;
     [Header("ThrowToPointObj"), SerializeField]
@@ -22,16 +22,18 @@ public class PlayerInputScript : MonoBehaviour
     private MyPlayersValue playerValue;
 
     [Header("ÉvÉåÉCÉÑÅ[ÇÃInputActions"), SerializeField]
-    private PlayerInput action;
-    private InputAction _move, _jump, _throw, _submit, _catchPut, _pauseGame;
+    private PlayerInput _action;
+    private InputAction _move, _jump,_change, _throw, _catchPut, _pauseGame;
     private void Awake()
     {
-        _move = action.currentActionMap["Move"];    
-        _jump = action.currentActionMap["Jump"];
-        _submit = action.currentActionMap["Submit"]; 
-        _throw = action.currentActionMap["ThrowObject"];
-        _catchPut = action.currentActionMap["CatchAndPut"];
-        _pauseGame = action.currentActionMap["PauseGame"];
+        _playerCS = GetComponent<PlayerCS>();
+        _action = transform.GetComponent<PlayerInput>();
+        _change = _action.currentActionMap["ChangePlayer"];
+        _move = _action.currentActionMap["Move"];    
+        _jump = _action.currentActionMap["Jump"]; 
+        _throw = _action.currentActionMap["ThrowObject"];
+        _catchPut = _action.currentActionMap["CatchAndPut"];
+        _pauseGame = _action.currentActionMap["PauseGame"];
         cameraPOV = myCamera.GetCinemachineComponent<CinemachinePOV>();
     }
 
@@ -39,21 +41,23 @@ public class PlayerInputScript : MonoBehaviour
     {
         if (setBool)
         {
-            _move.canceled += m_playerCs.OnMove;
-            _move.performed += m_playerCs.OnMove;
-            _jump.performed += m_playerCs.OnJump;
+            _move.canceled += _playerCS.OnMove;
+            _move.performed += _playerCS.OnMove;
+            _jump.performed += _playerCS.OnJump;
             _pauseGame.performed += m_GameUIImage.PauseGame;
             _catchPut.performed += m_CatchObjectCS.CatchAndPut;
             _throw.performed += m_ThrowToPointCS.Select_OR_Throw;
+            _change.performed += PlayerManager.Instance.ChangePlayerNum;                                                                                          
         }
         else
         {
-            _move.canceled -= m_playerCs.OnMove;
-            _move.performed -= m_playerCs.OnMove;
-            _jump.performed -= m_playerCs.OnJump;
+            _move.canceled -= _playerCS.OnMove;
+            _move.performed -= _playerCS.OnMove;
+            _jump.performed -= _playerCS.OnJump;
             _pauseGame.performed -= m_GameUIImage.PauseGame;
             _catchPut.performed -= m_CatchObjectCS.CatchAndPut;
             _throw.performed -= m_ThrowToPointCS.Select_OR_Throw;
+            _change.performed -= PlayerManager.Instance.ChangePlayerNum;
         }
         Debug.Log(setBool);
     }
