@@ -9,7 +9,6 @@ public class GameValueManager : ManagerSingletonBase<GameValueManager>
 
     [SerializeField]
     public float worldTime = 1;
-    
 
     public void SetMusicSound(float getnum) => musicSoundValue = getnum;
     public void SetSoundEffect(float getnum) => soundEffectValue = getnum;

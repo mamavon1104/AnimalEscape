@@ -5,6 +5,8 @@ public class CatchPut_Items : MonoBehaviour
 {
     [Header("自分の真上のポジション。"), SerializeField]
     private Transform myUpTrans;
+    [Header("PlayerTransform。"), SerializeField]
+    private Transform m_player;
 
     private Transform myT; //私のTrans、キャッシュ用。
     private Transform triggerObject = null; //トリガーに当たっているなら取得、それでなければNull;
@@ -38,8 +40,16 @@ public class CatchPut_Items : MonoBehaviour
     /// <param name="context"></param>
     public void CatchAndPut(InputAction.CallbackContext context)
     {
+        //TriggerObjectがnullで、Catchがnullなら何もしないけどCatchあったら落とすとかの判定を行いたい。
         if (TriggerObject == null && CatchObject == null)
             return;
+
+        if (TriggerObject != null && 
+            TriggerObject.CompareTag("Player") && 
+            PlayerInformationManager.Instance.isPlayerCatchedDic[m_player])
+        {
+            return;
+        }
 
         if (CatchObject == null)
             SetCatchObject();   
@@ -62,6 +72,7 @@ public class CatchPut_Items : MonoBehaviour
     public void SetCatchObject()
     {
         CatchObject = TriggerObject;                             //取得したObjに
+        PlayerInformationManager.Instance.isPlayerCatchedDic[CatchObject] = true;
         
         if (CatchObject.CompareTag("Player"))
         {
@@ -93,6 +104,7 @@ public class CatchPut_Items : MonoBehaviour
     /// </summary>
     public void ResetOtherStateAndReleaseCatch()
     {
+        PlayerInformationManager.Instance.isPlayerCatchedDic[CatchObject] = false;
         CatchObject.GetComponent<Rigidbody>().isKinematic = false;
         if (CatchObject.CompareTag("Player"))
         {

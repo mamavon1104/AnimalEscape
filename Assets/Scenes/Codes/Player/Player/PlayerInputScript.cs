@@ -16,6 +16,8 @@ public class PlayerInputScript : MonoBehaviour
     GameUIImage m_GameUIImage;
     [Header("CinemachineVirtualCamera"), SerializeField]
     CinemachineVirtualCamera myCamera;
+    [Header("ThrwoPointMove"),SerializeField]
+    ThrowPointMove m_ThrowPointMove;
     CinemachinePOV cameraPOV;
 
     [Header("プレイヤーの値"), SerializeField]
@@ -23,7 +25,7 @@ public class PlayerInputScript : MonoBehaviour
 
     [Header("プレイヤーのInputActions"), SerializeField]
     private PlayerInput _action;
-    private InputAction _move, _jump,_change, _throw, _catchPut, _pauseGame;
+    private InputAction _move, _jump,_change, _throw, _catchPut, _pauseGame, _throwMove;
     private void Awake()
     {
         _playerCS = GetComponent<PlayerCS>();
@@ -34,6 +36,7 @@ public class PlayerInputScript : MonoBehaviour
         _throw = _action.currentActionMap["ThrowObject"];
         _catchPut = _action.currentActionMap["CatchAndPut"];
         _pauseGame = _action.currentActionMap["PauseGame"];
+        _throwMove = _action.currentActionMap["ThrowPositionMove"];
         cameraPOV = myCamera.GetCinemachineComponent<CinemachinePOV>();
     }
 
@@ -71,11 +74,15 @@ public class PlayerInputScript : MonoBehaviour
         {
             cameraPOV.m_VerticalAxis.m_MaxSpeed = playerValue.verticalCameraSpeed;
             cameraPOV.m_HorizontalAxis.m_MaxSpeed = playerValue.horizontalCameraSpeed;
+            _throwMove.performed += m_ThrowPointMove.OnMove;
+            _throwMove.canceled += m_ThrowPointMove.OnMove;
         }
         else
         {
             cameraPOV.m_VerticalAxis.m_MaxSpeed = 0;
             cameraPOV.m_HorizontalAxis.m_MaxSpeed = 0;
+            _throwMove.performed -= m_ThrowPointMove.OnMove;
+            _throwMove.canceled -= m_ThrowPointMove.OnMove;
         }
     }
 }

@@ -15,8 +15,8 @@ MonoBehaviour:
   speed: 300
   jumpSpeed: 7
   fallSpeed: 10
-  throwAngle: 44.8
+  throwAngle: 42
   playerRotateSpeed: 300
   verticalCameraSpeed: 75
   horizontalCameraSpeed: 150
-  leaveCarriedScale: 2.73
+  leaveCarriedScale: 0.08

@@ -70,12 +70,12 @@ public class ThrowToPoint : MonoBehaviour
             
             //投げる為にrigidbody,持ってる判定を削除、等
             catchPutItemsCS.ResetOtherStateAndReleaseCatch();
-
+            
             // 射出速度を算出
             Vector3 velocity = CalculateVelocity(startPos, throwPointNow.position, playerValue.throwAngle);
             //飛ばす
             objTrans.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
-
+            
             //到着したかどうか判定するためのobj作成
             GameObject sphereObjs = GetObjectFromPool();
             sphereObjs.transform.position = throwPointNow.position;

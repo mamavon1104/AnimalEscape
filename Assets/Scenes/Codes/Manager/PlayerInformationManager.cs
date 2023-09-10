@@ -5,6 +5,10 @@ using UnityEngine;
 public class PlayerInformationManager : ManagerSingletonBase<PlayerInformationManager>
 {
     /// <summary>
+    /// PlayerTransform,IsCatchBool
+    /// </summary>
+    public Dictionary<Transform,bool> isPlayerCatchedDic = new Dictionary<Transform,bool>();
+    /// <summary>
     /// PlayerCS,PlayerParent‚Ìdic
     /// </summary>
     public Dictionary<PlayerCS, Transform> playerParentsDic = new Dictionary<PlayerCS, Transform>();

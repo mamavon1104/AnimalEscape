@@ -7,7 +7,6 @@ public class CatchObjects : MonoBehaviour
     CatchPut_Items parentCS;
     ThrowToPoint throwToPoint;
     bool canCatch = true;
-    [SerializeField]
     bool nowCatch = false;
     private void Start()
     {

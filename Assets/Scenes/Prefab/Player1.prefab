@@ -1401,6 +1401,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 8025163718314134543}
   - {fileID: 8891650292977769702}
   - {fileID: 2719299902900764999}
   m_Father: {fileID: 3916448214358713680}
@@ -1517,10 +1518,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thisCamera: {fileID: 2320697102228516041}
+  m_selectObj: {fileID: 5428388787814255331}
   _playerState: 0
   _playerValue: {fileID: 11400000, guid: f06bbac860698a8459f86a621d634da0, type: 2}
-  _catchPutItemsCS: {fileID: 4711442139290096817}
   _myThrow: {fileID: 7742920633887006203}
+  _catchPutItemsCSOfParent: {fileID: 0}
 --- !u!114 &4614267318800829327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1537,6 +1539,7 @@ MonoBehaviour:
   m_ThrowToPointCS: {fileID: 7742920633887006203}
   m_GameUIImage: {fileID: 1537538452723111362}
   myCamera: {fileID: 8512218710981731900}
+  m_ThrowPointMove: {fileID: 5513480815106436749}
   playerValue: {fileID: 11400000, guid: f06bbac860698a8459f86a621d634da0, type: 2}
   _action: {fileID: 0}
 --- !u!114 &3236070724586232408
@@ -1580,7 +1583,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 5ec6cd2a-59d3-4222-bd10-05674ec1fcca
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &2741345489335910115
@@ -1905,6 +1908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myUpTrans: {fileID: 7032094798438872704}
+  m_player: {fileID: 4380181632134689980}
 --- !u!114 &7742920633887006203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1987,7 +1991,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15dddc22629d9f04098c4f2c2e4a921a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowCatch: 0
 --- !u!135 &727974061909011792
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2661,7 +2664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0577e4f65726340ab3a27a0c627656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TextMeshProUGUI: {fileID: 0}
+  m_TextMeshProUGUI: {fileID: 9020209265089210868}
 --- !u!1 &4078252399454963904
 GameObject:
   m_ObjectHideFlags: 0
@@ -3823,6 +3826,89 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &5428388787814255331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8025163718314134543}
+  - component: {fileID: 1284628894679502119}
+  - component: {fileID: 8071737129335095260}
+  m_Layer: 0
+  m_Name: Throwing place (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8025163718314134543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428388787814255331}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -0.49, z: 0}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 4380181632134689980}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1284628894679502119
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428388787814255331}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &8071737129335095260
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428388787814255331}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 0
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: fd6c7817e1e4aab4d863ccf7c1aaef7d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5587385957775733964
 GameObject:
   m_ObjectHideFlags: 0
@@ -4735,7 +4821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0577e4f65726340ab3a27a0c627656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TextMeshProUGUI: {fileID: 0}
+  m_TextMeshProUGUI: {fileID: 5312404316247809598}
 --- !u!1 &6673937708859213280
 GameObject:
   m_ObjectHideFlags: 0
@@ -4748,6 +4834,7 @@ GameObject:
   - component: {fileID: 302311766456638293}
   - component: {fileID: 6309917032102596683}
   - component: {fileID: 5513480815106436749}
+  - component: {fileID: 3448060865099466603}
   m_Layer: 6
   m_Name: Throwing place
   m_TagString: Untagged
@@ -4832,6 +4919,111 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 190b6bbaebc08b24c8000d7d506b6d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 4380181632134689980}
+--- !u!120 &3448060865099466603
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6673937708859213280}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &6789319624732500904
 GameObject:
   m_ObjectHideFlags: 0

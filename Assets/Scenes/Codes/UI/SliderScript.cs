@@ -17,7 +17,7 @@ public class SliderScript : MonoBehaviour
 
         UnityAction<float> action = (float value) =>
         {
-             
+             m_TextMeshProUGUI.text = value.ToString("F2");
         };
         slider.onValueChanged.AddListener(action);
     }

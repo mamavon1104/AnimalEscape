@@ -11,6 +11,8 @@ public class PlayerCS : MonoBehaviour
     [Header("カメラ"), SerializeField]
     private Transform _thisCamera;
     private bool _isSelect = false;
+    [Header("子オブジェクトの選択されているかどうかのobject"), SerializeField]
+    GameObject m_selectObj;
 
     [Header("現在のプレイヤーの状態"), SerializeField]
     private PlayerState _playerState = PlayerState.Grounded;
@@ -18,20 +20,17 @@ public class PlayerCS : MonoBehaviour
     [Header("プレイヤーの数値 : PlayersValue"), SerializeField]
     private MyPlayersValue _playerValue;
 
-    [Header("子オブジェクトのスクリプト格納"), SerializeField]
-    private CatchPut_Items _catchPutItemsCS;
-
     [Header("子オブジェクトのThrowToPoint"), SerializeField]
     private ThrowToPoint _myThrow;
 
     /// <summary>
     /// キャッチされている時に相手のCatchPutItemsを代入してそれをこっちから呼び起こしてあげる。
     /// </summary>
-    [NonSerialized] 
+    [SerializeField]
     private CatchPut_Items _catchPutItemsCSOfParent; 
     public CatchPut_Items CatchPutItemsCSOfParent
     {
-        set { _catchPutItemsCS = value; }
+        set { _catchPutItemsCSOfParent = value; }
     }
 
     //以下、private変数
@@ -104,6 +103,7 @@ public class PlayerCS : MonoBehaviour
             _catchPutItemsCSOfParent.ResetOtherStateAndReleaseCatch();
             return;
         }
+        Debug.Log(_myRig);
         _myRig.velocity = getVec + new Vector3(0,_myRig.velocity.y,0);
     }
 
@@ -153,6 +153,7 @@ public class PlayerCS : MonoBehaviour
     public void SetPlayerSelectionStatus(bool setBool)
     {
         _isSelect = setBool;
+        m_selectObj.SetActive(setBool);
         _thisCamera.gameObject.SetActive(setBool);
     }
     #endregion
