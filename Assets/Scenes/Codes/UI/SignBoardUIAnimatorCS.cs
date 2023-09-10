@@ -12,8 +12,14 @@ public class SignBoardUIAnimatorCS : MonoBehaviour
     public void ResetMyParameters(Parameters par)
     {
         if(par == Parameters.Down)
+        {
+            animator.ResetTrigger("UPTrigger");
             animator.SetTrigger("DownTrigger");
+        }
         else if(par == Parameters.Up)
+        {
+            animator.ResetTrigger("DownTrigger");
             animator.SetTrigger("UPTrigger");
+        }
     }
 }
