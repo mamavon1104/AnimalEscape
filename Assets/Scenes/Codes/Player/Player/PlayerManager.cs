@@ -4,15 +4,16 @@ using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 public class PlayerManager : ManagerSingletonBase<PlayerManager>
 {
-    private int nowActivePlayer;
+    private int nowActivePlayer = 0;
 
     private Transform[] playersTrans;
     private PlayerCS[] playersCs;
-    private bool canChange = true;//連続して変えれないようにする。
+    private bool canChange = false;//連続して変えれないようにする。
 
     async void Start()
     {
-        await UniTask.Yield();
+        await UniTask.Yield(); // GameManagerSetting待機
+
         var obj = GameObject.FindGameObjectsWithTag("Player");
         
         playersTrans = new Transform[obj.Length];
@@ -23,6 +24,7 @@ public class PlayerManager : ManagerSingletonBase<PlayerManager>
         
         PlayerInformationManager.Instance.inputScriptDic[playersTrans[nowActivePlayer]].Setting(true);
         playersCs[nowActivePlayer].SetPlayerSelectionStatus(true);
+        obj[nowActivePlayer].SetActive(true);
         
         if (GameValueManager.Instance.isPlayer2)
             this.enabled = false;
@@ -38,6 +40,7 @@ public class PlayerManager : ManagerSingletonBase<PlayerManager>
 
             PlayerInformationManager.Instance.inputScriptDic[playersTrans[i]].Setting(false);
             playerCS.SetPlayerSelectionStatus(false);
+            obj[i].SetActive(false);
         }
     }
     public void ChangePlayerNum(InputAction.CallbackContext context) 
@@ -69,4 +72,5 @@ public class PlayerManager : ManagerSingletonBase<PlayerManager>
         await UniTask.Delay(100);
         canChange = true;
     }
+    public void CanBeChange() => canChange = true;
 }

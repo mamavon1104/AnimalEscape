@@ -1,8 +1,6 @@
 using UnityEngine;
-using TMPro;
-using System.Collections;
-using System.Collections.Generic;
 
+[RequireComponent(typeof(SphereCollider))]
 class AreaUI : InformationUIBase
 {
     protected override void OnTriggerEnter(Collider other)
