@@ -20,7 +20,7 @@ TagManager:
   - PlayerCamera1
   - PlayerCamera2
   - PlayerCamera3
-  - 
+  - NoCameraColider
   - 
   - 
   - 

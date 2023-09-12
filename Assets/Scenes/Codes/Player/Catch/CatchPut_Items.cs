@@ -80,6 +80,11 @@ public class CatchPut_Items : MonoBehaviour
             otherPlayerCS.ChangeState(PlayerCS.PlayerState.BeingCarried);
             otherPlayerCS.CatchPutItemsCSOfParent = this;
         }
+        else if(CatchObject.CompareTag("CatchItems"))
+        {
+            var otherItemActions = CatchObject.GetComponent<ItemActions>();
+            otherItemActions.IsCatched = true;
+        }
 
         CatchObject.parent = myUpTrans;                //親をupにします。
         CatchObject.position = myUpTrans.position;    //位置を真上から離さん
@@ -112,6 +117,11 @@ public class CatchPut_Items : MonoBehaviour
             otherPlayerCS.CatchPutItemsCSOfParent = null;
             otherPlayerCS.GetComponent<PlayerCS>().ChangeState(PlayerCS.PlayerState.Falling);
             CatchObject.parent = PlayerInformationManager.Instance.playerParentsDic[otherPlayerCS]; //親を戻します。
+        }
+        else if (CatchObject.CompareTag("CatchItems"))
+        {
+            var otherItemActions = CatchObject.GetComponent<ItemActions>();
+            otherItemActions.IsCatched = false;
         }
         CatchObject = null; 
         TriggerObject = null;

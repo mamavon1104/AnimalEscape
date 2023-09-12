@@ -8,6 +8,7 @@ public class PlayerManager : ManagerSingletonBase<PlayerManager>
 
     private Transform[] playersTrans;
     private PlayerCS[] playersCs;
+    [SerializeField]
     private bool canChange = false;//˜A‘±‚µ‚Ä•Ï‚¦‚ê‚È‚¢‚æ‚¤‚É‚·‚éB
 
     async void Start()

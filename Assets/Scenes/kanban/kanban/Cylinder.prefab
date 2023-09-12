@@ -331,5 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4231620f6150d4daad80239428f587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: aaaa
+  messageSize: 20
+  message: []
   rotationSpeed: 12
