@@ -10,6 +10,8 @@ TagManager:
   - SphereParent
   - Canvas
   - PlayerCameras
+  - ItemPedestal
+  - Effect
   layers:
   - Default
   - TransparentFX
@@ -21,8 +23,8 @@ TagManager:
   - PlayerCamera2
   - PlayerCamera3
   - NoCameraColider
-  - 
-  - 
+  - CantCameraSee
+  - JumpRamp
   - 
   - 
   - 

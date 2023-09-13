@@ -6,6 +6,7 @@ public class PlayerManager : ManagerSingletonBase<PlayerManager>
 {
     private int nowActivePlayer = 0;
 
+    [SerializeField]
     private Transform[] playersTrans;
     private PlayerCS[] playersCs;
     [SerializeField]
@@ -15,34 +16,28 @@ public class PlayerManager : ManagerSingletonBase<PlayerManager>
     {
         await UniTask.Yield(); // GameManagerSetting‘Ò‹@
 
-        var obj = GameObject.FindGameObjectsWithTag("Player");
-        
-        playersTrans = new Transform[obj.Length];
-        playersCs = new PlayerCS[obj.Length];
+        playersCs = new PlayerCS[playersTrans.Length];
 
         if (!GameValueManager.Instance.isPlayer2)
-            NoMultiGameSetting(obj);
+        {
+            for (int i = 0; i < playersTrans.Length; i++)
+            {
+                Assert.IsTrue(playersTrans[i].TryGetComponent<PlayerCS>(out var playerCS), "playerCS‚ªnull");
+
+                playersCs[i] = playerCS;
+
+                PlayerInformationManager.Instance.inputScriptDic[playersTrans[i]].Setting(false);
+                playerCS.SetPlayerSelectionStatus(false);
+                playersTrans[i].gameObject.SetActive(false);
+            }
+        }
         
         PlayerInformationManager.Instance.inputScriptDic[playersTrans[nowActivePlayer]].Setting(true);
+        playersTrans[nowActivePlayer].gameObject.SetActive(true);
         playersCs[nowActivePlayer].SetPlayerSelectionStatus(true);
-        obj[nowActivePlayer].SetActive(true);
         
         if (GameValueManager.Instance.isPlayer2)
             this.enabled = false;
-    }
-    private void NoMultiGameSetting(GameObject[] obj)
-    {
-        for (int i = 0; i < obj.Length; i++)
-        {
-            Assert.IsTrue(obj[i].TryGetComponent<PlayerCS>(out var playerCS), "playerCS‚ªnull");
-
-            playersCs[i] = playerCS;
-            playersTrans[i] = obj[i].transform;
-
-            PlayerInformationManager.Instance.inputScriptDic[playersTrans[i]].Setting(false);
-            playerCS.SetPlayerSelectionStatus(false);
-            obj[i].SetActive(false);
-        }
     }
     public void ChangePlayerNum(InputAction.CallbackContext context) 
     {

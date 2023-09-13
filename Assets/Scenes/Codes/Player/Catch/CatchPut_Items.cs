@@ -20,10 +20,12 @@ public class CatchPut_Items : MonoBehaviour
             if (value == null)
             {
                 triggerObject = value;
-                return; 
+                return;
             }
-            if (value.tag != "Untagged")
-                triggerObject = value;
+            if (value.CompareTag("Untagged") || value.CompareTag("ItemPedestal"))
+                return;
+
+            triggerObject = value;
         }
     }
     public Transform CatchObject
@@ -31,7 +33,7 @@ public class CatchPut_Items : MonoBehaviour
         get { return catchObject; }
         private set { catchObject = value; }
     }
-    
+
     private void Start()
     {
         myT = transform;
@@ -44,16 +46,16 @@ public class CatchPut_Items : MonoBehaviour
         if (TriggerObject == null && CatchObject == null)
             return;
 
-        if (TriggerObject != null && 
-            TriggerObject.CompareTag("Player") && 
+        if (TriggerObject != null &&
+            TriggerObject.CompareTag("Player") &&
             PlayerInformationManager.Instance.isPlayerCatchedDic[m_player])
         {
             return;
         }
 
         if (CatchObject == null)
-            SetCatchObject();   
-        else 
+            SetCatchObject();
+        else
             ResetOtherObjPos();
     }
     private void OnTriggerEnter(Collider other)
@@ -72,18 +74,23 @@ public class CatchPut_Items : MonoBehaviour
     public void SetCatchObject()
     {
         CatchObject = TriggerObject;                             //取得したObjに
-        PlayerInformationManager.Instance.isPlayerCatchedDic[CatchObject] = true;
-        
+
         if (CatchObject.CompareTag("Player"))
         {
+            PlayerInformationManager.Instance.isPlayerCatchedDic[CatchObject] = true;
             var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
             otherPlayerCS.ChangeState(PlayerCS.PlayerState.BeingCarried);
             otherPlayerCS.CatchPutItemsCSOfParent = this;
         }
-        else if(CatchObject.CompareTag("CatchItems"))
+        else if (CatchObject.CompareTag("CatchItems"))
         {
-            var otherItemActions = CatchObject.GetComponent<ItemActions>();
-            otherItemActions.IsCatched = true;
+            if (CatchObject.parent != null && CatchObject.parent.CompareTag("ItemPedestal"))
+            {
+                CatchObject = null;
+                return;
+            }
+            if (TryGetComponent<ItemActions>(out var otherItemActions))
+                otherItemActions.IsCatched = false;
         }
 
         CatchObject.parent = myUpTrans;                //親をupにします。
@@ -91,7 +98,7 @@ public class CatchPut_Items : MonoBehaviour
         CatchObject.rotation = myUpTrans.rotation;    //回転も同じにしてやるからな。
         CatchObject.GetComponent<Rigidbody>().isKinematic = true;
     }
-        
+
     /// <summary>
     /// これが呼び出されている場合:
     /// オブジェクトの位置を直しつつ状態リセットをする。
@@ -109,10 +116,10 @@ public class CatchPut_Items : MonoBehaviour
     /// </summary>
     public void ResetOtherStateAndReleaseCatch()
     {
-        PlayerInformationManager.Instance.isPlayerCatchedDic[CatchObject] = false;
         CatchObject.GetComponent<Rigidbody>().isKinematic = false;
         if (CatchObject.CompareTag("Player"))
         {
+            PlayerInformationManager.Instance.isPlayerCatchedDic[CatchObject] = false;
             var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
             otherPlayerCS.CatchPutItemsCSOfParent = null;
             otherPlayerCS.GetComponent<PlayerCS>().ChangeState(PlayerCS.PlayerState.Falling);
@@ -120,10 +127,12 @@ public class CatchPut_Items : MonoBehaviour
         }
         else if (CatchObject.CompareTag("CatchItems"))
         {
-            var otherItemActions = CatchObject.GetComponent<ItemActions>();
-            otherItemActions.IsCatched = false;
+            if (TryGetComponent<ItemActions>(out var otherItemActions))
+                otherItemActions.IsCatched = false;
+
+            CatchObject.parent = null;
         }
-        CatchObject = null; 
+        CatchObject = null;
         TriggerObject = null;
         throwToPoint.FinishResetVariable(this);
     }

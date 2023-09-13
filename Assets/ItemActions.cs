@@ -7,6 +7,7 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public class ItemActions : MonoBehaviour
 {
+    [SerializeField] bool canDeleteOrAddObj; 
     [SerializeField] GameObject _caughtTrueObj;
     [SerializeField] GameObject _caughtFalseObj;
     private bool _isPrevFrameCaught = false;
@@ -18,7 +19,9 @@ public class ItemActions : MonoBehaviour
     }
     private void Start()
     {
-        Action act = IsCatched ? CaughtSetting : NotCaughtSetting;
+        if (!canDeleteOrAddObj)
+            return;
+        Action act = !IsCatched ? NotCaughtSetting : CaughtSetting;
         act();
     }
     private void Update()

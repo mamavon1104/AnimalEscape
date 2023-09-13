@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SettingItemPosition : MonoBehaviour
 {
-    [SerializeField] Transform m_gamePlayer;
+    [SerializeField] Transform itemPosition;
     private Transform[] childrenTrans = null;
     private void Start()
     {
@@ -19,11 +19,13 @@ public class SettingItemPosition : MonoBehaviour
         for (int i = 0; i < 8; i++)
             await UniTask.Yield();
 
-        Vector2 playerPosition = new Vector2(m_gamePlayer.position.x, m_gamePlayer.position.z);
+        Vector3 playerPosition = new Vector3(itemPosition.position.x, itemPosition.position.y, itemPosition.position.z);
         for (int i = 0; i < childrenTrans.Length; i++)
         {
             var child = childrenTrans[i];
-            child.position = new Vector3(playerPosition.x, child.position.y, playerPosition.y);
+            child.position = new Vector3(playerPosition.x, child.position.y, playerPosition.z);
+            if(child.CompareTag("Effect"))
+                child.position = new Vector3(playerPosition.x, playerPosition.y-0.8f, playerPosition.z);
         }
     }
 }

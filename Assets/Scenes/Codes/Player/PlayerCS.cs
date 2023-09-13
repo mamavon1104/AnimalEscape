@@ -137,6 +137,11 @@ public class PlayerCS : MonoBehaviour
     {
         if (_playerState == PlayerState.Grounded)
         {
+            if (Physics.Raycast(_myTrans.position, Vector3.down, 0.1f + _myTrans.lossyScale.y / 2, 1 << 11, QueryTriggerInteraction.Ignore))
+            {
+                Debug.Log("hahah");
+                return;
+            }
             _playerState = PlayerState.Jumpping;
             PlayerMove(new Vector3(0, _playerValue.jumpSpeed, 0));
         }

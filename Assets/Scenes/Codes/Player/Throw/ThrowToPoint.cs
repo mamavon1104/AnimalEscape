@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
@@ -28,7 +24,6 @@ public class ThrowToPoint : MonoBehaviour
     }
     static GameObject FinishTriggerParent;
     static List<GameObject> FinishTriggerList = new List<GameObject>();
-
 
     [Header("投げるときに変更させるCamera"), SerializeField]
     GameObject thisCamera;
@@ -67,9 +62,6 @@ public class ThrowToPoint : MonoBehaviour
         else//選ばれた後は投げる
         {
             startPos = objTrans.position;
-            
-            //投げる為にrigidbody,持ってる判定を削除、等
-            catchPutItemsCS.ResetOtherStateAndReleaseCatch();
             
             // 射出速度を算出
             Vector3 velocity = CalculateVelocity(startPos, throwPointNow.position, playerValue.throwAngle);
