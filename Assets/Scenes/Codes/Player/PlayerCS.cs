@@ -137,9 +137,9 @@ public class PlayerCS : MonoBehaviour
     {
         if (_playerState == PlayerState.Grounded)
         {
-            if (Physics.Raycast(_myTrans.position, Vector3.down, 0.1f + _myTrans.lossyScale.y / 2, 1 << 11, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(_myTrans.position, Vector3.down,out var other ,1 + _myTrans.lossyScale.y / 2, 1 << 11))
             {
-                Debug.Log("hahah");
+                other.transform.GetComponent<JumpThrowPlayer>().ThrowPlayerinJumpAction(_myTrans, this);
                 return;
             }
             _playerState = PlayerState.Jumpping;

@@ -62,7 +62,6 @@ public class PlayerInputScript : MonoBehaviour
             _throw.performed -= m_ThrowToPointCS.Select_OR_Throw;
             _change.performed -= PlayerManager.Instance.ChangePlayerNum;
         }
-        Debug.Log(setBool);
     }
 
     /// <summary>

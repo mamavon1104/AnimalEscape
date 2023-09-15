@@ -22,4 +22,8 @@ public class SignBoardUIAnimatorCS : MonoBehaviour
             animator.SetTrigger("UPTrigger");
         }
     }
+    public void ResetTrigger()
+    {
+        animator.SetTrigger("UPTrigger");
+    } 
 }

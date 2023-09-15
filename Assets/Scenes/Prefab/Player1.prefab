@@ -1241,6 +1241,7 @@ GameObject:
   - component: {fileID: 5993483154519237306}
   - component: {fileID: 3847263758743365162}
   - component: {fileID: 7060134193839957508}
+  - component: {fileID: 6411800727978648373}
   m_Layer: 5
   m_Name: Button (4)
   m_TagString: Untagged
@@ -1365,6 +1366,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_whatButton: 2
   m_SetActiveObject: {fileID: 0}
+--- !u!114 &6411800727978648373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2580547540640098563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0281ae355f97e2c4583b01a609681b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneObject:
+    m_SceneName: Title
 --- !u!1 &2663555658597715696
 GameObject:
   m_ObjectHideFlags: 0
@@ -4850,7 +4865,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6673937708859213280}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 4, z: 7}
+  m_LocalPosition: {x: 0, y: 4.5, z: 10}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -6218,7 +6233,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 639
+    m_Bits: 2687
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

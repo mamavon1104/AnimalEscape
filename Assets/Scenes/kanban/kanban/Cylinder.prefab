@@ -317,7 +317,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 15.01
+  m_Radius: 9.07
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8639355204944130480
 MonoBehaviour:
@@ -331,6 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4231620f6150d4daad80239428f587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageSize: 18.8
+  messageSize: 18.2
   message: []
   rotationSpeed: 18

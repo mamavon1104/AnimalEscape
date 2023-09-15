@@ -38,7 +38,7 @@ public class ThrowToPoint : MonoBehaviour
     {
         myT = transform.parent;
         catchPutItemsCS = transform.GetComponent<CatchPut_Items>();
-        FinishTriggerParent = GameObject.FindGameObjectWithTag("FinishTriggerParent");
+        FinishTriggerParent = GameObject.FindGameObjectWithTag("FinishTriggerParent"); //findは使わない。
     }
     private void Update()
     {
@@ -62,7 +62,10 @@ public class ThrowToPoint : MonoBehaviour
         else//選ばれた後は投げる
         {
             startPos = objTrans.position;
-            
+
+            //投げる為にrigidbody,持ってる判定を削除、等
+            catchPutItemsCS.ResetOtherStateAndReleaseCatch();
+
             // 射出速度を算出
             Vector3 velocity = CalculateVelocity(startPos, throwPointNow.position, playerValue.throwAngle);
             //飛ばす

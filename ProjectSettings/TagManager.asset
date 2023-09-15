@@ -12,6 +12,8 @@ TagManager:
   - PlayerCameras
   - ItemPedestal
   - Effect
+  - SESlider
+  - MusicSlider
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - UI
   - PlayerCamera1
   - PlayerCamera2
-  - PlayerCamera3
+  - 
   - NoCameraColider
   - CantCameraSee
   - JumpRamp

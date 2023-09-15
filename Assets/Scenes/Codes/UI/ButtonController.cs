@@ -21,13 +21,14 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler,IPointerExit
         none,
     }
 
-    [SerializeField]
-    private WhatButton m_whatButton;
+    [SerializeField] private WhatButton m_whatButton;
+    [SerializeField] private UnityEvent m_event;
     private Action doClick = null;
 
     private Transform myT;
     [Header("enum‚ªEnableDisable‚Ìê‡‚Ì‚ÝŽg—p"), SerializeField]
     private GameObject m_SetActiveObject;
+
 
     private Vector3 _buttonScale;
     private void Awake()
@@ -77,6 +78,8 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler,IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         AudioManager.Instance.PlaySelectUI();
+        if(m_event != null)
+            m_event.Invoke();
     }
     public void OnPointerExit(PointerEventData eventData) => myT.localScale = _buttonScale;
 }
