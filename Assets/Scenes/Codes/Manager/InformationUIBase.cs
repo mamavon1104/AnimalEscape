@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class InformationUIBase : MonoBehaviour
 {
-    [Header("書きたいメッセージ。"), SerializeField]
+    [Header("メッセージサイズ。"), SerializeField]
     private float messageSize = 20;
     [Header("書きたいメッセージ。"), SerializeField]
     private string[] message;

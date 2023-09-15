@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using UnityEditor.Animations;
+using NUnit.Framework;
 using UnityEngine;
 
 public class SettingItemPosition : MonoBehaviour
@@ -16,6 +16,7 @@ public class SettingItemPosition : MonoBehaviour
     }
     private async void Update()
     {
+
         for (int i = 0; i < 8; i++)
             await UniTask.Yield();
 

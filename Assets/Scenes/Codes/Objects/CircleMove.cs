@@ -63,8 +63,8 @@ public class CircleMove : MonoBehaviour
     }
 
     #if UNITY_EDITOR
-    [Header("軌道を書く？")]
-    public bool drawOrbit;
+    [Header("軌道を書く？"),SerializeField]
+    private bool drawOrbit;
     void OnDrawGizmos()
     {
         if (!drawOrbit) //boolで描かない場合
