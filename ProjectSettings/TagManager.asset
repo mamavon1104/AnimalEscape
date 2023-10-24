@@ -7,6 +7,13 @@ TagManager:
   - CatchItems
   - PlayerParent
   - FinishTriggerParent
+  - SphereParent
+  - Canvas
+  - PlayerCameras
+  - ItemPedestal
+  - Effect
+  - SESlider
+  - MusicSlider
   layers:
   - Default
   - TransparentFX
@@ -14,12 +21,12 @@ TagManager:
   - Player
   - Water
   - UI
-  - PlayerCamaera1
-  - PlayerCamaera2
+  - PlayerCamera1
+  - PlayerCamera2
   - 
-  - 
-  - 
-  - 
+  - NoCameraColider
+  - CantCameraSee
+  - JumpRamp
   - 
   - 
   - 
