@@ -26514,10 +26514,10 @@ GameObject:
   - component: {fileID: 1515803294}
   - component: {fileID: 1515803293}
   - component: {fileID: 1515803292}
-  - component: {fileID: 1515803291}
   - component: {fileID: 1515803290}
   - component: {fileID: 1515803289}
   - component: {fileID: 1515803295}
+  - component: {fileID: 1515803296}
   m_Layer: 0
   m_Name: GameMaster (1)
   m_TagString: Untagged
@@ -26633,24 +26633,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1515803291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1515803288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f097262a2efe8c24d93c3a40e88d8e7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundEffectAudioSource: {fileID: 1515803295}
-  musicAudioSource: {fileID: 1515803290}
-  _selectUI: {fileID: 8300000, guid: 632b1c41f6a368540970d173af4f782f, type: 3}
-  _pushUI: {fileID: 8300000, guid: 2b8670b132d29984c93743808adbfcb3, type: 3}
-  _cancelUI: {fileID: 8300000, guid: e759c65f76c80834abc572593f946008, type: 3}
-  _jump: {fileID: 0}
 --- !u!114 &1515803292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26792,6 +26774,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1515803296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515803288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7490d0177b7124a4ca417da6c6329f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffectAudioSource: {fileID: 1515803295}
+  musicAudioSource: {fileID: 1515803290}
+  _selectUI: {fileID: 8300000, guid: 805b9257f76a9ce47b16409048985f89, type: 3}
+  _pushUI: {fileID: 0}
+  _cancelUI: {fileID: 0}
+  _jump: {fileID: 0}
 --- !u!43 &1521118202
 Mesh:
   m_ObjectHideFlags: 0
@@ -28262,7 +28262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1810460985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55825,7 +55825,7 @@ GameObject:
   m_Layer: 3
   m_Name: CubePlayer (1)
   m_TagString: Player
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

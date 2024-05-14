@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Slider))]
 public class SliderScript : MonoBehaviour
