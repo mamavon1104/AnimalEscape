@@ -26788,7 +26788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEffectAudioSource: {fileID: 1515803295}
   musicAudioSource: {fileID: 1515803290}
-  _selectUI: {fileID: 0}
+  _selectUI: {fileID: 8300000, guid: 805b9257f76a9ce47b16409048985f89, type: 3}
   _pushUI: {fileID: 0}
   _cancelUI: {fileID: 0}
   _jump: {fileID: 0}
