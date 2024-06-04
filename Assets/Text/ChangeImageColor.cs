@@ -15,10 +15,10 @@ public class ChangeImageColor : MonoBehaviour
         }
         catch(System.NullReferenceException)
         {
-            Debug.Log("image‚ª‘¶İ‚µ‚Ä‚¢‚Ü‚¹‚ñB");
+            Debug.Log("imageãŒå­˜åœ¨ã—ã¦ã„ã¾ã›ã‚“ã€‚");
         }
 
-        Assert.IsNotNull(myRig, "myRig‚ª‚ ‚è‚Ü‚¹‚ñB");
-        Assert.IsNotNull(gameObj, "gameObj‚ª‚ ‚è‚Ü‚¹‚ñB");
+        Assert.IsNotNull(myRig, "myRigãŒã‚ã‚Šã¾ã›ã‚“ã€‚");
+        Assert.IsNotNull(gameObj, "gameObjãŒã‚ã‚Šã¾ã›ã‚“ã€‚");
     }    
 }

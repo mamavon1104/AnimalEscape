@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class StepOnABox : MonoBehaviour
 {
-    [Header("playerParent‚ð“ü‚ê‚é•Ï”"), SerializeField]
+    [Header("playerParentã‚’å…¥ã‚Œã‚‹å¤‰æ•°"), SerializeField]
     Transform playerParent;
     private void OnTriggerEnter(Collider other)
     {
-        //‚à‚µAƒvƒŒƒCƒ„[‚Ìã‚Éæ‚Á‚Ä‚È‚©‚Á‚½‚èAƒvƒŒƒCƒ„[‚ªe‚Å‚à‚È‚©‚Á‚½‚ç
+        //ã‚‚ã—ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä¸Šã«ä¹—ã£ã¦ãªã‹ã£ãŸã‚Šã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒè¦ªã§ã‚‚ãªã‹ã£ãŸã‚‰
         if (other.CompareTag("Player") && other.transform.parent.gameObject.layer != 3) 
         {
             other.transform.parent = transform;

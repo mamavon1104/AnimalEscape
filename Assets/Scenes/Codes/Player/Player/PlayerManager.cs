@@ -1,20 +1,18 @@
-using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
 public class PlayerManager : ManagerSingletonBase<PlayerManager>
 {
     private int nowActivePlayer = 0;
 
-    [SerializeField]
-    private Transform[] playersTrans;
+    [SerializeField] private Transform[] playersTrans;
+    [SerializeField] private bool canChange = false;//é€£ç¶šã—ã¦å¤‰ãˆã‚Œãªã„ã‚ˆã†ã«ã™ã‚‹ã€‚
     private PlayerCS[] playersCs;
-    [SerializeField]
-    private bool canChange = false;//˜A‘±‚µ‚Ä•Ï‚¦‚ê‚È‚¢‚æ‚¤‚É‚·‚éB
 
     async void Start()
     {
-        await UniTask.Yield(); // GameManagerSetting‘Ò‹@
+        await UniTask.Yield(); // GameManagerSettingå¾…æ©Ÿ
 
         playersCs = new PlayerCS[playersTrans.Length];
 
@@ -22,8 +20,7 @@ public class PlayerManager : ManagerSingletonBase<PlayerManager>
         {
             for (int i = 0; i < playersTrans.Length; i++)
             {
-                Assert.IsTrue(playersTrans[i].TryGetComponent<PlayerCS>(out var playerCS), "playerCS‚ªnull");
-
+                var playerCS = playersTrans[i].GetComponent<PlayerCS>();
                 playersCs[i] = playerCS;
 
                 PlayerInformationManager.Instance.inputScriptDic[playersTrans[i]].Setting(false);
@@ -31,15 +28,15 @@ public class PlayerManager : ManagerSingletonBase<PlayerManager>
                 playersTrans[i].gameObject.SetActive(false);
             }
         }
-        
+
         PlayerInformationManager.Instance.inputScriptDic[playersTrans[nowActivePlayer]].Setting(true);
         playersTrans[nowActivePlayer].gameObject.SetActive(true);
         playersCs[nowActivePlayer].SetPlayerSelectionStatus(true);
-        
+
         if (GameValueManager.Instance.isPlayer2)
             this.enabled = false;
     }
-    public void ChangePlayerNum(InputAction.CallbackContext context) 
+    public void ChangePlayerNum(InputAction.CallbackContext context)
     {
         if (!canChange)
             return;

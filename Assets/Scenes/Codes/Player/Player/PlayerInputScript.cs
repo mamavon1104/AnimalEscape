@@ -1,71 +1,59 @@
 using Cinemachine;
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class PlayerInputScript : MonoBehaviour
 {
-    PlayerCS _playerCS;
-    [Header("CatchObjectCS"), SerializeField]
-    CatchPut_Items m_CatchObjectCS;
-    [Header("ThrowToPointObj"), SerializeField]
-    ThrowToPoint m_ThrowToPointCS;
-    [Header("ThrowToPointObj"), SerializeField]
-    GameUIImage m_GameUIImage;
-    [Header("CinemachineVirtualCamera"), SerializeField]
-    CinemachineVirtualCamera myCamera;
-    [Header("ThrwoPointMove"),SerializeField]
-    ThrowPointMove m_ThrowPointMove;
-    CinemachinePOV cameraPOV;
+    [Header("PlayerCS"), SerializeField] PlayerCS m_playerCS;
+    [Header("InputActions"), SerializeField] PlayerInput m_action;
+    [Header("GameUIImage"), SerializeField] GameUIImage m_GameUIImage;
+    [Header("繝励Ξ繧､繝､繝ｼ縺ｮ蛟､"), SerializeField] MyPlayersValue playerValue;
+    [Header("CatchObjectCS"), SerializeField] CatchPut_Items m_CatchObjectCS;
+    [Header("ThrowToPointObj"), SerializeField] ThrowToPoint m_ThrowToPointCS;
+    [Header("ThrwoPointMove"), SerializeField] ThrowPointMove m_ThrowPointMove;
+    [Header("CinemachineVirtualCamera"), SerializeField] CinemachineVirtualCamera m_myCamera;
 
-    [Header("プレイヤーの値"), SerializeField]
-    private MyPlayersValue playerValue;
+    private CinemachinePOV cameraPOV;
+    private InputAction _move, _jump, _change, _throw, _catchPut, _pauseGame, _throwMove;
 
-    [Header("プレイヤーのInputActions"), SerializeField]
-    private PlayerInput _action;
-    private InputAction _move, _jump,_change, _throw, _catchPut, _pauseGame, _throwMove;
     private void Awake()
     {
-        _playerCS = GetComponent<PlayerCS>();
-        _action = transform.GetComponent<PlayerInput>();
-        _change = _action.currentActionMap["ChangePlayer"];
-        _move = _action.currentActionMap["Move"];    
-        _jump = _action.currentActionMap["Jump"]; 
-        _throw = _action.currentActionMap["ThrowObject"];
-        _catchPut = _action.currentActionMap["CatchAndPut"];
-        _pauseGame = _action.currentActionMap["PauseGame"];
-        _throwMove = _action.currentActionMap["ThrowPositionMove"];
-        cameraPOV = myCamera.GetCinemachineComponent<CinemachinePOV>();
+        _move = m_action.currentActionMap["Move"];
+        _jump = m_action.currentActionMap["Jump"];
+        _throw = m_action.currentActionMap["ThrowObject"];
+        _change = m_action.currentActionMap["ChangePlayer"];
+        _pauseGame = m_action.currentActionMap["PauseGame"];
+        _catchPut = m_action.currentActionMap["CatchAndPut"];
+        _throwMove = m_action.currentActionMap["ThrowPositionMove"];
+        cameraPOV = m_myCamera.GetCinemachineComponent<CinemachinePOV>();
     }
 
     public void Setting(bool setBool)
     {
         if (setBool)
         {
-            _move.canceled += _playerCS.OnMove;
-            _move.performed += _playerCS.OnMove;
-            _jump.performed += _playerCS.OnJump;
-            _pauseGame.performed += m_GameUIImage.PauseGame;
+            _move.canceled += m_playerCS.OnMove;
+            _move.performed += m_playerCS.OnMove;
+            _jump.performed += m_playerCS.OnJump;
             _catchPut.performed += m_CatchObjectCS.CatchAndPut;
+            _pauseGame.performed += m_GameUIImage.PauseGame;
             _throw.performed += m_ThrowToPointCS.Select_OR_Throw;
-            _change.performed += PlayerManager.Instance.ChangePlayerNum;                                                                                          
+            _change.performed += PlayerManager.Instance.ChangePlayerNum;
         }
         else
         {
-            _move.canceled -= _playerCS.OnMove;
-            _move.performed -= _playerCS.OnMove;
-            _jump.performed -= _playerCS.OnJump;
-            _pauseGame.performed -= m_GameUIImage.PauseGame;
+            _move.canceled -= m_playerCS.OnMove;
+            _move.performed -= m_playerCS.OnMove;
+            _jump.performed -= m_playerCS.OnJump;
             _catchPut.performed -= m_CatchObjectCS.CatchAndPut;
+            _pauseGame.performed -= m_GameUIImage.PauseGame;
             _throw.performed -= m_ThrowToPointCS.Select_OR_Throw;
             _change.performed -= PlayerManager.Instance.ChangePlayerNum;
         }
     }
 
     /// <summary>
-    /// もしtrueなら動かし、falseなら動かさん。
+    /// 繧ゅ＠true縺ｪ繧牙虚縺九＠縲’alse縺ｪ繧牙虚縺九＆繧薙�
     /// </summary>
     public void ChangeCameraMove(bool setBool)
     {

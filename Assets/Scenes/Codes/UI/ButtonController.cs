@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using NUnit.Framework;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class ButtonController : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler
+public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     enum WhatButton
     {
@@ -23,10 +22,13 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler,IPointerExit
 
     [SerializeField] private WhatButton m_whatButton;
     [SerializeField] private UnityEvent m_event;
+    [SerializeField] private UnityEvent m_clickEvent;
+    [SerializeField] private float m_waitTime = 0f;
     private Action doClick = null;
+    private Action<float> doClick2 = null;
 
     private Transform myT;
-    [Header("enum��EnableDisable�̏ꍇ�̂ݎg�p"), SerializeField]
+    [Header("enumがEnableDisableの場合のみ使用"), SerializeField]
     private GameObject m_SetActiveObject;
 
 
@@ -36,33 +38,30 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler,IPointerExit
         myT = transform;
         _buttonScale = myT.localScale;
         GetComponent<Button>().onClick.AddListener(() => OnClick());
-        TryGetComponent<ChangeSceneMaster>(out var buttonLoadGame);
+        var buttonLoadGame = GetComponent<ChangeSceneMaster>();
+
+        (bool objActive, Action playAudio) = m_whatButton != WhatButton.disableObj ?
+            (true, (Action)AudioManager.Instance.PlayPushUI) :
+            (false, (Action)AudioManager.Instance.PlayCancelUI);
+        doClick += () => playAudio();
 
         switch (m_whatButton)
         {
             case WhatButton.returnGame:
-                Assert.IsNull(m_SetActiveObject);
                 doClick += myT.parent.GetComponent<GameUIImage>().ReturnGame;
                 break;
 
             case WhatButton.resetScene:
-                Assert.IsNull(m_SetActiveObject);
-                buttonLoadGame.SceneObject = SceneManager.GetActiveScene().name;
-                doClick += buttonLoadGame.RoadScene;
-                break;
-
             case WhatButton.loadScene:
-                Assert.IsNull(m_SetActiveObject);
-                doClick += buttonLoadGame.RoadScene;
+                if (m_whatButton == WhatButton.resetScene)
+                    buttonLoadGame.SceneObject = SceneManager.GetActiveScene().name;
+
+                doClick2 += buttonLoadGame.RoadScene;
                 break;
 
             case WhatButton.enableObj:
             case WhatButton.disableObj:
-                Assert.IsNotNull(m_SetActiveObject);
-                (bool objActive, Action PlayAudio) = m_whatButton == WhatButton.enableObj ?
-                    (true, (Action)AudioManager.Instance.PlayPushUI) :
-                    (false, (Action)AudioManager.Instance.PlayCancelUI);
-                doClick = () => m_SetActiveObject.SetActive(objActive);
+                doClick += () => m_SetActiveObject.SetActive(objActive);
                 break;
         }
     }
@@ -70,7 +69,16 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler,IPointerExit
     {
         Debug.Log("nnnn");
         await Animation();
-        doClick();
+
+        if (m_clickEvent != null)
+            m_clickEvent.Invoke();
+
+        if (doClick != null)
+            doClick();
+
+        if (doClick2 != null)
+            doClick2(m_waitTime);
+
         myT.localScale = _buttonScale;
     }
     async UniTask Animation() => await myT.DOScale(1.2f, 0.1f).SetEase(Ease.OutElastic).AsyncWaitForCompletion();
@@ -78,7 +86,7 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler,IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         AudioManager.Instance.PlaySelectUI();
-        if(m_event != null)
+        if (m_event != null)
             m_event.Invoke();
     }
     public void OnPointerExit(PointerEventData eventData) => myT.localScale = _buttonScale;

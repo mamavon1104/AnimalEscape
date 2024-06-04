@@ -1,17 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class EndPressButtonCS : MonoBehaviour
 {
-    [Header("ƒvƒŒƒCƒ„[‚ÌInputActions"), SerializeField]
-    private PlayerInput _action;
-    private InputAction _catchPut; 
-    void Start()
+    private void Update()
     {
-        _catchPut = _action.currentActionMap["CatchAndPut"];
-        _catchPut.performed += RoadScene;
+        if (Input.anyKeyDown)
+            RoadScene();
     }
-    private void RoadScene(InputAction.CallbackContext _) => GetComponent<ChangeSceneMaster>().RoadScene();
+    private void RoadScene() => GetComponent<ChangeSceneMaster>().RoadScene();
 }

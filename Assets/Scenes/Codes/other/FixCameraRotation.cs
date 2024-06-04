@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FixCameraRotation : MonoBehaviour
 {
-    [SerializeField, Header("’Ç]‚³‚¹‚½‚¢ƒ^[ƒQƒbƒg")]
+    [SerializeField, Header("è¿½å¾“ã•ã›ãŸã„ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ")]
     private Transform target;
 
     private Vector3 offset;
@@ -10,20 +10,20 @@ public class FixCameraRotation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ƒQ[ƒ€ŠJn“_‚ÌƒJƒƒ‰‚Æƒ^[ƒQƒbƒg‚Ì‹——£iƒIƒtƒZƒbƒgj‚ğæ“¾
+        // ã‚²ãƒ¼ãƒ é–‹å§‹æ™‚ç‚¹ã®ã‚«ãƒ¡ãƒ©ã¨ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®è·é›¢ï¼ˆã‚ªãƒ•ã‚»ãƒƒãƒˆï¼‰ã‚’å–å¾—
         offset = transform.position - target.position;
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚ªˆÚ“®‚µ‚½Œã‚ÉƒJƒƒ‰‚ªˆÚ“®‚·‚é‚æ‚¤‚É‚·‚é‚½‚ß‚ÉLateUpdate‚É‚·‚éB
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç§»å‹•ã—ãŸå¾Œã«ã‚«ãƒ¡ãƒ©ãŒç§»å‹•ã™ã‚‹ã‚ˆã†ã«ã™ã‚‹ãŸã‚ã«LateUpdateã«ã™ã‚‹ã€‚
     /// </summary>
     void LateUpdate()
     {
-        // ƒJƒƒ‰‚ÌˆÊ’u‚ğƒ^[ƒQƒbƒg‚ÌˆÊ’u‚ÉƒIƒtƒZƒbƒg‚ğ‘«‚µ‚½êŠ‚É‚·‚éB
+        // ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã‚’ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ä½ç½®ã«ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’è¶³ã—ãŸå ´æ‰€ã«ã™ã‚‹ã€‚
         Vector3 targetPosition = target.position + offset;
         transform.position = targetPosition;
 
-        // ƒJƒƒ‰‚Ì‰ñ“]‚ğƒ^[ƒQƒbƒg‚Æ“¯‚¶‚É‚·‚éi‰ñ“]‚ğ‘Å‚¿Á‚·j
+        // ã‚«ãƒ¡ãƒ©ã®å›è»¢ã‚’ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¨åŒã˜ã«ã™ã‚‹ï¼ˆå›è»¢ã‚’æ‰“ã¡æ¶ˆã™ï¼‰
         transform.rotation = target.rotation;
     }
 }

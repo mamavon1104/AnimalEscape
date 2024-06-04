@@ -1,6 +1,4 @@
 using Cysharp.Threading.Tasks;
-using NUnit.Framework;
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,7 +10,6 @@ public class SetButtonAction : MonoBehaviour
     async void Awake()
     {
         await UniTask.Yield();
-        Assert.IsNotNull(_unityEvent, "NullÇ≈Ç∑ÅAéÊÇËäOÇ∑Ç©í«â¡Ç∆Ç©Ç«Ç§Ç…Ç©ÇµÇƒÅB");
 
         ButtonController buttonController = GetComponent<ButtonController>();
 

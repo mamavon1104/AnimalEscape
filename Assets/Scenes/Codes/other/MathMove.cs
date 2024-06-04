@@ -10,13 +10,13 @@ public class MathMove : MonoBehaviour
     [SerializeField] float r = 5;
     [SerializeField] float theta = 0;
 
-    [Header("ŠÖ”‚Ì‚‚³AƒfƒJ‚¢‚Ù‚Ç‚‚­"), SerializeField]
+    [Header("é–¢æ•°ã®é«˜ã•ã€ãƒ‡ã‚«ã„ã»ã©é«˜ã"), SerializeField]
     float FuncHighet;
-    [Header("ŠÖ”‚Ì•A¬‚³‚¢‚Ù‚ÇL‚­"),SerializeField]
+    [Header("é–¢æ•°ã®å¹…ã€å°ã•ã„ã»ã©åºƒã"),SerializeField]
     float Funcwidth;
-    [Header("‘å‚«‚¯‚ê‚Î‘å‚«‚¢‚Ù‚Ç‘‚¢"), SerializeField]
+    [Header("å¤§ãã‘ã‚Œã°å¤§ãã„ã»ã©æ—©ã„"), SerializeField]
     public float speed;
-    [Header("true‚È‚çSinCosA‚¿‚ª‚¯‚ê‚Îtan"), SerializeField] 
+    [Header("trueãªã‚‰SinCosã€ã¡ãŒã‘ã‚Œã°tan"), SerializeField] 
     private bool moveCircle;
     private void Update()
     {
