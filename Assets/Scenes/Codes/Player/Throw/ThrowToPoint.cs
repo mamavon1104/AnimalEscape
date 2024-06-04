@@ -6,9 +6,9 @@ using UnityEngine.InputSystem;
 
 public class ThrowToPoint : MonoBehaviour
 {
-    [Header("“Š‚°‚éƒ|ƒWƒVƒ‡ƒ“"), SerializeField]
+    [Header("æŠ•ã’ã‚‹ãƒã‚¸ã‚·ãƒ§ãƒ³"), SerializeField]
     private Transform throwPointNow;
-    private Vector3 startPos; // ˆÚ“®‚ÌŠJnˆÊ’u
+    private Vector3 startPos; // ç§»å‹•ã®é–‹å§‹ä½ç½®
 
     private CatchPut_Items catchPutItemsCS;
     /// <summary>
@@ -25,20 +25,20 @@ public class ThrowToPoint : MonoBehaviour
     static GameObject FinishTriggerParent;
     static List<GameObject> FinishTriggerList = new List<GameObject>();
 
-    [Header("“Š‚°‚é‚Æ‚«‚É•ÏX‚³‚¹‚éCamera"), SerializeField]
+    [Header("æŠ•ã’ã‚‹ã¨ãã«å¤‰æ›´ã•ã›ã‚‹Camera"), SerializeField]
     GameObject thisCamera;
     
-    [Header("ƒXƒtƒBƒAƒRƒ‰ƒCƒ_[Aì‚éˆ×"),SerializeField]
+    [Header("ã‚¹ãƒ•ã‚£ã‚¢ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã€ä½œã‚‹ç‚º"),SerializeField]
     GameObject sphereColliderObj;
    
-    [Header("Player‚Ì’l(PlayerValue)"), SerializeField]
+    [Header("Playerã®å€¤(PlayerValue)"), SerializeField]
     private MyPlayersValue playerValue;
 
     void Start()
     {
         myT = transform.parent;
         catchPutItemsCS = transform.GetComponent<CatchPut_Items>();
-        FinishTriggerParent = GameObject.FindGameObjectWithTag("FinishTriggerParent"); //find‚Íg‚í‚È‚¢B
+        FinishTriggerParent = GameObject.FindGameObjectWithTag("FinishTriggerParent"); //findã¯ä½¿ã‚ãªã„ã€‚
     }
     private void Update()
     {
@@ -52,26 +52,26 @@ public class ThrowToPoint : MonoBehaviour
         if (objTrans == null)
             return;
 
-        if (!SelectThrow) //‘I‚Î‚ê‚Ä‚È‚¢ê‡‚Í‘I‘ğ
+        if (!SelectThrow) //é¸ã°ã‚Œã¦ãªã„å ´åˆã¯é¸æŠ
         {
             SelectThrow = true;
             thisCamera.gameObject.SetActive(true);
             throwPointNow.gameObject.SetActive(true);
             PlayerInformationManager.Instance.inputScriptDic[myT].ChangeCameraMove(false);
         }
-        else//‘I‚Î‚ê‚½Œã‚Í“Š‚°‚é
+        else//é¸ã°ã‚ŒãŸå¾Œã¯æŠ•ã’ã‚‹
         {
             startPos = objTrans.position;
 
-            //“Š‚°‚éˆ×‚Érigidbody,‚Á‚Ä‚é”»’è‚ğíœA“™
+            //æŠ•ã’ã‚‹ç‚ºã«rigidbody,æŒã£ã¦ã‚‹åˆ¤å®šã‚’å‰Šé™¤ã€ç­‰
             catchPutItemsCS.ResetOtherStateAndReleaseCatch();
 
-            // Ëo‘¬“x‚ğZo
+            // å°„å‡ºé€Ÿåº¦ã‚’ç®—å‡º
             Vector3 velocity = CalculateVelocity(startPos, throwPointNow.position, playerValue.throwAngle);
-            //”ò‚Î‚·
+            //é£›ã°ã™
             objTrans.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
             
-            //“’…‚µ‚½‚©‚Ç‚¤‚©”»’è‚·‚é‚½‚ß‚Ìobjì¬
+            //åˆ°ç€ã—ãŸã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ãŸã‚ã®objä½œæˆ
             GameObject sphereObjs = GetObjectFromPool();
             sphereObjs.transform.position = throwPointNow.position;
             
@@ -81,7 +81,7 @@ public class ThrowToPoint : MonoBehaviour
 
     private GameObject GetObjectFromPool()
     {
-        // ”ñƒAƒNƒeƒBƒu‚ÈƒIƒuƒWƒFƒNƒg‚ğŒŸõ‚µ‚Ä•Ô‚·
+        // éã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ¤œç´¢ã—ã¦è¿”ã™
         foreach (GameObject obj in FinishTriggerList)
         {
             if (!obj.activeSelf)
@@ -91,7 +91,7 @@ public class ThrowToPoint : MonoBehaviour
             }
         }
 
-        // ƒv[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚ªg—p’†‚Ìê‡‚ÍV‚½‚ÉƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ä•Ô‚·
+        // ãƒ—ãƒ¼ãƒ«å†…ã®ã™ã¹ã¦ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒä½¿ç”¨ä¸­ã®å ´åˆã¯æ–°ãŸã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¦è¿”ã™
         var newObj = Instantiate(sphereColliderObj);
         newObj.transform.parent = FinishTriggerParent.transform;
         FinishTriggerList.Add(newObj);
@@ -99,7 +99,7 @@ public class ThrowToPoint : MonoBehaviour
     }
 
     /// <param name="orderClass">
-    /// ŒÄ‚Ño‚µŒ³‚ÌƒNƒ‰ƒX‚ğƒWƒFƒlƒŠƒbƒNƒƒ\ƒbƒh‚Æcase‚Å”»•Ê
+    /// å‘¼ã³å‡ºã—å…ƒã®ã‚¯ãƒ©ã‚¹ã‚’ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ã¨caseã§åˆ¤åˆ¥
     /// </param>
     public void FinishResetVariable<T>(T orderClass, GameObject sphere = null) where T : class
     {
@@ -129,7 +129,7 @@ public class ThrowToPoint : MonoBehaviour
                 objTrans = null;
                 break;
             default:
-                Debug.LogError("‘z’èŠO‚ÌƒNƒ‰ƒX‚©‚çŒÄ‚Ño‚µ‚ªs‚í‚ê‚Ä‚¢‚Ü‚·");
+                Debug.LogError("æƒ³å®šå¤–ã®ã‚¯ãƒ©ã‚¹ã‹ã‚‰å‘¼ã³å‡ºã—ãŒè¡Œã‚ã‚Œã¦ã„ã¾ã™");
                 break;
         }
     }
@@ -146,7 +146,7 @@ public class ThrowToPoint : MonoBehaviour
         }
         else
         {
-            // “’B’n“_‚Ü‚Å‚Ì‘¬“xƒxƒNƒgƒ‹
+            // åˆ°é”åœ°ç‚¹ã¾ã§ã®é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«
             return (new Vector3(pointB.x - pointA.x, x * Mathf.Tan(rad), pointB.z - pointA.z).normalized * speed);
         }
     }

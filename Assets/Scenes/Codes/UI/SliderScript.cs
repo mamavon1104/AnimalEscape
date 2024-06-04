@@ -1,18 +1,21 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
 public class SliderScript : MonoBehaviour
 {
     [SerializeField] GameValueManager gameManager;
     [SerializeField] TextMeshProUGUI m_TextMeshProUGUI;
-    
-    Slider slider;
-    
+
+    private Slider slider;
+
     void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameValueManager>();
+        //TryGetComponent<GameValueManager>(out var gameManager);
+
         slider = GetComponent<Slider>();
 
         UnityAction<float> action = (float value) =>

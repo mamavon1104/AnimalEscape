@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,37 +6,30 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInputScript))]
 public class PlayerCS : MonoBehaviour
 {
-    #region •Ï”‚½‚¿
-    [Header("ƒJƒƒ‰"), SerializeField]
-    private Transform _thisCamera;
-    private bool _isSelect = false;
-    [Header("qƒIƒuƒWƒFƒNƒg‚Ì‘I‘ğ‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Ìobject"), SerializeField]
-    GameObject m_selectObj;
-
-    [Header("Œ»İ‚ÌƒvƒŒƒCƒ„[‚Ìó‘Ô"), SerializeField]
-    private PlayerState _playerState = PlayerState.Grounded;
-
-    [Header("ƒvƒŒƒCƒ„[‚Ì”’l : PlayersValue"), SerializeField]
-    private MyPlayersValue _playerValue;
-
-    [Header("qƒIƒuƒWƒFƒNƒg‚ÌThrowToPoint"), SerializeField]
-    private ThrowToPoint _myThrow;
+    #region å¤‰æ•°ãŸã¡
+    [Header("ã‚«ãƒ¡ãƒ©"), SerializeField] private Transform _thisCamera;
+    [Header("å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ThrowToPoint"), SerializeField] private ThrowToPoint _myThrow;
+    [Header("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ•°å€¤ : PlayersValue"), SerializeField] private MyPlayersValue _playerValue;
+    [Header("å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é¸æŠã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã®object"), SerializeField] GameObject m_selectObj;
+    [Header("ç¾åœ¨ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ…‹"), SerializeField] private PlayerState _playerState = PlayerState.Grounded;
 
     /// <summary>
-    /// ƒLƒƒƒbƒ`‚³‚ê‚Ä‚¢‚é‚É‘Šè‚ÌCatchPutItems‚ğ‘ã“ü‚µ‚Ä‚»‚ê‚ğ‚±‚Á‚¿‚©‚çŒÄ‚Ñ‹N‚±‚µ‚Ä‚ ‚°‚éB
+    /// ã‚­ãƒ£ãƒƒãƒã•ã‚Œã¦ã„ã‚‹æ™‚ã«ç›¸æ‰‹ã®CatchPutItemsã‚’ä»£å…¥ã—ã¦ãã‚Œã‚’ã“ã£ã¡ã‹ã‚‰å‘¼ã³èµ·ã“ã—ã¦ã‚ã’ã‚‹ã€‚
     /// </summary>
     [SerializeField]
-    private CatchPut_Items _catchPutItemsCSOfParent; 
+    private CatchPut_Items _catchPutItemsCSOfParent;
     public CatchPut_Items CatchPutItemsCSOfParent
     {
         set { _catchPutItemsCSOfParent = value; }
     }
 
-    //ˆÈ‰ºAprivate•Ï”
+    //ä»¥ä¸‹ã€privateå¤‰æ•°
     private Rigidbody _myRig;
-    private Vector2 _inputMove;@// “®‚­”’l
+    private Vector2 _inputMove;ã€€// å‹•ãæ•°å€¤
     private Transform _myTrans;
+    private bool _isSelect = false;
     private Quaternion _targetRotation;
+    private AudioManager _audioManager;
     #endregion
 
     public enum PlayerState
@@ -56,7 +48,10 @@ public class PlayerCS : MonoBehaviour
 
         _myRig = _myTrans.GetComponent<Rigidbody>();
     }
-
+    private void Start()
+    {
+        _audioManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
+    }
     private void FixedUpdate()
     {
         if (!_isSelect)
@@ -65,8 +60,8 @@ public class PlayerCS : MonoBehaviour
         //Vector3 cameraForward = Vector3.Scale(thisCamera.forward, new Vector3(1, 0, 1)).normalized;
         var horizontalRotation = Quaternion.AngleAxis(_thisCamera.eulerAngles.y, Vector3.up);
         var velocity = horizontalRotation * new Vector3(_inputMove.x, 0, _inputMove.y) * _playerValue.speed * Time.deltaTime;
-        
-        // ˆÚ“®“ü—Í‚ª‚ ‚éê‡‚ÍAU‚èŒü‚«“®ì‚às‚¤
+
+        // ç§»å‹•å…¥åŠ›ãŒã‚ã‚‹å ´åˆã¯ã€æŒ¯ã‚Šå‘ãå‹•ä½œã‚‚è¡Œã†
         if (velocity.sqrMagnitude > 0f)
         {
             PlayerMove(velocity);
@@ -79,10 +74,10 @@ public class PlayerCS : MonoBehaviour
             {
                 _myRig.constraints = _myRig.constraints ^ RigidbodyConstraints.FreezeRotationY;
             }
-                //‹Lq;
-            _myTrans.rotation = Quaternion.RotateTowards(_myTrans.rotation, _targetRotation, _playerValue.playerRotateSpeed * Time.deltaTime);           
+            //è¨˜è¿°;
+            _myTrans.rotation = Quaternion.RotateTowards(_myTrans.rotation, _targetRotation, _playerValue.playerRotateSpeed * Time.deltaTime);
         }
-        else if(!_myRig.constraints.HasFlag(RigidbodyConstraints.FreezeRotationY))
+        else if (!_myRig.constraints.HasFlag(RigidbodyConstraints.FreezeRotationY))
             _myRig.constraints = _myRig.constraints | RigidbodyConstraints.FreezeRotationY;
     }
     private void LateUpdate()
@@ -104,16 +99,16 @@ public class PlayerCS : MonoBehaviour
             return;
         }
         Debug.Log(_myRig);
-        _myRig.velocity = getVec + new Vector3(0,_myRig.velocity.y,0);
+        _myRig.velocity = getVec + new Vector3(0, _myRig.velocity.y, 0);
     }
 
     /// <summary>
-    /// jumpÅ’†‚Í—‰º‚µn‚ß‚½‚©”»’è(Falling‚Ö)
-    /// Falling’†‚Í‰º‚Éray‚ğ”ò‚Î‚µState‚Ìİ’è‚ÖB
+    /// jumpæœ€ä¸­ã¯è½ä¸‹ã—å§‹ã‚ãŸã‹åˆ¤å®š(Fallingã¸)
+    /// Fallingä¸­ã¯ä¸‹ã«rayã‚’é£›ã°ã—Stateã®è¨­å®šã¸ã€‚
     /// </summary>
-    private void CheckIsPlayerGrouded() //©•ª‚Ìó‘Ô‚ğŒ©‚Â‚¯‚é—·‚Ö(FindˆÈŠO‚ÌŠÖ”–¼‚ªv‚¢‚Â‚©‚È‚¢)
+    private void CheckIsPlayerGrouded() //è‡ªåˆ†ã®çŠ¶æ…‹ã‚’è¦‹ã¤ã‘ã‚‹æ—…ã¸(Findä»¥å¤–ã®é–¢æ•°åãŒæ€ã„ã¤ã‹ãªã„)
     {
-        if (_playerState == PlayerState.Falling || _playerState == PlayerState.BeingThrown) //—‰º‚µn‚ß‚Ä‚¢‚é‚Ì‚È‚çrayŠJn
+        if (_playerState == PlayerState.Falling || _playerState == PlayerState.BeingThrown) //è½ä¸‹ã—å§‹ã‚ã¦ã„ã‚‹ã®ãªã‚‰rayé–‹å§‹
         {
             if (Physics.Raycast(_myTrans.position, Vector3.down, 0.1f + _myTrans.lossyScale.y / 2, ~0, QueryTriggerInteraction.Ignore))
                 ChangeState(PlayerState.Grounded);
@@ -125,25 +120,26 @@ public class PlayerCS : MonoBehaviour
     }
 
     #region move,jump
-    // ƒ€[ƒu
+    // ãƒ ãƒ¼ãƒ–
     public void OnMove(InputAction.CallbackContext context)
     {
-        // “ü—Í’l‚ğ•Û‚µ‚Ä‚¨‚­
+        // å…¥åŠ›å€¤ã‚’ä¿æŒã—ã¦ãŠã
         _inputMove = context.ReadValue<Vector2>();
     }
 
-    // ƒWƒƒƒ“ƒv
+    // ã‚¸ãƒ£ãƒ³ãƒ—
     public void OnJump(InputAction.CallbackContext context)
     {
         if (_playerState == PlayerState.Grounded)
         {
-            if (Physics.Raycast(_myTrans.position, Vector3.down,out var other ,1 + _myTrans.lossyScale.y / 2, 1 << 11))
+            if (Physics.Raycast(_myTrans.position, Vector3.down, out var other, 1 + _myTrans.lossyScale.y / 2, 1 << 11))
             {
                 other.transform.GetComponent<JumpThrowPlayer>().ThrowPlayerinJumpAction(_myTrans, this);
                 return;
             }
             _playerState = PlayerState.Jumpping;
             PlayerMove(new Vector3(0, _playerValue.jumpSpeed, 0));
+            _audioManager.PlayJump(new InputAction.CallbackContext());
         }
         else if (_playerState == PlayerState.BeingCarried)
         {
@@ -153,7 +149,7 @@ public class PlayerCS : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[•ÏX‚É•K—v‚È–‚ğ‚â‚Á‚Ä‚¢‚­ŠÖ”B
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å¤‰æ›´æ™‚ã«å¿…è¦ãªäº‹ã‚’ã‚„ã£ã¦ã„ãé–¢æ•°ã€‚
     /// </summary>
     public void SetPlayerSelectionStatus(bool setBool)
     {

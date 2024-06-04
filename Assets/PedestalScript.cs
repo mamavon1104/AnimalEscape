@@ -30,15 +30,18 @@ public class PedestalScript : ObjectTransformBase
 
     private async UniTask SetItemTransforms(Transform otherT)
     {
-        // �I�u�W�F�N�g�̃T�C�Y��1.418033�ɐݒ�
+        // オブジェクトのサイズを1.418033に設定
         otherT.DOScale(new Vector3(1.418033f, 1.418033f, 1.418033f), animationSpeed);
 
-        // �I�u�W�F�N�g�̈ʒu��(0, 0.6090164, 0)�ɐݒ�
+        // オブジェクトの位置を(0, 0.6090164, 0)に設定
         otherT.DOLocalMove(new Vector3(0f, 0.6090164f, 0f), animationSpeed);
 
-        // �I�u�W�F�N�g�̉�]��(0, -45, 0)�ɐݒ�
+        // オブジェクトの回転を(0, -45, 0)に設定
         otherT.DOLocalRotate(new Vector3(0f, -45f, 0f), animationSpeed);
 
+        //マジックナンバーばかりなのは気にくわないが1ステージのみの実装なので仕方ないとする。
+
         await UniTask.Delay(ReturnFixSecond());
+        rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
     }
 }

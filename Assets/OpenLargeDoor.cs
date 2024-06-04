@@ -9,7 +9,7 @@ public class OpenLargeDoor : ObjectTransformBase
     public async void OpenDoor()
     {
         if (finishAnimationDisableObj != null)
-Å@       Å@ finishAnimationDisableObj.SetActive(true);
+„ÄÄ       „ÄÄ finishAnimationDisableObj.SetActive(true);
         
         transform.DOLocalRotate(new Vector3(0, rotateY, 0), animationSpeed);
         await UniTask.Delay(ReturnFixSecond());

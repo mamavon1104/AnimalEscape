@@ -6,6 +6,7 @@ public class ObjectTransformBase : MonoBehaviour
     protected bool didIt = false;
     protected int ReturnFixSecond()
     {
+        didIt = true;
         return (int)(animationSpeed * 1000);
     }
 }

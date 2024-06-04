@@ -1,18 +1,17 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public class SetPlayerInformation : MonoBehaviour
 {
     [SerializeField]
     private SignBoardUIAnimatorCS mySBUI;
     [SerializeField]
-    private TextMeshProUGUI text; 
+    private TextMeshProUGUI text;
     private void Start()
     {
         var myTrans = transform;
-        Assert.IsTrue(myTrans.TryGetComponent<PlayerCS>(out var playerCS), "PlayerCS‚ªnull");
-        Assert.IsTrue(myTrans.TryGetComponent<PlayerInputScript>(out var inputCS), "InputCS‚ªnull");
+        var playerCS = myTrans.GetComponent<PlayerCS>();
+        var inputCS = myTrans.GetComponent<PlayerInputScript>();
 
         PlayerInformationManager.Instance.playerUITextDic.Add(myTrans, text);
         PlayerInformationManager.Instance.inputScriptDic.Add(myTrans, inputCS);

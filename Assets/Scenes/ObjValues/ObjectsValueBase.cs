@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class ObjectsValueBase : ScriptableObject
 {
-    [Header("ƒIƒuƒWƒFƒNƒg‚ÌƒXƒs[ƒh")]
+    [Header("ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¹ãƒ”ãƒ¼ãƒ‰")]
     public float speed;
 
-    [Header("•¨‘Ì‚Éæ‚ê‚é‚©‚Ç‚¤‚©bool")]
+    [Header("ç‰©ä½“ã«ä¹—ã‚Œã‚‹ã‹ã©ã†ã‹bool")]
     public bool canRide;
 
-    [Header("~‚Ü‚éŠÔ"), SerializeField]
+    [Header("æ­¢ã¾ã‚‹æ™‚é–“"), SerializeField]
     public float stopTime;
 }

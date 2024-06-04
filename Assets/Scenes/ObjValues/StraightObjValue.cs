@@ -5,24 +5,24 @@ public class StraightObjValue : ObjectsValueBase
 {
     public enum GoToDirections
     {
-        [InspectorName("x‚Ì•ûŒü‚Ö")]
+        [InspectorName("xã®æ–¹å‘ã¸")]
         x,
-        [InspectorName("y‚Ì•ûŒü‚Ö")]
+        [InspectorName("yã®æ–¹å‘ã¸")]
         y,
-        [InspectorName("z‚Ì•ûŒü‚Ö")]
+        [InspectorName("zã®æ–¹å‘ã¸")]
         z
     }
 
     public enum StopPos
     {
-        [InspectorName("’[‚Å~‚Ü‚é")]
+        [InspectorName("ç«¯ã§æ­¢ã¾ã‚‹")]
         stop,
-        [InspectorName("~‚Ü‚ç‚È‚¢")]
+        [InspectorName("æ­¢ã¾ã‚‰ãªã„")]
         dontStop
     }
 
-    [Header("Obj‚ªl‚¦‚éAŒü‚©‚¤‚×‚«•ûŒü‚ÍH")]
+    [Header("ObjãŒè€ƒãˆã‚‹ã€å‘ã‹ã†ã¹ãæ–¹å‘ã¯ï¼Ÿ")]
     public GoToDirections directions;
-    [Header("‰½ˆ‚Å~‚Ü‚è‚Ü‚·H")]
+    [Header("ä½•å‡¦ã§æ­¢ã¾ã‚Šã¾ã™ï¼Ÿ")]
     public StopPos stopPos;
 }

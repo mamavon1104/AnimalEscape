@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class JumpThrowPlayer : MonoBehaviour
 {
-    [Header("������|�W�V����"), SerializeField]
+    [Header("投げるポジション"), SerializeField]
     private Transform throwPointNow;
-    [Header("Player�̒l(PlayerValue)"), SerializeField]
+    [Header("Playerの値(PlayerValue)"), SerializeField]
     private MyPlayersValue playerValue;
     public void ThrowPlayerinJumpAction(Transform otherPlayer,PlayerCS playerCS)
     {
-        // �ˏo���x���Z�o
+        // 射出速度を算出
         Vector3 velocity = CalculateVelocity(otherPlayer.position, throwPointNow.position, playerValue.throwAngle);
 
         var otherRig = otherPlayer.GetComponent<Rigidbody>();
@@ -33,7 +33,7 @@ public class JumpThrowPlayer : MonoBehaviour
         }
         else
         {
-            // ���B�n�_�܂ł̑��x�x�N�g��
+            // 到達地点までの速度ベクトル
             return (new Vector3(pointB.x - pointA.x, x * Mathf.Tan(rad), pointB.z - pointA.z).normalized * speed);
         }
     }

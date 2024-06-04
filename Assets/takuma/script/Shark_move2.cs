@@ -7,27 +7,27 @@ public class Shark_move2 : MonoBehaviour
 {
     public enum Shark_Condition
     {
-        Patrolling,//„‰ô
-        Battle,//í“¬
+        Patrolling,//å·¡å»»
+        Battle,//æˆ¦é—˜
     }
     public Shark_Condition Condition;
 
     private GameObject player;
     private GameObject shark;
 
-    private int pat_num;//„‰ôêŠ‚Ì”
-    private int current_pos_num = 0;//Œ»İˆÚ“®‚µ‚Ä‚¢‚éêŠ
-    public float Detection_distance = 10;//’T’m”ÍˆÍ
+    private int pat_num;//å·¡å»»å ´æ‰€ã®æ•°
+    private int current_pos_num = 0;//ç¾åœ¨ç§»å‹•ã—ã¦ã„ã‚‹å ´æ‰€
+    public float Detection_distance = 10;//æ¢çŸ¥ç¯„å›²
     public float move_speed = 0.08f;
-    public List<GameObject> Pat_pos_list = new List<GameObject>();//„‰ôˆÊ’u
+    public List<GameObject> Pat_pos_list = new List<GameObject>();//å·¡å»»ä½ç½®
     void Start()
     {
         Condition = Shark_Condition.Patrolling;
-        //«Findˆ—
+        //â†“Findå‡¦ç†
         player = GameObject.Find("Player");
         shark = transform.Find("Shark").gameObject;
 
-        //„‰ô’n“_æ“¾
+        //å·¡å»»åœ°ç‚¹å–å¾—
         Transform Main = transform.parent;
         Transform Patrolling_position = Main.Find("Patrolling_position");
         pat_num = Patrolling_position.childCount;
@@ -39,7 +39,7 @@ public class Shark_move2 : MonoBehaviour
     }
     void Update()
     {
-        //Player‚Æ‚Ì‹——£‚ğ‘ª‚Á‚Ä’Ç‚¤‘ÎÌ‚ğ•Ï‚¦‚é
+        //Playerã¨ã®è·é›¢ã‚’æ¸¬ã£ã¦è¿½ã†å¯¾ç§°ã‚’å¤‰ãˆã‚‹
         if ((player.transform.position - shark.transform.position).magnitude <= Detection_distance)
         {
             Condition = Shark_Condition.Battle;
@@ -53,7 +53,7 @@ public class Shark_move2 : MonoBehaviour
     {
         switch (Condition)
         {
-            case Shark_Condition.Patrolling://„‰ô’†
+            case Shark_Condition.Patrolling://å·¡å»»ä¸­
                 for (int i = 0; i < pat_num; i++)
                 {
                     if (current_pos_num == i)
@@ -62,14 +62,14 @@ public class Shark_move2 : MonoBehaviour
                     }
                 }
                 break;
-            case Shark_Condition.Battle://’ÇÕ’†
+            case Shark_Condition.Battle://è¿½è·¡ä¸­
                 LookAt2D_ob(player);
                 break;
         }
     }
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("“–‚½‚Á‚½");
+        Debug.Log("å½“ãŸã£ãŸ");
         if (other.gameObject.CompareTag("Pat_pos"))
         {
             if (current_pos_num == (pat_num - 1)) current_pos_num = 0;
