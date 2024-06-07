@@ -56708,7 +56708,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  m_waitTime: 4
+  m_waitTime: 3.32
   m_SetActiveObject: {fileID: 0}
 --- !u!1 &8237102578329319424
 GameObject:

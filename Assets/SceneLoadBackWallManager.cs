@@ -35,29 +35,21 @@ public class SceneLoadBackWallManager : ManagerSingletonBase<SceneLoadBackWallMa
     }
     public async UniTask FadeIn()
     {
-        Debug.Log("cccc");
         GetBackGround();
-        Debug.Log(_childBlackWall.Length);
         for (int i = 0; i < _childBlackWall.Length; i++)
         {
-            Debug.Log("cccc2");
             _childBlackWall[i].color = new Color(0, 0, 0, 1);
         }
-        Debug.Log("c");
         while (_childBlackWall[_childBlackWall.Length - 1].color.a >= 0)
         {
             await UniTask.Yield();
-            Debug.Log("b");
             for (int i = 0; i < _childBlackWall.Length; i++)
             {
-                Debug.Log("a");
-                _childBlackWall[i].color -= BackGround_color_alpha;
+                _childBlackWall[i].color -= BackGround_color_alpha ;
             }
         }
-        Debug.Log("d");
         for (int i = 0; i < _childBlackWall.Length; i++)
         {
-            Debug.Log("cccc3");
             _childBlackWall[i].enabled = false;
         }
     }

@@ -16,8 +16,7 @@ public class PlayerCS : MonoBehaviour
     /// <summary>
     /// キャッチされている時に相手のCatchPutItemsを代入してそれをこっちから呼び起こしてあげる。
     /// </summary>
-    [SerializeField]
-    private CatchPut_Items _catchPutItemsCSOfParent;
+    [SerializeField] private CatchPut_Items _catchPutItemsCSOfParent;
     public CatchPut_Items CatchPutItemsCSOfParent
     {
         set { _catchPutItemsCSOfParent = value; }
@@ -51,6 +50,7 @@ public class PlayerCS : MonoBehaviour
     private void Start()
     {
         _audioManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
+        CatchPutItemsCSOfParent = null;
     }
     private void FixedUpdate()
     {
@@ -123,6 +123,7 @@ public class PlayerCS : MonoBehaviour
     // ムーブ
     public void OnMove(InputAction.CallbackContext context)
     {
+        Debug.Log("lahahaha");
         // 入力値を保持しておく
         _inputMove = context.ReadValue<Vector2>();
     }

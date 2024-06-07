@@ -73,7 +73,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RotateCamera"",
+                    ""name"": ""ThrowPositionMove"",
                     ""type"": ""Value"",
                     ""id"": ""faa31d36-66c1-4f5d-aef3-f42176b12dde"",
                     ""expectedControlType"": ""Vector2"",
@@ -149,7 +149,18 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""901fb23d-7abf-469b-b6be-31d19805caca"",
+                    ""id"": ""60bc7acd-f74a-4d79-a5c1-ccd4da71a69b"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CatchAndPut"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2c80a82-8ccc-4e73-b0df-216544c611a7"",
                     ""path"": ""<Keyboard>/rightShift"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -198,7 +209,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RotateCamera"",
+                    ""action"": ""ThrowPositionMove"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -209,7 +220,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RotateCamera"",
+                    ""action"": ""ThrowPositionMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -220,7 +231,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RotateCamera"",
+                    ""action"": ""ThrowPositionMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -231,7 +242,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RotateCamera"",
+                    ""action"": ""ThrowPositionMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -242,7 +253,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RotateCamera"",
+                    ""action"": ""ThrowPositionMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -253,7 +264,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RotateCamera"",
+                    ""action"": ""ThrowPositionMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -908,7 +919,19 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""KeyBoard"",
+            ""bindingGroup"": ""KeyBoard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
@@ -917,7 +940,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         m_Player_ChangePlayer = m_Player.FindAction("ChangePlayer", throwIfNotFound: true);
         m_Player_CatchAndPut = m_Player.FindAction("CatchAndPut", throwIfNotFound: true);
         m_Player_ThrowObject = m_Player.FindAction("ThrowObject", throwIfNotFound: true);
-        m_Player_RotateCamera = m_Player.FindAction("RotateCamera", throwIfNotFound: true);
+        m_Player_ThrowPositionMove = m_Player.FindAction("ThrowPositionMove", throwIfNotFound: true);
         m_Player_PauseGame = m_Player.FindAction("PauseGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -997,7 +1020,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ChangePlayer;
     private readonly InputAction m_Player_CatchAndPut;
     private readonly InputAction m_Player_ThrowObject;
-    private readonly InputAction m_Player_RotateCamera;
+    private readonly InputAction m_Player_ThrowPositionMove;
     private readonly InputAction m_Player_PauseGame;
     public struct PlayerActions
     {
@@ -1008,7 +1031,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         public InputAction @ChangePlayer => m_Wrapper.m_Player_ChangePlayer;
         public InputAction @CatchAndPut => m_Wrapper.m_Player_CatchAndPut;
         public InputAction @ThrowObject => m_Wrapper.m_Player_ThrowObject;
-        public InputAction @RotateCamera => m_Wrapper.m_Player_RotateCamera;
+        public InputAction @ThrowPositionMove => m_Wrapper.m_Player_ThrowPositionMove;
         public InputAction @PauseGame => m_Wrapper.m_Player_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -1034,9 +1057,9 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @ThrowObject.started += instance.OnThrowObject;
             @ThrowObject.performed += instance.OnThrowObject;
             @ThrowObject.canceled += instance.OnThrowObject;
-            @RotateCamera.started += instance.OnRotateCamera;
-            @RotateCamera.performed += instance.OnRotateCamera;
-            @RotateCamera.canceled += instance.OnRotateCamera;
+            @ThrowPositionMove.started += instance.OnThrowPositionMove;
+            @ThrowPositionMove.performed += instance.OnThrowPositionMove;
+            @ThrowPositionMove.canceled += instance.OnThrowPositionMove;
             @PauseGame.started += instance.OnPauseGame;
             @PauseGame.performed += instance.OnPauseGame;
             @PauseGame.canceled += instance.OnPauseGame;
@@ -1059,9 +1082,9 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @ThrowObject.started -= instance.OnThrowObject;
             @ThrowObject.performed -= instance.OnThrowObject;
             @ThrowObject.canceled -= instance.OnThrowObject;
-            @RotateCamera.started -= instance.OnRotateCamera;
-            @RotateCamera.performed -= instance.OnRotateCamera;
-            @RotateCamera.canceled -= instance.OnRotateCamera;
+            @ThrowPositionMove.started -= instance.OnThrowPositionMove;
+            @ThrowPositionMove.performed -= instance.OnThrowPositionMove;
+            @ThrowPositionMove.canceled -= instance.OnThrowPositionMove;
             @PauseGame.started -= instance.OnPauseGame;
             @PauseGame.performed -= instance.OnPauseGame;
             @PauseGame.canceled -= instance.OnPauseGame;
@@ -1200,6 +1223,15 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+    private int m_KeyBoardSchemeIndex = -1;
+    public InputControlScheme KeyBoardScheme
+    {
+        get
+        {
+            if (m_KeyBoardSchemeIndex == -1) m_KeyBoardSchemeIndex = asset.FindControlSchemeIndex("KeyBoard");
+            return asset.controlSchemes[m_KeyBoardSchemeIndex];
+        }
+    }
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -1207,7 +1239,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         void OnChangePlayer(InputAction.CallbackContext context);
         void OnCatchAndPut(InputAction.CallbackContext context);
         void OnThrowObject(InputAction.CallbackContext context);
-        void OnRotateCamera(InputAction.CallbackContext context);
+        void OnThrowPositionMove(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
     }
     public interface IUIActions

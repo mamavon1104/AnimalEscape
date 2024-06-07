@@ -1,4 +1,5 @@
 using Cinemachine;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,7 @@ public class PlayerInputScript : MonoBehaviour
     [Header("InputActions"), SerializeField] PlayerInput m_action;
     [Header("GameUIImage"), SerializeField] GameUIImage m_GameUIImage;
     [Header("プレイヤーの値"), SerializeField] MyPlayersValue playerValue;
-    [Header("CatchObjectCS"), SerializeField] CatchPut_Items m_CatchObjectCS;
+    [Header("CatchObjectCS"), SerializeField] CatchPut_Items m_catchObjectCS;
     [Header("ThrowToPointObj"), SerializeField] ThrowToPoint m_ThrowToPointCS;
     [Header("ThrwoPointMove"), SerializeField] ThrowPointMove m_ThrowPointMove;
     [Header("CinemachineVirtualCamera"), SerializeField] CinemachineVirtualCamera m_myCamera;
@@ -18,6 +19,7 @@ public class PlayerInputScript : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("a");
         _move = m_action.currentActionMap["Move"];
         _jump = m_action.currentActionMap["Jump"];
         _throw = m_action.currentActionMap["ThrowObject"];
@@ -27,25 +29,25 @@ public class PlayerInputScript : MonoBehaviour
         _throwMove = m_action.currentActionMap["ThrowPositionMove"];
         cameraPOV = m_myCamera.GetCinemachineComponent<CinemachinePOV>();
     }
-
     public void Setting(bool setBool)
     {
+        Debug.Log(setBool);
         if (setBool)
         {
+            _catchPut.performed += m_catchObjectCS.CatchAndPut;
             _move.canceled += m_playerCS.OnMove;
             _move.performed += m_playerCS.OnMove;
             _jump.performed += m_playerCS.OnJump;
-            _catchPut.performed += m_CatchObjectCS.CatchAndPut;
             _pauseGame.performed += m_GameUIImage.PauseGame;
             _throw.performed += m_ThrowToPointCS.Select_OR_Throw;
             _change.performed += PlayerManager.Instance.ChangePlayerNum;
         }
         else
         {
+            _catchPut.performed -= m_catchObjectCS.CatchAndPut;
             _move.canceled -= m_playerCS.OnMove;
             _move.performed -= m_playerCS.OnMove;
             _jump.performed -= m_playerCS.OnJump;
-            _catchPut.performed -= m_CatchObjectCS.CatchAndPut;
             _pauseGame.performed -= m_GameUIImage.PauseGame;
             _throw.performed -= m_ThrowToPointCS.Select_OR_Throw;
             _change.performed -= PlayerManager.Instance.ChangePlayerNum;

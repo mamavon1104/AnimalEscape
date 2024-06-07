@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,7 +43,7 @@ public class CatchPut_Items : MonoBehaviour
         throwToPoint = myT.GetComponent<ThrowToPoint>();
         _audioManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
     }
-    /// <param name="context"></param>
+    
     public void CatchAndPut(InputAction.CallbackContext context)
     {
         //TriggerObjectがnullで、Catchがnullなら何もしないけどCatchあったら落とすとかの判定を行いたい。

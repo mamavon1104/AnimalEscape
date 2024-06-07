@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : ManagerSingletonBase<PlayerManager>
 {
-    private int nowActivePlayer = 0;
+    [SerializeField] private int nowActivePlayer = 0;
 
     [SerializeField] private Transform[] playersTrans;
     [SerializeField] private bool canChange = false;//連続して変えれないようにする。

@@ -456,6 +456,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3935793979650182506}
   m_SourcePrefab: {fileID: 100100000, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}
+--- !u!114 &2344056995922361904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4711442139290096817, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}
+  m_PrefabInstance: {fileID: 7054225547882785409}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83e8810f6ee242444881a5dacf853080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4977459455034336369 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2663555658597715696, guid: 3c1877d0f68b0dd41b80a93ac6dbdbcc, type: 3}
@@ -628,6 +639,10 @@ PrefabInstance:
       propertyPath: near clip plane
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 6348923239383023372, guid: dc519bec2427d5b4ca13175d1355b4ac, type: 3}
+      propertyPath: _catchPutItemsCSOfParent
+      value: 
+      objectReference: {fileID: 2344056995922361904}
     - target: {fileID: 7648901263575770103, guid: dc519bec2427d5b4ca13175d1355b4ac, type: 3}
       propertyPath: m_Pivot.x
       value: 0

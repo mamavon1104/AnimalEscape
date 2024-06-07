@@ -7,7 +7,7 @@ class SignBoard : InformationUIBase
 {
     [Header("オブジェクトの回転速度"), SerializeField]
     private float rotationSpeed = 5f;
-    private List<Transform> nearPlayersList = new List<Transform>(); // 一番近い敵のTransform
+    private List<Transform> nearPlayersList = new List<Transform>(); // 一番近いののTransform
     
     protected override void OnTriggerEnter(Collider other)
     {
