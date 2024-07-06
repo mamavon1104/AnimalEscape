@@ -15,7 +15,6 @@ public abstract class InformationUIBase : MonoBehaviour
     protected abstract void DisplayInformationUI(Transform otherT);
     protected abstract void HideInformationUI(Transform otherT);
 
-    //protected void ChangeText() => PlayerInformationMaster.instance.playerSignBoardUIDic[0] = message;
     protected void ChangeText(Transform otherT)
     {
         TextMeshProUGUI playerText = PlayerInformationManager.Instance.playerUITextDic[otherT];

@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -43,7 +42,7 @@ public class CatchPut_Items : MonoBehaviour
         throwToPoint = myT.GetComponent<ThrowToPoint>();
         _audioManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
     }
-    
+
     public void CatchAndPut(InputAction.CallbackContext context)
     {
         //TriggerObjectがnullで、Catchがnullなら何もしないけどCatchあったら落とすとかの判定を行いたい。
@@ -78,7 +77,6 @@ public class CatchPut_Items : MonoBehaviour
     public void SetCatchObject()
     {
         CatchObject = TriggerObject;                             //取得したObjに
-        _audioManager.PlayCatchAudio(new InputAction.CallbackContext());
 
         if (CatchObject.CompareTag("Player"))
         {
@@ -104,6 +102,7 @@ public class CatchPut_Items : MonoBehaviour
         CatchObject.position = myUpTrans.position;    //位置を真上から離さん
         CatchObject.rotation = myUpTrans.rotation;    //回転も同じにしてやるからな。
         CatchObject.GetComponent<Rigidbody>().isKinematic = true;
+        _audioManager.PlayCatchAudio(new InputAction.CallbackContext());
     }
 
     /// <summary>
