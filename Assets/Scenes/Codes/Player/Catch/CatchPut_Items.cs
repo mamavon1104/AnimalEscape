@@ -101,7 +101,13 @@ public class CatchPut_Items : MonoBehaviour
         CatchObject.parent = myUpTrans;                //親をupにします。
         CatchObject.position = myUpTrans.position;    //位置を真上から離さん
         CatchObject.rotation = myUpTrans.rotation;    //回転も同じにしてやるからな。
-        CatchObject.GetComponent<Rigidbody>().isKinematic = true;
+
+        if (CatchObject.TryGetComponent<Collider>(out var col))
+            col.isTrigger = true;
+
+        if (CatchObject.TryGetComponent<Rigidbody>(out var rig))
+            rig.isKinematic = true;
+
         _audioManager.PlayCatchAudio(new InputAction.CallbackContext());
     }
 
@@ -122,8 +128,13 @@ public class CatchPut_Items : MonoBehaviour
     /// </summary>
     public void ResetOtherStateAndReleaseCatch()
     {
-        CatchObject.GetComponent<Rigidbody>().isKinematic = false;
-        if (CatchObject.CompareTag("Player"))
+        if (CatchObject.TryGetComponent<Collider>(out var col))
+            col.isTrigger = false;
+
+        if (CatchObject.TryGetComponent<Rigidbody>(out var rig))
+            rig.isKinematic = false;
+
+        if (CatchObject.CompareTag("Player")) //ここのコード...今見ると滅茶苦茶酷いな...。
         {
             PlayerInformationManager.Instance.isPlayerCatchedDic[CatchObject] = false;
             var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();

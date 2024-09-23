@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 
@@ -20,19 +20,21 @@ public class ThrowToPoint : MonoBehaviour
     public bool SelectThrow
     {
         get { return selectThrow; }
-        private set {selectThrow = value;}
+        private set { selectThrow = value; }
     }
     static GameObject FinishTriggerParent;
     static List<GameObject> FinishTriggerList = new List<GameObject>();
 
     [Header("投げるときに変更させるCamera"), SerializeField]
     GameObject thisCamera;
-    
-    [Header("スフィアコライダー、作る為"),SerializeField]
+
+    [Header("スフィアコライダー、作る為"), SerializeField]
     GameObject sphereColliderObj;
-   
+
     [Header("Playerの値(PlayerValue)"), SerializeField]
     private MyPlayersValue playerValue;
+
+    [SerializeField] UnityEvent events;
 
     void Start()
     {
@@ -42,13 +44,13 @@ public class ThrowToPoint : MonoBehaviour
     }
     private void Update()
     {
-         if (!SelectThrow)
+        if (!SelectThrow)
             return;
     }
     public void Select_OR_Throw(InputAction.CallbackContext _)
     {
         objTrans = catchPutItemsCS.CatchObject;
-        
+
         if (objTrans == null)
             return;
 
@@ -70,12 +72,13 @@ public class ThrowToPoint : MonoBehaviour
             Vector3 velocity = CalculateVelocity(startPos, throwPointNow.position, playerValue.throwAngle);
             //飛ばす
             objTrans.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
-            
+
             //到着したかどうか判定するためのobj作成
             GameObject sphereObjs = GetObjectFromPool();
             sphereObjs.transform.position = throwPointNow.position;
-            
+
             FinishResetVariable(this);
+            events?.Invoke();
         }
     }
 
@@ -105,8 +108,8 @@ public class ThrowToPoint : MonoBehaviour
     {
         SelectThrow = false;
 
-        if(sphere != null) 
-           sphere.SetActive(false);
+        if (sphere != null)
+            sphere.SetActive(false);
 
         if (objTrans == null)
             return;
@@ -115,7 +118,7 @@ public class ThrowToPoint : MonoBehaviour
         throwPointNow.gameObject.SetActive(false);
         PlayerInformationManager.Instance.inputScriptDic[myT].ChangeCameraMove(true);
 
-        Debug.Log($"<color=red>{ orderClass }</color>");
+        Debug.Log($"<color=red>{orderClass}</color>");
         switch (orderClass)
         {
             case CatchPut_Items:
