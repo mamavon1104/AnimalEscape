@@ -17,6 +17,7 @@ using UnityEngine.InputSystem.Utilities;
 
 public partial class @PlayerAction: IInputActionCollection2, IDisposable
 {
+
     public InputActionAsset asset { get; }
     public @PlayerAction()
     {
