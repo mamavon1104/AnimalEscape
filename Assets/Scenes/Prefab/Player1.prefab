@@ -1776,6 +1776,10 @@ PrefabInstance:
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 9215670655457924605}
+    - target: {fileID: 7840175030848986673, guid: 4d72bd511f74df548a83660aa0132d86, type: 3}
+      propertyPath: backGroundObj
+      value: 
+      objectReference: {fileID: 4060943743695754458}
     - target: {fileID: 8274322027857762381, guid: 4d72bd511f74df548a83660aa0132d86, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1810,6 +1814,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bb5da46cbd96245ab6bb47175f6043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4060943743695754458 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4738020338021965609, guid: 4d72bd511f74df548a83660aa0132d86, type: 3}
+  m_PrefabInstance: {fileID: 8762750011545258995}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6136279786039438748 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3221194416785909359, guid: 4d72bd511f74df548a83660aa0132d86, type: 3}

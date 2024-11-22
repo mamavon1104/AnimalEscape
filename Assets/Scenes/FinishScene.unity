@@ -3205,7 +3205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc25f9d8e236d24395eea75d77754b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseController: {fileID: 0}
   playerInput: {fileID: 0}
+  backGroundObj: {fileID: 0}
 --- !u!114 &1502625122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3651,7 +3653,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1095.13, y: 2291.9}
+  m_SizeDelta: {x: 2429.29, y: 2291.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1959345288
 MonoBehaviour:

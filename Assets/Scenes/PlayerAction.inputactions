@@ -248,6 +248,17 @@
                 },
                 {
                     "name": "",
+                    "id": "b9e985e1-6015-4d4b-b2ac-247366136275",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ThrowPositionMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9f60d6e1-33ba-409a-8a30-5af5eb3771a7",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",

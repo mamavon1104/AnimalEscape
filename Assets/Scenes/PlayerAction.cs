@@ -17,7 +17,6 @@ using UnityEngine.InputSystem.Utilities;
 
 public partial class @PlayerAction: IInputActionCollection2, IDisposable
 {
-
     public InputActionAsset asset { get; }
     public @PlayerAction()
     {
@@ -262,6 +261,17 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""c9e5f639-33b6-499f-b624-bd0022bbfb4f"",
                     ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThrowPositionMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9e985e1-6015-4d4b-b2ac-247366136275"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

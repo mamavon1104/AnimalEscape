@@ -274,6 +274,9 @@ MonoBehaviour:
   m_event:
     m_PersistentCalls:
       m_Calls: []
+  m_clickEvent:
+    m_PersistentCalls:
+      m_Calls: []
   m_waitTime: 0
   m_SetActiveObject: {fileID: 4393965706110490938}
 --- !u!1 &1245318257513330710
@@ -370,6 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc25f9d8e236d24395eea75d77754b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseController: {fileID: 0}
   playerInput: {fileID: 0}
 --- !u!1 &1467040734071107416
 GameObject:
@@ -510,6 +514,9 @@ MonoBehaviour:
   m_event:
     m_PersistentCalls:
       m_Calls: []
+  m_clickEvent:
+    m_PersistentCalls:
+      m_Calls: []
   m_waitTime: 0
   m_SetActiveObject: {fileID: 0}
 --- !u!1 &1702375387300578299
@@ -577,11 +584,11 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 680870936549330693}
   - {fileID: 373152071442317047}
   - {fileID: 3430564581056849706}
-  - {fileID: 680870936549330693}
   m_Father: {fileID: 0}
-  m_RootOrder: -2
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1444,6 +1451,9 @@ MonoBehaviour:
   m_event:
     m_PersistentCalls:
       m_Calls: []
+  m_clickEvent:
+    m_PersistentCalls:
+      m_Calls: []
   m_waitTime: 0
   m_SetActiveObject: {fileID: 0}
 --- !u!114 &1275593536794397571
@@ -2004,6 +2014,9 @@ MonoBehaviour:
   m_event:
     m_PersistentCalls:
       m_Calls: []
+  m_clickEvent:
+    m_PersistentCalls:
+      m_Calls: []
   m_waitTime: 0
   m_SetActiveObject: {fileID: 8485848265114845287}
 --- !u!1 &4393965706110490938
@@ -2357,6 +2370,9 @@ MonoBehaviour:
   m_event:
     m_PersistentCalls:
       m_Calls: []
+  m_clickEvent:
+    m_PersistentCalls:
+      m_Calls: []
   m_waitTime: 0
   m_SetActiveObject: {fileID: 4393965706110490938}
 --- !u!1 &4738020338021965609
@@ -2418,7 +2434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.7607843}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2652,6 +2668,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_whatButton: 4
   m_event:
+    m_PersistentCalls:
+      m_Calls: []
+  m_clickEvent:
     m_PersistentCalls:
       m_Calls: []
   m_waitTime: 0
@@ -3064,6 +3083,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_whatButton: 2
   m_event:
+    m_PersistentCalls:
+      m_Calls: []
+  m_clickEvent:
     m_PersistentCalls:
       m_Calls: []
   m_waitTime: 0
@@ -3569,6 +3591,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_whatButton: 3
   m_event:
+    m_PersistentCalls:
+      m_Calls: []
+  m_clickEvent:
     m_PersistentCalls:
       m_Calls: []
   m_waitTime: 0

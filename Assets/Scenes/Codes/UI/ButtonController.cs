@@ -65,6 +65,7 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 break;
         }
     }
+    [ContextMenu("クリック結果実行")]
     async void OnClick()
     {
         Debug.Log("nnnn");

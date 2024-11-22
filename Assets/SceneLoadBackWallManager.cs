@@ -45,7 +45,7 @@ public class SceneLoadBackWallManager : ManagerSingletonBase<SceneLoadBackWallMa
             await UniTask.Yield();
             for (int i = 0; i < _childBlackWall.Length; i++)
             {
-                _childBlackWall[i].color -= BackGround_color_alpha ;
+                _childBlackWall[i].color -= BackGround_color_alpha;
             }
         }
         for (int i = 0; i < _childBlackWall.Length; i++)
@@ -55,11 +55,7 @@ public class SceneLoadBackWallManager : ManagerSingletonBase<SceneLoadBackWallMa
     }
     private void GetBackGround()
     {
-        var _backGroundObj = GameObject.FindGameObjectsWithTag("BackGround");
-        _childBlackWall = new Image[_backGroundObj.Length];
-        for (int i = 0; i < _childBlackWall.Length; i++)
-        {
-            _childBlackWall[i] = _backGroundObj[i].GetComponent<Image>();
-        }
+        _childBlackWall = new Image[1];
+        _childBlackWall[0] = transform.GetChild(0).GetChild(0).GetComponent<Image>();
     }
 }
