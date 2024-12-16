@@ -6,27 +6,27 @@ using UnityEngine;
 [CreateAssetMenu]
 public class MyPlayersValue : ScriptableObject
 {
-    [Header("ˆÚ“®‚Ì‘¬‚³")]
+    [Header("ç§»å‹•ã®é€Ÿã•")]
     public float speed = 3;
 
-    [Header("ƒWƒƒƒ“ƒv‚·‚é—Í")]
+    [Header("ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹åŠ›")]
     public float jumpSpeed = 7;
 
-    [Header("—‰º‚Ì‘¬‚³§ŒÀiInfinity‚Å–³§ŒÀA³‚Ì’lj")]
+    [Header("è½ä¸‹æ™‚ã®é€Ÿã•åˆ¶é™ï¼ˆInfinityã§ç„¡åˆ¶é™ã€æ­£ã®å€¤ï¼‰")]
     public float fallSpeed = 10;
 
-    [Header("“Š‚°‚é•ûŒü angle"), Range(30f, 65f)]
+    [Header("æŠ•ã’ã‚‹æ–¹å‘ angle"), Range(30f, 65f)]
     public float throwAngle;
 
-    [Header("Player‚Ì‰ñ“]ƒXƒs[ƒh")]
+    [Header("Playerã®å›è»¢ã‚¹ãƒ”ãƒ¼ãƒ‰")]
     public float playerRotateSpeed;
 
-    [Header("Player‚ÌƒJƒƒ‰‚Ì“®‚« 75,150")]
+    [Header("Playerã®ã‚«ãƒ¡ãƒ©ã®å‹•ã 75,150")]
     public float verticalCameraSpeed,horizontalCameraSpeed;
     
     /// <summary>
     /// 
     /// </summary>
-    [Header("‚¨‚ñ‚Ô‚³‚ê‚Ä‚¢‚éŒã‚Ì“®‚­—Ê")]
+    [Header("ãŠã‚“ã¶ã•ã‚Œã¦ã„ã‚‹å¾Œã®å‹•ãé‡")]
     public float leaveCarriedScale;
 }

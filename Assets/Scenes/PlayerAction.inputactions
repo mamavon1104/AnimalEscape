@@ -127,7 +127,18 @@
                 },
                 {
                     "name": "",
-                    "id": "901fb23d-7abf-469b-b6be-31d19805caca",
+                    "id": "60bc7acd-f74a-4d79-a5c1-ccd4da71a69b",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CatchAndPut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e2c80a82-8ccc-4e73-b0df-216544c611a7",
                     "path": "<Keyboard>/rightShift",
                     "interactions": "",
                     "processors": "",
@@ -886,5 +897,17 @@
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "KeyBoard",
+            "bindingGroup": "KeyBoard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

@@ -3,15 +3,17 @@ using UnityEngine.InputSystem;
 
 public class CatchPut_Items : MonoBehaviour
 {
-    [Header("©•ª‚Ì^ã‚Ìƒ|ƒWƒVƒ‡ƒ“B"), SerializeField]
+    [Header("è‡ªåˆ†ã®çœŸä¸Šã®ãƒã‚¸ã‚·ãƒ§ãƒ³ã€‚"), SerializeField]
     private Transform myUpTrans;
-    [Header("PlayerTransformB"), SerializeField]
+    [Header("PlayerTransformã€‚"), SerializeField]
     private Transform m_player;
 
-    private Transform myT; //„‚ÌTransAƒLƒƒƒbƒVƒ…—pB
-    private Transform triggerObject = null; //ƒgƒŠƒK[‚É“–‚½‚Á‚Ä‚¢‚é‚È‚çæ“¾A‚»‚ê‚Å‚È‚¯‚ê‚ÎNull;
-    private Transform catchObject = null; //ŠÇ‚·‚éobjAŒ»İ‚Á‚Ä‚¢‚é‚à‚Ì;]
+    private Transform myT; //ç§ã®Transã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ç”¨ã€‚
+    private Transform triggerObject = null; //ãƒˆãƒªã‚¬ãƒ¼ã«å½“ãŸã£ã¦ã„ã‚‹ãªã‚‰å–å¾—ã€ãã‚Œã§ãªã‘ã‚Œã°Null;
+    private Transform catchObject = null; //ç®¡ã™ã‚‹objã€ç¾åœ¨æŒã£ã¦ã„ã‚‹ã‚‚ã®;]
     private ThrowToPoint throwToPoint;
+    private AudioManager _audioManager;
+
     public Transform TriggerObject
     {
         private get { return triggerObject; }
@@ -38,11 +40,12 @@ public class CatchPut_Items : MonoBehaviour
     {
         myT = transform;
         throwToPoint = myT.GetComponent<ThrowToPoint>();
+        _audioManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<AudioManager>();
     }
-    /// <param name="context"></param>
+
     public void CatchAndPut(InputAction.CallbackContext context)
     {
-        //TriggerObject‚ªnull‚ÅACatch‚ªnull‚È‚ç‰½‚à‚µ‚È‚¢‚¯‚ÇCatch‚ ‚Á‚½‚ç—‚Æ‚·‚Æ‚©‚Ì”»’è‚ğs‚¢‚½‚¢B
+        //TriggerObjectãŒnullã§ã€CatchãŒnullãªã‚‰ä½•ã‚‚ã—ãªã„ã‘ã©Catchã‚ã£ãŸã‚‰è½ã¨ã™ã¨ã‹ã®åˆ¤å®šã‚’è¡Œã„ãŸã„ã€‚
         if (TriggerObject == null && CatchObject == null)
             return;
 
@@ -64,16 +67,16 @@ public class CatchPut_Items : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform == TriggerObject) //‚à‚µ”²‚¯‚½‚à‚Ì‚ªother‚¾‚Á‚½ê‡
-            TriggerObject = null; //’Ç‚¢o‚·B
+        if (other.transform == TriggerObject) //ã‚‚ã—æŠœã‘ãŸã‚‚ã®ãŒotherã ã£ãŸå ´åˆ
+            TriggerObject = null; //è¿½ã„å‡ºã™ã€‚
     }
 
     /// <summary>
-    /// •¨‚ğE‚¤‚Ìİ’èACatchObjects‚©‚çŒÄ‚Ñ‹N‚±‚³‚ê‚éB
+    /// ç‰©ã‚’æ‹¾ã†æ™‚ã®è¨­å®šã€CatchObjectsã‹ã‚‰å‘¼ã³èµ·ã“ã•ã‚Œã‚‹ã€‚
     /// </summary>
     public void SetCatchObject()
     {
-        CatchObject = TriggerObject;                             //æ“¾‚µ‚½Obj‚É
+        CatchObject = TriggerObject;                             //å–å¾—ã—ãŸObjã«
 
         if (CatchObject.CompareTag("Player"))
         {
@@ -89,45 +92,60 @@ public class CatchPut_Items : MonoBehaviour
                 CatchObject = null;
                 return;
             }
-            if (TryGetComponent<ItemActions>(out var otherItemActions))
+
+            var otherItemActions = GetComponent<ItemActions>();
+            if (otherItemActions != null)
                 otherItemActions.IsCatched = false;
         }
 
-        CatchObject.parent = myUpTrans;                //e‚ğup‚É‚µ‚Ü‚·B
-        CatchObject.position = myUpTrans.position;    //ˆÊ’u‚ğ^ã‚©‚ç—£‚³‚ñ
-        CatchObject.rotation = myUpTrans.rotation;    //‰ñ“]‚à“¯‚¶‚É‚µ‚Ä‚â‚é‚©‚ç‚ÈB
-        CatchObject.GetComponent<Rigidbody>().isKinematic = true;
+        CatchObject.parent = myUpTrans;                //è¦ªã‚’upã«ã—ã¾ã™ã€‚
+        CatchObject.position = myUpTrans.position;    //ä½ç½®ã‚’çœŸä¸Šã‹ã‚‰é›¢ã•ã‚“
+        CatchObject.rotation = myUpTrans.rotation;    //å›è»¢ã‚‚åŒã˜ã«ã—ã¦ã‚„ã‚‹ã‹ã‚‰ãªã€‚
+
+        if (CatchObject.TryGetComponent<Collider>(out var col))
+            col.isTrigger = true;
+
+        if (CatchObject.TryGetComponent<Rigidbody>(out var rig))
+            rig.isKinematic = true;
+
+        _audioManager.PlayCatchAudio(new InputAction.CallbackContext());
     }
 
     /// <summary>
-    /// ‚±‚ê‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚éê‡:
-    /// ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğ’¼‚µ‚Â‚Âó‘ÔƒŠƒZƒbƒg‚ğ‚·‚éB
+    /// ã“ã‚ŒãŒå‘¼ã³å‡ºã•ã‚Œã¦ã„ã‚‹å ´åˆ:
+    /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’ç›´ã—ã¤ã¤çŠ¶æ…‹ãƒªã‚»ãƒƒãƒˆã‚’ã™ã‚‹ã€‚
     /// </summary>
     public void ResetOtherObjPos()
     {
-        CatchObject.position = myT.position;        //ˆÊ’u‚ğ’¼‚·‚µ
-        CatchObject.rotation = myT.rotation;        //‰ñ“]‚à–ß‚·
+        CatchObject.position = myT.position;        //ä½ç½®ã‚’ç›´ã™ã—
+        CatchObject.rotation = myT.rotation;        //å›è»¢ã‚‚æˆ»ã™
         ResetOtherStateAndReleaseCatch();
     }
 
     /// <summary>
-    /// ResetOtherObjPos‚¶‚á‚È‚­A‚±‚ê‚ª’P‘Ì‚ÅŒÄ‚Î‚ê‚Ä‚¢‚éê‡ :
-    /// ˆÊ’u‚Í‘Šè‚ÌƒR[ƒh‚Å’¼‚µAƒLƒƒƒbƒ`‚µ‚Ä‚¢‚é”»’è‚ğÁ‚·
+    /// ResetOtherObjPosã˜ã‚ƒãªãã€ã“ã‚ŒãŒå˜ä½“ã§å‘¼ã°ã‚Œã¦ã„ã‚‹å ´åˆ :
+    /// ä½ç½®ã¯ç›¸æ‰‹ã®ã‚³ãƒ¼ãƒ‰ã§ç›´ã—ã€ã‚­ãƒ£ãƒƒãƒã—ã¦ã„ã‚‹åˆ¤å®šã‚’æ¶ˆã™
     /// </summary>
     public void ResetOtherStateAndReleaseCatch()
     {
-        CatchObject.GetComponent<Rigidbody>().isKinematic = false;
-        if (CatchObject.CompareTag("Player"))
+        if (CatchObject.TryGetComponent<Collider>(out var col))
+            col.isTrigger = false;
+
+        if (CatchObject.TryGetComponent<Rigidbody>(out var rig))
+            rig.isKinematic = false;
+
+        if (CatchObject.CompareTag("Player")) //ã“ã“ã®ã‚³ãƒ¼ãƒ‰...ä»Šè¦‹ã‚‹ã¨æ»…èŒ¶è‹¦èŒ¶é…·ã„ãª...ã€‚
         {
             PlayerInformationManager.Instance.isPlayerCatchedDic[CatchObject] = false;
             var otherPlayerCS = CatchObject.GetComponent<PlayerCS>();
             otherPlayerCS.CatchPutItemsCSOfParent = null;
             otherPlayerCS.GetComponent<PlayerCS>().ChangeState(PlayerCS.PlayerState.Falling);
-            CatchObject.parent = PlayerInformationManager.Instance.playerParentsDic[otherPlayerCS]; //e‚ğ–ß‚µ‚Ü‚·B
+            CatchObject.parent = PlayerInformationManager.Instance.playerParentsDic[otherPlayerCS]; //è¦ªã‚’æˆ»ã—ã¾ã™ã€‚
         }
         else if (CatchObject.CompareTag("CatchItems"))
         {
-            if (TryGetComponent<ItemActions>(out var otherItemActions))
+            var otherItemActions = GetComponent<ItemActions>();
+            if (otherItemActions != null)
                 otherItemActions.IsCatched = false;
 
             CatchObject.parent = null;
@@ -135,5 +153,6 @@ public class CatchPut_Items : MonoBehaviour
         CatchObject = null;
         TriggerObject = null;
         throwToPoint.FinishResetVariable(this);
+        _audioManager.PlayPutAudio(new InputAction.CallbackContext());
     }
 }

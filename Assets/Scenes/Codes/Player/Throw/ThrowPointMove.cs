@@ -9,7 +9,7 @@ public class ThrowPointMove : MonoBehaviour
     private LineRenderer lineRenderer;
     private Transform myT;
 
-    private Vector2 _inputMove;@// “®‚­”’l
+    private Vector2 _inputMove;ã€€// å‹•ãæ•°å€¤
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class ThrowPointMove : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        // “ü—Í’l‚ğ•Û‚µ‚Ä‚¨‚­
+        // å…¥åŠ›å€¤ã‚’ä¿æŒã—ã¦ãŠã
         _inputMove = context.ReadValue<Vector2>();
     }
 }

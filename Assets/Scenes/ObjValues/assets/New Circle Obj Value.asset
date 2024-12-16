@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 35.8
   canRide: 1
-  drawOrbit: 0
   stopTime: 0
   resolution: 12
   stopPos: 1

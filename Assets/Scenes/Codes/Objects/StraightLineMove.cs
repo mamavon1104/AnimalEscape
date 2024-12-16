@@ -6,18 +6,18 @@ using UnityEngine.UIElements;
 
 public class StraightLineMove : MonoBehaviour
 {
-    [Header("static‚ÌƒIƒuƒWƒFƒNƒg„§AƒQ[ƒ€ŠJn‚É”¼Œa‚ªŒˆ‚Ü‚éˆ×“®‚¢‚Ä‚à–â‘è‚È‚µ"), SerializeField]
+    [Header("staticã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ¨å¥¨ã€ã‚²ãƒ¼ãƒ é–‹å§‹æ™‚ã«åŠå¾„ãŒæ±ºã¾ã‚‹ç‚ºå‹•ã„ã¦ã‚‚å•é¡Œãªã—"), SerializeField]
     private Transform getTrans;
 
-    [Header("Object‚Ì”’l‚Ìˆ×Ag—p‚·‚é"), SerializeField]
+    [Header("Objectã®æ•°å€¤ã®ç‚ºã€ä½¿ç”¨ã™ã‚‹"), SerializeField]
     private StraightObjValue objValue;
 
-    [Header("©•ª‚ÌqƒIƒuƒWƒFƒNƒg‚ğ“ü‚ê‚Ä‚¨‚­"), SerializeField]
+    [Header("è‡ªåˆ†ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å…¥ã‚Œã¦ãŠã"), SerializeField]
     private GameObject parentObj;
 
-    private (Vector3 my, Vector3 centerpos) points; //mypos‚ÆcenterposA
+    private (Vector3 my, Vector3 centerpos) points; //myposã¨centerposã€
 
-    private float length;  //‹——£B
+    private float length;  //è·é›¢ã€‚
     private bool isStop = false;
     private bool canStop = true;
     private float stopedTime = 0.0f;
@@ -37,7 +37,7 @@ public class StraightLineMove : MonoBehaviour
     }
     private void Update()
     {
-        // Œ»İ‚ÌˆÊ’u‚ğŒvZ
+        // ç¾åœ¨ã®ä½ç½®ã‚’è¨ˆç®—
         int angle = (int)((Time.time - stopedTime) * objValue.speed);
 
         if (!isStop)
@@ -58,21 +58,21 @@ public class StraightLineMove : MonoBehaviour
     }
 
     #if UNITY_EDITOR
-    [Header("‹O“¹‚ğ‘‚­H")]
+    [Header("è»Œé“ã‚’æ›¸ãï¼Ÿ")]
     public bool drawOrbit;
 
     void OnDrawGizmos()
     {
-        if (!drawOrbit) //bool‚Å•`‚©‚È‚¢ê‡
+        if (!drawOrbit) //boolã§æã‹ãªã„å ´åˆ
             return;
 
-        #region ‚à‚µ•`‚­ê‡A•K—v‚Èî•ñ‚ªnull‚É‚È‚Á‚Ä‚µ‚Ü‚¤‚Ì‚Åæ“¾‚µ‘±‚¯‚éB
+        #region ã‚‚ã—æãå ´åˆã€å¿…è¦ãªæƒ…å ±ãŒnullã«ãªã£ã¦ã—ã¾ã†ã®ã§å–å¾—ã—ç¶šã‘ã‚‹ã€‚
 
         if (points.my == null || points.centerpos == null)
             points = (transform.position, getTrans.position);
 
         if (!(Gizmos.color == Color.green))
-            Gizmos.color = Color.green;// ƒMƒYƒ‚‚ÌF‚ğİ’è
+            Gizmos.color = Color.green;// ã‚®ã‚ºãƒ¢ã®è‰²ã‚’è¨­å®š
         #endregion
 
         if (!Application.isPlaying)
@@ -89,7 +89,7 @@ public class StraightLineMove : MonoBehaviour
         Vector3 DrawCenterPos = Vector3.zero,
                 DrawmyPos     = Vector3.zero;
 
-        //x,y,z‚Ì•ûŒü‚É2”{‚µ‚Ä‚ ‚°‚é
+        //x,y,zã®æ–¹å‘ã«2å€ã—ã¦ã‚ã’ã‚‹
         switch (objValue.directions)
         {
             case StraightObjValue.GoToDirections.x:
@@ -117,7 +117,7 @@ public class StraightLineMove : MonoBehaviour
 
 
     /// <summary>
-    /// x,y,z‚Ì—ñ‹“Œ^enum‚ğŒ©‚Äˆø‚¢‚½‹——£‚ğ•Ô‚·
+    /// x,y,zã®åˆ—æŒ™å‹enumã‚’è¦‹ã¦å¼•ã„ãŸè·é›¢ã‚’è¿”ã™
     /// </summary>
     private void SwitchLength()
     {

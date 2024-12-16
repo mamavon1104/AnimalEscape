@@ -5,19 +5,19 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ObjValue/CircleObjValue")]
 public class CircleObjValue : ObjectsValueBase
 {
-    [Header("obj‚Ì‹O“¹‚Ì•Ï”")]
+    [Header("objã®è»Œé“ã®å¤‰æ•°")]
     public int resolution = 12;
 
     public enum StopPos
     {
-        [InspectorName("ã‰º‚Å~‚Ü‚é")]
+        [InspectorName("ä¸Šä¸‹ã§æ­¢ã¾ã‚‹")]
         stopVertical,
-        [InspectorName("¶‰E‚Å~‚Ü‚é")]
+        [InspectorName("å·¦å³ã§æ­¢ã¾ã‚‹")]
         stopHorizontal,
-        [InspectorName("~‚Ü‚ç‚È‚¢")]
+        [InspectorName("æ­¢ã¾ã‚‰ãªã„")]
         dontStop
     }
 
-    [Header("‰½ˆ‚Å~‚Ü‚è‚Ü‚·H")]
+    [Header("ä½•å‡¦ã§æ­¢ã¾ã‚Šã¾ã™ï¼Ÿ")]
     public StopPos stopPos;
 }

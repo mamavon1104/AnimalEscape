@@ -9,7 +9,8 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-Assets/MyAssets
+Assets/MyAssets/
+Assets/Adventure Forge Studio
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data

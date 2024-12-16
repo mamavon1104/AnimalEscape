@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using NUnit.Framework;
 using UnityEngine;
 
 public class SettingItemPosition : MonoBehaviour
@@ -10,13 +9,12 @@ public class SettingItemPosition : MonoBehaviour
     {
         var myT = transform;
         childrenTrans = new Transform[myT.childCount];
-        
+
         for (int i = 0; i < childrenTrans.Length; i++)
             childrenTrans[i] = myT.GetChild(i);
     }
     private async void Update()
     {
-
         for (int i = 0; i < 8; i++)
             await UniTask.Yield();
 
@@ -25,8 +23,8 @@ public class SettingItemPosition : MonoBehaviour
         {
             var child = childrenTrans[i];
             child.position = new Vector3(playerPosition.x, child.position.y, playerPosition.z);
-            if(child.CompareTag("Effect"))
-                child.position = new Vector3(playerPosition.x, playerPosition.y-0.8f, playerPosition.z);
+            if (child.CompareTag("Effect"))
+                child.position = new Vector3(playerPosition.x, playerPosition.y - 0.8f, playerPosition.z);
         }
     }
 }

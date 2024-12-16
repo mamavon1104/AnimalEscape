@@ -1,4 +1,6 @@
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -6,15 +8,25 @@ using UnityEngine.SceneManagement;
 
 public class ChangeSceneMaster : MonoBehaviour
 {
-    [SerializeField]
-    SceneObject m_SceneObject;
+    [SerializeField] SceneObject m_SceneObject;
     public SceneObject SceneObject
     {
         set { m_SceneObject = value; }
     }
-    public void RoadScene()
+    public async void RoadScene(float waitTimes = 0f)
     {
-        SceneManager.LoadScene(m_SceneObject);
+        var asyncLoad = SceneManager.LoadSceneAsync(m_SceneObject);
+
+        asyncLoad.allowSceneActivation = false; //調べてみたらこんな事が出来るらしい、シーンのアクティブを許可しないだとか。
+
+        await UniTask.WaitForSeconds(waitTimes);//スタート画面とかこういうちょっとだけ待つ時間が欲しい。
+
+        await SceneLoadBackWallManager.Instance.FadeOut();
+
+        asyncLoad.allowSceneActivation = true;
+        await asyncLoad;
+
+        await SceneLoadBackWallManager.Instance.FadeIn();
     }
 }
 [System.Serializable]

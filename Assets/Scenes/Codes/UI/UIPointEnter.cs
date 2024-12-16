@@ -8,7 +8,7 @@ public class UIPointEnter : MonoBehaviour
 {
     [SerializeField] GameObject[] _trueObj;
     [SerializeField] GameObject _selectObj;
-    [SerializeField] EventSystem m_eventSystem; // EventSystem‚É‘Î‚µ‚Ä‚ÌQÆ
+    [SerializeField] EventSystem m_eventSystem; // EventSystemã«å¯¾ã—ã¦ã®å‚ç…§
     private bool selected = false;
     AudioManager _audioManager;
 
@@ -19,9 +19,9 @@ public class UIPointEnter : MonoBehaviour
     }
     private void Update()
     {
-        // ‚±‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚ªƒJ[ƒ\ƒ‹‚É‚æ‚Á‚Ä‘I‘ğ‚³‚ê‚Ä‚¢‚é‚©H
+        // ã“ã®ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚«ãƒ¼ã‚½ãƒ«ã«ã‚ˆã£ã¦é¸æŠã•ã‚Œã¦ã„ã‚‹ã‹ï¼Ÿ
         bool hoverOver = m_eventSystem.currentSelectedGameObject == this.gameObject;
-        if (selected == hoverOver)  // ‘O‚Ìó‘Ô‚Æ‚Ì”äŠr
+        if (selected == hoverOver)  // å‰ã®çŠ¶æ…‹ã¨ã®æ¯”è¼ƒ
             return;
 
         selected = hoverOver;

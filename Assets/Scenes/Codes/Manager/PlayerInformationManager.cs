@@ -9,17 +9,17 @@ public class PlayerInformationManager : ManagerSingletonBase<PlayerInformationMa
     /// </summary>
     public Dictionary<Transform,bool> isPlayerCatchedDic = new Dictionary<Transform,bool>();
     /// <summary>
-    /// PlayerCS,PlayerParentÇÃdic
+    /// PlayerCS,PlayerParent„ÅÆdic
     /// </summary>
     public Dictionary<PlayerCS, Transform> playerParentsDic = new Dictionary<PlayerCS, Transform>();
 
     /// <summary>
-    /// PlayerTransform,SignBoardUIÇÃdic
+    /// PlayerTransform,SignBoardUI„ÅÆdic
     /// </summary>
     public Dictionary<Transform, SignBoardUIAnimatorCS> playerSignBoardUIDic = new Dictionary<Transform, SignBoardUIAnimatorCS>();
 
     /// <summary>
-    /// PlayerTransform,TextMeshUIÇÃdic
+    /// PlayerTransform,TextMeshUI„ÅÆdic
     /// </summary>
     public Dictionary<Transform, TextMeshProUGUI> playerUITextDic = new Dictionary<Transform, TextMeshProUGUI>();
 

@@ -1,15 +1,24 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(AudioSource))]
 public class AudioManager : ManagerSingletonBase<AudioManager>
 {
     [SerializeField] AudioSource soundEffectAudioSource;
-    [SerializeField] AudioSource musicAudioSource;
-    [SerializeField] private AudioClip _selectUI, _pushUI, _cancelUI, _jump;
-    
+    [SerializeField] AudioClip _pushUI, _cancelUI, _jump, _catch, _put;
+    [SerializeField] AudioClip[] _selectUI;
+    private void Awake()
+    {
+        base.Awake();
+    }
 
     public void PlayPushUI() => soundEffectAudioSource.PlayOneShot(_pushUI);
-    public void PlaySelectUI() => soundEffectAudioSource.PlayOneShot(_selectUI); 
     public void PlayCancelUI() => soundEffectAudioSource.PlayOneShot(_cancelUI);
-    public void PlayJump() => soundEffectAudioSource.PlayOneShot(_jump);
+    public void PlayJump(InputAction.CallbackContext _) => soundEffectAudioSource.PlayOneShot(_jump);
+    public void PlayPutAudio(InputAction.CallbackContext _) => soundEffectAudioSource.PlayOneShot(_put);
+    public void PlayCatchAudio(InputAction.CallbackContext _) => soundEffectAudioSource.PlayOneShot(_catch);
+    public void PlaySelectUI()
+    {
+        int i = Random.Range(0, _selectUI.Length);
+        soundEffectAudioSource.PlayOneShot(_selectUI[i]);
+    }
 }

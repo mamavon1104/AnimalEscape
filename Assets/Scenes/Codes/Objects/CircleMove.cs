@@ -1,6 +1,5 @@
-﻿using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
+using UnityEngine;
 
 public class CircleMove : MonoBehaviour
 {
@@ -27,7 +26,7 @@ public class CircleMove : MonoBehaviour
         points = (myTrans.position, getTrans.position);
         radius = Vector2.Distance(points.my, points.centerpos);
 
-        
+
         if (objValue.canRide)
         {
             rideCollider.SetActive(true);
@@ -49,9 +48,9 @@ public class CircleMove : MonoBehaviour
 
         switch (objValue.stopPos)
         {
-            case CircleObjValue.StopPos.dontStop: 
+            case CircleObjValue.StopPos.dontStop:
                 break;
-                    
+
             case CircleObjValue.StopPos.stopVertical:
                 isThisObjStop(Mathf.Sin(angle * Mathf.Deg2Rad));
                 break;
@@ -62,8 +61,8 @@ public class CircleMove : MonoBehaviour
         }
     }
 
-    #if UNITY_EDITOR
-    [Header("軌道を書く？"),SerializeField]
+#if UNITY_EDITOR
+    [Header("軌道を書く？"), SerializeField]
     private bool drawOrbit;
     void OnDrawGizmos()
     {
@@ -71,14 +70,14 @@ public class CircleMove : MonoBehaviour
             return;
 
         #region もし描く場合、必要な情報がnullになってしまうので取得し続ける。
-        if(myTrans == null)
+        if (myTrans == null)
             myTrans = transform;
 
         if (points.my == null || points.centerpos == null)
             points = (myTrans.position, getTrans.position);
 
-        if (Gizmos.color != Color.blue)
-            Gizmos.color = Color.blue;// ギズモの色を設定
+        if (Gizmos.color != Color.black)
+            Gizmos.color = Color.black;// ギズモの色を設定
         #endregion
 
         if (!Application.isPlaying)
@@ -105,7 +104,7 @@ public class CircleMove : MonoBehaviour
             anglePrev = nextPoint;
         }
     }
-    #endif
+#endif
 
     private Vector3 GetPointOnCircle(float angle)
     {
@@ -127,7 +126,7 @@ public class CircleMove : MonoBehaviour
             canStop = false;
             StartCoroutine(WaitSeconds());
         }
-        else if((getPos != -1 && getPos != 1) && !canStop)
+        else if ((getPos != -1 && getPos != 1) && !canStop)
         {
             canStop = true;
         }
@@ -142,7 +141,7 @@ public class CircleMove : MonoBehaviour
     {
         if (isStop)
             return;
-        
+
         if (other.CompareTag("Player") && other.gameObject.layer == 3)
         {
             isStop = true;

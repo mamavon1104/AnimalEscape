@@ -3,19 +3,18 @@ using UnityEngine;
 
 public abstract class InformationUIBase : MonoBehaviour
 {
-    [Header("ƒƒbƒZ[ƒWƒTƒCƒYB"), SerializeField]
+    [Header("ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚µã‚¤ã‚ºã€‚"), SerializeField]
     private float messageSize = 20;
-    [Header("‘‚«‚½‚¢ƒƒbƒZ[ƒWB"), SerializeField]
+    [Header("æ›¸ããŸã„ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã€‚"), SerializeField]
     private string[] message;
     
     protected virtual void OnTriggerEnter(Collider other) => DisplayInformationUI(other.transform);
     protected virtual void OnTriggerExit(Collider other) => HideInformationUI(other.transform);
 
-    //animation‚ð“®‚©‚·‚±‚Æ‚ðŠú‘Ò
+    //animationã‚’å‹•ã‹ã™ã“ã¨ã‚’æœŸå¾…
     protected abstract void DisplayInformationUI(Transform otherT);
     protected abstract void HideInformationUI(Transform otherT);
 
-    //protected void ChangeText() => PlayerInformationMaster.instance.playerSignBoardUIDic[0] = message;
     protected void ChangeText(Transform otherT)
     {
         TextMeshProUGUI playerText = PlayerInformationManager.Instance.playerUITextDic[otherT];
